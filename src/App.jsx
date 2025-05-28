@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
-import Hello from './Hello'
-import Read from './Read'
-import Write from './Write'
+import ClipboardHome from './pages/ClipboardHome'
 
 export default function App () {
   const [enterAction, setEnterAction] = useState({})
@@ -18,15 +16,11 @@ export default function App () {
   }, [])
 
   if (route === 'paste') {
-    return <Hello enterAction={enterAction} />
+    return <ClipboardHome enterAction={enterAction} />
   }
 
-  if (route === 'read') {
-    return <Read enterAction={enterAction} />
-  }
-
-  if (route === 'write') {
-    return <Write enterAction={enterAction} />
+  if (route === 'setting') {
+    return <Setting enterAction={enterAction} />
   }
 
   return false

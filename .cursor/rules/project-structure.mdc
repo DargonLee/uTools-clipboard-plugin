@@ -3,4 +3,33 @@ description:
 globs: 
 alwaysApply: false
 ---
+# 项目结构说明
 
+本项目为一款现代化 macOS 剪贴板管理工具，主要功能包括剪贴板历史、分类管理、搜索、收藏、快捷操作等，界面极简高效，详见 [prd/README.md](mdc:prd/README.md)。
+
+## 主要目录与文件
+
+- [src/](mdc:src)：前端源码目录，包含主要的 React 组件和页面。
+  - [App.jsx](mdc:src/App.jsx)：应用主入口组件。
+  - [main.jsx](mdc:src/main.jsx)：前端渲染入口。
+  - [components/](mdc:src/components)：通用 UI 组件目录。
+    - [ClipboardCard.jsx](mdc:src/components/ClipboardCard.jsx)：剪贴板内容卡片组件。
+    - [CategoryTabs.jsx](mdc:src/components/CategoryTabs.jsx)：顶部分类 Tab 组件。
+    - [TopBar.jsx](mdc:src/components/TopBar.jsx)：顶部导航栏组件。
+    - [SearchBar.jsx](mdc:src/components/SearchBar.jsx)：搜索栏组件。
+    - [EmptyState.jsx](mdc:src/components/EmptyState.jsx)：空状态展示组件。
+    - [BottomTip.jsx](mdc:src/components/BottomTip.jsx)：底部提示组件。
+    - [index.js](mdc:src/components/index.js)：组件统一导出入口。
+  - [Write/index.jsx](mdc:src/Write/index.jsx)：剪贴板写入相关页面或组件。
+  - [Read/index.jsx](mdc:src/Read/index.jsx)：剪贴板读取相关页面或组件。
+  - [Hello/index.jsx](mdc:src/Hello/index.jsx)：欢迎页或测试页面。
+  - 相关 CSS 文件用于样式定制。
+- [public/](mdc:public)：静态资源目录。
+  - [plugin.json](mdc:public/plugin.json)：插件配置文件。
+  - [logo.png](mdc:public/logo.png)：应用 Logo。
+  - [preload/services.js](mdc:public/preload/services.js)：预加载脚本，可能用于与主进程通信。
+- [prd/README.md](mdc:prd/README.md)：产品原型与功能说明文档。
+
+## 入口说明
+- 前端入口：`src/main.jsx` 加载 `App.jsx`。
+- 产品与交互设计详见 [prd/README.md](mdc:prd/README.md)。

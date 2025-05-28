@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>设置 - 剪贴板工具</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    // 简单的主题切换交互
+    function toggleTheme() {
+      const html = document.documentElement;
+      html.classList.toggle('dark');
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+  <!-- 顶部导航栏 -->
+  <nav class="bg-white shadow flex items-center justify-between px-6 py-4">
+    <div class="flex items-center space-x-3">
+      <a href="index.html" class="text-blue-500 hover:text-blue-700"><i class="fa-solid fa-chevron-left"></i></a>
+      <span class="text-xl font-bold text-gray-800 ml-2">设置</span>
+    </div>
+  </nav>
+  <!-- 设置内容 -->
+  <main class="max-w-2xl mx-auto py-8">
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+      <div class="flex items-center mb-4">
+        <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=80&q=80" alt="头像" class="w-16 h-16 rounded-full object-cover mr-4">
+        <div>
+          <div class="text-gray-800 font-semibold text-lg">Lee</div>
+          <div class="text-gray-400 text-sm">已登录</div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between mt-6">
+        <span class="text-gray-700">深色模式</span>
+        <label class="inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" onchange="toggleTheme()">
+          <span class="ml-2 text-gray-600">开关</span>
+        </label>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="text-gray-700 font-medium mb-3">偏好设置</div>
+      <ul class="space-y-3">
+        <li class="flex items-center justify-between">
+          <span>剪贴板历史容量</span>
+          <span class="text-gray-400">20条</span>
+        </li>
+        <li class="flex items-center justify-between">
+          <span>自动同步</span>
+          <span class="text-green-500">已开启</span>
+        </li>
+        <li class="flex items-center justify-between">
+          <span>通知提醒</span>
+          <span class="text-gray-400">关闭</span>
+        </li>
+      </ul>
+    </div>
+  </main>
+</body>
+</html> 

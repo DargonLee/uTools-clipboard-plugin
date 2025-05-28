@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>多端同步 - 剪贴板工具</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    // 简单的同步开关交互
+    function toggleSync() {
+      const status = document.getElementById('syncStatus');
+      const btn = document.getElementById('syncSwitch');
+      if (btn.checked) {
+        status.textContent = '已开启';
+        status.className = 'text-green-500 font-semibold';
+      } else {
+        status.textContent = '已关闭';
+        status.className = 'text-red-400 font-semibold';
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+  <!-- 顶部导航栏 -->
+  <nav class="bg-white shadow flex items-center justify-between px-6 py-4">
+    <div class="flex items-center space-x-3">
+      <a href="index.html" class="text-blue-500 hover:text-blue-700"><i class="fa-solid fa-chevron-left"></i></a>
+      <span class="text-xl font-bold text-gray-800 ml-2">多端同步</span>
+    </div>
+    <a href="settings.html" class="text-gray-500 hover:text-blue-500 transition"><i class="fa-solid fa-gear text-xl"></i></a>
+  </nav>
+  <!-- 同步状态与设备列表 -->
+  <main class="max-w-2xl mx-auto py-8">
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-gray-700 text-base">同步状态：</span>
+        <span id="syncStatus" class="text-green-500 font-semibold">已开启</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-gray-700 text-base">多端同步</span>
+        <label class="inline-flex items-center cursor-pointer">
+          <input id="syncSwitch" type="checkbox" checked class="form-checkbox h-5 w-5 text-blue-600" onchange="toggleSync()">
+          <span class="ml-2 text-gray-600">开关</span>
+        </label>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="text-gray-700 font-medium mb-3">已连接设备</div>
+      <ul class="space-y-3">
+        <li class="flex items-center justify-between">
+          <span><i class="fa-brands fa-apple text-gray-500 mr-2"></i>MacBook Pro</span>
+          <span class="text-xs text-gray-400">本机</span>
+        </li>
+        <li class="flex items-center justify-between">
+          <span><i class="fa-solid fa-mobile-screen text-blue-400 mr-2"></i>iPhone 15</span>
+          <span class="text-xs text-green-400">在线</span>
+        </li>
+        <li class="flex items-center justify-between">
+          <span><i class="fa-solid fa-tablet-screen-button text-purple-400 mr-2"></i>iPad Air</span>
+          <span class="text-xs text-gray-400">离线</span>
+        </li>
+      </ul>
+    </div>
+  </main>
+</body>
+</html> 

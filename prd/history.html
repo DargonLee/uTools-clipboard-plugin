@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>剪贴板历史 - 剪贴板工具</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+  <!-- 顶部导航栏 -->
+  <nav class="bg-white shadow flex items-center justify-between px-6 py-4">
+    <div class="flex items-center space-x-3">
+      <a href="index.html" class="text-blue-500 hover:text-blue-700"><i class="fa-solid fa-chevron-left"></i></a>
+      <span class="text-xl font-bold text-gray-800 ml-2">剪贴板历史</span>
+    </div>
+    <a href="settings.html" class="text-gray-500 hover:text-blue-500 transition"><i class="fa-solid fa-gear text-xl"></i></a>
+  </nav>
+  <!-- 剪贴板历史列表 -->
+  <main class="max-w-2xl mx-auto py-8">
+    <ul class="space-y-4">
+      <!-- 示例条目 -->
+      <li class="bg-white rounded-lg shadow flex items-center justify-between px-5 py-4 hover:shadow-lg transition group">
+        <div class="flex-1">
+          <div class="text-gray-800 text-base truncate">https://unsplash.com/photos/abc123</div>
+          <div class="text-xs text-gray-400 mt-1">2024-06-01 14:23</div>
+        </div>
+        <div class="flex items-center space-x-3 ml-4">
+          <button class="text-blue-500 hover:text-blue-700" title="复制"><i class="fa-solid fa-copy"></i></button>
+          <button class="text-yellow-400 hover:text-yellow-500" title="收藏"><i class="fa-solid fa-star"></i></button>
+          <button class="text-red-400 hover:text-red-600" title="删除"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      </li>
+      <li class="bg-white rounded-lg shadow flex items-center justify-between px-5 py-4 hover:shadow-lg transition group">
+        <div class="flex-1">
+          <div class="text-gray-800 text-base truncate">"剪贴板工具让你的复制粘贴更高效！"</div>
+          <div class="text-xs text-gray-400 mt-1">2024-06-01 13:58</div>
+        </div>
+        <div class="flex items-center space-x-3 ml-4">
+          <button class="text-blue-500 hover:text-blue-700" title="复制"><i class="fa-solid fa-copy"></i></button>
+          <button class="text-yellow-400 hover:text-yellow-500" title="收藏"><i class="fa-solid fa-star"></i></button>
+          <button class="text-red-400 hover:text-red-600" title="删除"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      </li>
+      <!-- 更多条目... -->
+    </ul>
+    <div class="text-center text-gray-400 text-xs mt-8">仅展示最近20条记录</div>
+  </main>
+</body>
+</html> 

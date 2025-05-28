@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智能分类 - 剪贴板工具</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    // 简单的分类切换交互
+    function showCategory(type) {
+      document.querySelectorAll('.cat-list').forEach(el => el.style.display = 'none');
+      document.getElementById(type).style.display = '';
+      document.querySelectorAll('.cat-tab').forEach(tab => tab.classList.remove('border-blue-500', 'text-blue-600'));
+      document.getElementById('tab-' + type).classList.add('border-blue-500', 'text-blue-600');
+    }
+    window.onload = function() { showCategory('text'); };
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+  <!-- 顶部导航栏 -->
+  <nav class="bg-white shadow flex items-center justify-between px-6 py-4">
+    <div class="flex items-center space-x-3">
+      <a href="index.html" class="text-blue-500 hover:text-blue-700"><i class="fa-solid fa-chevron-left"></i></a>
+      <span class="text-xl font-bold text-gray-800 ml-2">智能分类</span>
+    </div>
+    <a href="settings.html" class="text-gray-500 hover:text-blue-500 transition"><i class="fa-solid fa-gear text-xl"></i></a>
+  </nav>
+  <!-- 分类标签与内容 -->
+  <main class="max-w-2xl mx-auto py-8">
+    <div class="flex space-x-4 mb-6">
+      <button id="tab-text" class="cat-tab border-b-2 px-4 py-2 text-base font-medium focus:outline-none" onclick="showCategory('text')">文本</button>
+      <button id="tab-image" class="cat-tab border-b-2 px-4 py-2 text-base font-medium focus:outline-none" onclick="showCategory('image')">图片</button>
+      <button id="tab-link" class="cat-tab border-b-2 px-4 py-2 text-base font-medium focus:outline-none" onclick="showCategory('link')">链接</button>
+    </div>
+    <!-- 文本分类 -->
+    <ul id="text" class="cat-list space-y-4">
+      <li class="bg-white rounded-lg shadow flex items-center justify-between px-5 py-4">
+        <div class="flex-1 truncate">"剪贴板工具让你的复制粘贴更高效！"</div>
+        <button class="text-blue-500 hover:text-blue-700 ml-4" title="复制"><i class="fa-solid fa-copy"></i></button>
+      </li>
+    </ul>
+    <!-- 图片分类 -->
+    <ul id="image" class="cat-list space-y-4" style="display:none;">
+      <li class="bg-white rounded-lg shadow flex items-center justify-between px-5 py-4">
+        <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=80&q=80" alt="图片剪贴" class="w-16 h-16 rounded object-cover">
+        <button class="text-blue-500 hover:text-blue-700 ml-4" title="复制"><i class="fa-solid fa-copy"></i></button>
+      </li>
+    </ul>
+    <!-- 链接分类 -->
+    <ul id="link" class="cat-list space-y-4" style="display:none;">
+      <li class="bg-white rounded-lg shadow flex items-center justify-between px-5 py-4">
+        <div class="flex-1 truncate">https://unsplash.com/photos/abc123</div>
+        <button class="text-blue-500 hover:text-blue-700 ml-4" title="复制"><i class="fa-solid fa-copy"></i></button>
+      </li>
+    </ul>
+  </main>
+</body>
+</html> 

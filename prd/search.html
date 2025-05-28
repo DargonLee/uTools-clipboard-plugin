@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>搜索 - 剪贴板工具</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    // 简单的前端搜索交互示例
+    function filterList() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const items = document.querySelectorAll('.search-item');
+      items.forEach(item => {
+        const text = item.querySelector('.item-content').textContent.toLowerCase();
+        item.style.display = text.includes(input) ? '' : 'none';
+      });
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+  <!-- 顶部导航栏 -->
+  <nav class="bg-white shadow flex items-center justify-between px-6 py-4">
+    <div class="flex items-center space-x-3">
+      <a href="index.html" class="text-blue-500 hover:text-blue-700"><i class="fa-solid fa-chevron-left"></i></a>
+      <span class="text-xl font-bold text-gray-800 ml-2">搜索</span>
+    </div>
+    <a href="settings.html" class="text-gray-500 hover:text-blue-500 transition"><i class="fa-solid fa-gear text-xl"></i></a>
+  </nav>
+  <!-- 搜索输入框和结果 -->
+  <main class="max-w-2xl mx-auto py-8">
+    <div class="mb-6">
+      <input id="searchInput" type="text" placeholder="输入关键词搜索..." oninput="filterList()" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-base" />
+    </div>
+    <ul class="space-y-4">
+      <!-- 示例搜索结果 -->
+      <li class="bg-white rounded-lg shadow flex items-center justify-between px-5 py-4 search-item">
+        <div class="flex-1 item-content">
+          https://unsplash.com/photos/abc123
+        </div>
+        <button class="text-blue-500 hover:text-blue-700 ml-4" title="复制"><i class="fa-solid fa-copy"></i></button>
+      </li>
+      <li class="bg-white rounded-lg shadow flex items-center justify-between px-5 py-4 search-item">
+        <div class="flex-1 item-content">
+          "剪贴板工具让你的复制粘贴更高效！"
+        </div>
+        <button class="text-blue-500 hover:text-blue-700 ml-4" title="复制"><i class="fa-solid fa-copy"></i></button>
+      </li>
+      <!-- 更多结果... -->
+    </ul>
+    <div class="text-center text-gray-400 text-xs mt-8">共2条结果</div>
+  </main>
+</body>
+</html> 

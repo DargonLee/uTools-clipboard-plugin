@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>剪贴板工具 - Mac App 原型</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .clip-card:hover {
+      box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+      border-color: #2563eb;
+    }
+    .cat-tab-active {
+      background: #2563eb;
+      color: #fff !important;
+      border-color: #2563eb !important;
+    }
+    .cat-tab {
+      transition: all 0.2s;
+    }
+    .icon-btn {
+      transition: color 0.2s;
+    }
+    .icon-btn:hover {
+      color: #2563eb;
+    }
+  </style>
+  <script>
+    // 分类切换
+    function showCategory(type) {
+      document.querySelectorAll('.clip-list').forEach(el => el.style.display = 'none');
+      document.getElementById('list-' + type).style.display = '';
+      document.querySelectorAll('.cat-tab').forEach(tab => tab.classList.remove('cat-tab-active'));
+      document.getElementById('tab-' + type).classList.add('cat-tab-active');
+    }
+    // 搜索过滤
+    function filterList() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('.clip-list').forEach(list => {
+        list.querySelectorAll('.clip-item').forEach(item => {
+          const text = item.querySelector('.item-content') ? item.querySelector('.item-content').textContent.toLowerCase() : '';
+          item.style.display = text.includes(input) ? '' : 'none';
+        });
+      });
+    }
+    window.onload = function() { showCategory('all'); };
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+  <!-- 顶部导航栏 -->
+  <nav class="bg-white shadow flex items-center justify-between px-6 py-4">
+    <div class="flex items-center space-x-3">
+      <i class="fa-solid fa-clipboard-list text-blue-500 text-2xl"></i>
+      <span class="text-xl font-bold text-gray-800">剪贴板工具</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <button class="icon-btn relative group" title="通知">
+        <i class="fa-regular fa-bell text-xl"></i>
+        <span class="absolute -top-2 -right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+        <span class="absolute left-1/2 -translate-x-1/2 mt-2 text-xs bg-gray-700 text-white rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none">通知</span>
+      </button>
+      <a href="settings.html" class="icon-btn relative group" title="设置">
+        <i class="fa-solid fa-gear text-xl"></i>
+        <span class="absolute left-1/2 -translate-x-1/2 mt-2 text-xs bg-gray-700 text-white rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none">设置</span>
+      </a>
+    </div>
+  </nav>
+  <!-- 搜索栏 -->
+  <div class="max-w-2xl mx-auto mt-6 mb-2 px-4 flex items-center">
+    <div class="relative w-full">
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa-solid fa-magnifying-glass"></i></span>
+      <input id="searchInput" type="text" placeholder="搜索" oninput="filterList()" class="w-full pl-10 pr-4 py-3 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 text-base bg-white shadow-sm" />
+    </div>
+  </div>
+  <!-- 分类Tab -->
+  <div class="max-w-2xl mx-auto flex items-center space-x-2 px-4 mb-4">
+    <button id="tab-all" class="cat-tab px-4 py-1 rounded-full border border-gray-200 text-gray-700 text-sm font-medium flex items-center" onclick="showCategory('all')"><i class="fa-solid fa-layer-group text-blue-400 mr-1"></i>全部</button>
+    <button id="tab-text" class="cat-tab px-4 py-1 rounded-full border border-gray-200 text-gray-700 text-sm font-medium flex items-center" onclick="showCategory('text')"><i class="fa-regular fa-font text-blue-400 mr-1"></i>文本</button>
+    <button id="tab-image" class="cat-tab px-4 py-1 rounded-full border border-gray-200 text-gray-700 text-sm font-medium flex items-center" onclick="showCategory('image')"><i class="fa-regular fa-image text-green-400 mr-1"></i>图片</button>
+    <button id="tab-file" class="cat-tab px-4 py-1 rounded-full border border-gray-200 text-gray-700 text-sm font-medium flex items-center" onclick="showCategory('file')"><i class="fa-regular fa-file-lines text-purple-400 mr-1"></i>文件</button>
+    <button id="tab-link" class="cat-tab px-4 py-1 rounded-full border border-gray-200 text-gray-700 text-sm font-medium flex items-center" onclick="showCategory('link')"><i class="fa-solid fa-link text-blue-400 mr-1"></i>链接</button>
+    <button id="tab-fav" class="cat-tab px-4 py-1 rounded-full border border-gray-200 text-gray-700 text-sm font-medium flex items-center" onclick="showCategory('fav')"><i class="fa-solid fa-star text-yellow-400 mr-1"></i>收藏</button>
+  </div>
+  <!-- 剪贴板历史列表（全部/分类） -->
+  <main class="max-w-2xl mx-auto pb-10 px-4">
+    <!-- 全部 -->
+    <ul id="list-all" class="clip-list space-y-4">
+      <!-- 文本类型 -->
+      <li class="clip-item clip-card bg-white border border-gray-200 rounded-xl px-5 py-4 relative group transition">
+        <div class="absolute left-4 top-2 flex items-center text-xs text-gray-400">
+          <i class="fa-regular fa-font text-blue-400 mr-1"></i>纯文本 11个字符
+        </div>
+        <div class="absolute right-4 top-2 text-xs text-gray-400">7天前</div>
+        <div class="item-content text-gray-800 text-base min-h-[32px] my-4">借助CloudBase</div>
+        <div class="absolute right-4 bottom-2 flex items-center space-x-3 opacity-80 group-hover:opacity-100">
+          <button class="icon-btn" title="复制"><i class="fa-regular fa-copy"></i></button>
+          <button class="icon-btn" title="收藏"><i class="fa-regular fa-star"></i></button>
+          <button class="icon-btn" title="删除"><i class="fa-regular fa-trash-can"></i></button>
+        </div>
+      </li>
+      <!-- 文本类型 -->
+      <li class="clip-item clip-card bg-white border border-gray-200 rounded-xl px-5 py-4 relative group transition">
+        <div class="absolute left-4 top-2 flex items-center text-xs text-gray-400">
+          <i class="fa-regular fa-font text-blue-400 mr-1"></i>纯文本 12个字符
+        </div>
+        <div class="absolute right-4 top-2 text-xs text-gray-400">7天前</div>
+        <div class="item-content text-gray-800 text-base min-h-[32px] my-4">snapshotView</div>
+        <div class="absolute right-4 bottom-2 flex items-center space-x-3 opacity-80 group-hover:opacity-100">
+          <button class="icon-btn" title="复制"><i class="fa-regular fa-copy"></i></button>
+          <button class="icon-btn" title="收藏"><i class="fa-regular fa-star"></i></button>
+          <button class="icon-btn" title="删除"><i class="fa-regular fa-trash-can"></i></button>
+        </div>
+      </li>
+      <!-- 文本类型 -->
+      <li class="clip-item clip-card bg-white border border-gray-200 rounded-xl px-5 py-4 relative group transition">
+        <div class="absolute left-4 top-2 flex items-center text-xs text-gray-400">
+          <i class="fa-regular fa-font text-blue-400 mr-1"></i>纯文本 16个字符
+        </div>
+        <div class="absolute right-4 top-2 text-xs text-gray-400">20天前</div>
+        <div class="item-content text-gray-800 text-base min-h-[32px] my-4">XYMap/EngineQmap</div>
+        <div class="absolute right-4 bottom-2 flex items-center space-x-3 opacity-80 group-hover:opacity-100">
+          <button class="icon-btn" title="复制"><i class="fa-regular fa-copy"></i></button>
+          <button class="icon-btn" title="收藏"><i class="fa-regular fa-star"></i></button>
+          <button class="icon-btn" title="删除"><i class="fa-regular fa-trash-can"></i></button>
+        </div>
+      </li>
+      <!-- 收藏类型 -->
+      <li class="clip-item clip-card bg-white border border-blue-500 rounded-xl px-5 py-4 relative group transition">
+        <div class="absolute left-4 top-2 flex items-center text-xs text-yellow-500">
+          <i class="fa-solid fa-star mr-1"></i>收藏 21个字符
+        </div>
+        <div class="absolute right-4 top-2 text-xs text-gray-400">20天前</div>
+        <div class="item-content text-gray-800 text-base min-h-[32px] my-4">是不是【始终允许】和【使用期间允许】都可以</div>
+        <div class="absolute right-4 bottom-2 flex items-center space-x-3 opacity-80 group-hover:opacity-100">
+          <button class="icon-btn" title="复制"><i class="fa-regular fa-copy"></i></button>
+          <button class="icon-btn text-yellow-400" title="已收藏"><i class="fa-solid fa-star"></i></button>
+          <button class="icon-btn" title="删除"><i class="fa-regular fa-trash-can"></i></button>
+        </div>
+      </li>
+      <!-- 链接类型 -->
+      <li class="clip-item clip-card bg-white border border-gray-200 rounded-xl px-5 py-4 relative group transition">
+        <div class="absolute left-4 top-2 flex items-center text-xs text-blue-500">
+          <i class="fa-solid fa-link mr-1"></i>链接 24个字符
+        </div>
+        <div class="absolute right-4 top-2 text-xs text-gray-400">3天前</div>
+        <div class="item-content text-gray-800 text-base my-4 flex items-center">
+          <img src="https://www.google.com/s2/favicons?domain=unsplash.com" class="w-5 h-5 mr-2" alt="favicon">
+          <a href="https://unsplash.com/photos/abc123" target="_blank" class="text-blue-600 hover:underline truncate max-w-xs" title="https://unsplash.com/photos/abc123">https://unsplash.com/photos/abc123</a>
+        </div>
+        <div class="absolute right-4 bottom-2 flex items-center space-x-3 opacity-80 group-hover:opacity-100">
+          <button class="icon-btn" title="复制链接"><i class="fa-regular fa-copy"></i></button>
+          <button class="icon-btn" title="收藏"><i class="fa-regular fa-star"></i></button>
+          <button class="icon-btn" title="删除"><i class="fa-regular fa-trash-can"></i></button>
+        </div>
+      </li>
+    </ul>
+    <!-- 其他分类列表（可仿照全部分类，略） -->
+    <ul id="list-text" class="clip-list space-y-4" style="display:none;"></ul>
+    <ul id="list-image" class="clip-list space-y-4" style="display:none;"></ul>
+    <ul id="list-file" class="clip-list space-y-4" style="display:none;"></ul>
+    <ul id="list-link" class="clip-list space-y-4" style="display:none;">
+      <!-- 链接类型 -->
+      <li class="clip-item clip-card bg-white border border-gray-200 rounded-xl px-5 py-4 relative group transition">
+        <div class="absolute left-4 top-2 flex items-center text-xs text-blue-500">
+          <i class="fa-solid fa-link mr-1"></i>链接 24个字符
+        </div>
+        <div class="absolute right-4 top-2 text-xs text-gray-400">3天前</div>
+        <div class="item-content text-gray-800 text-base my-4 flex items-center">
+          <img src="https://www.google.com/s2/favicons?domain=unsplash.com" class="w-5 h-5 mr-2" alt="favicon">
+          <a href="https://unsplash.com/photos/abc123" target="_blank" class="text-blue-600 hover:underline truncate max-w-xs" title="https://unsplash.com/photos/abc123">https://unsplash.com/photos/abc123</a>
+        </div>
+        <div class="absolute right-4 bottom-2 flex items-center space-x-3 opacity-80 group-hover:opacity-100">
+          <button class="icon-btn" title="复制链接"><i class="fa-regular fa-copy"></i></button>
+          <button class="icon-btn" title="收藏"><i class="fa-regular fa-star"></i></button>
+          <button class="icon-btn" title="删除"><i class="fa-regular fa-trash-can"></i></button>
+        </div>
+      </li>
+    </ul>
+    <ul id="list-file" class="clip-list space-y-4" style="display:none;"></ul>
+    <ul id="list-fav" class="clip-list space-y-4" style="display:none;"></ul>
+    <div class="text-center text-gray-400 text-xs mt-8">仅展示最近20条记录</div>
+  </main>
+</body>
+</html>

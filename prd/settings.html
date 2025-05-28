@@ -7,7 +7,6 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
-    // 简单的主题切换交互
     function toggleTheme() {
       const html = document.documentElement;
       html.classList.toggle('dark');
@@ -22,41 +21,111 @@
       <span class="text-xl font-bold text-gray-800 ml-2">设置</span>
     </div>
   </nav>
-  <!-- 设置内容 -->
-  <main class="max-w-2xl mx-auto py-8">
-    <div class="bg-white rounded-lg shadow p-6 mb-8">
+  
+  <div class="max-w-2xl mx-auto py-8 space-y-8">
+    <!-- 关于分组 -->
+    <section class="bg-white rounded-lg shadow p-6">
       <div class="flex items-center mb-4">
-        <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=80&q=80" alt="头像" class="w-16 h-16 rounded-full object-cover mr-4">
+        <img src="version3.png" alt="剪贴板工具icon" class="w-12 h-12 rounded mr-4">
         <div>
-          <div class="text-gray-800 font-semibold text-lg">Lee</div>
-          <div class="text-gray-400 text-sm">已登录</div>
+          <div class="text-xl font-bold text-gray-800">剪贴板工具</div>
+          <div class="text-gray-500 text-sm">版本 3.0.0</div>
         </div>
       </div>
-      <div class="flex items-center justify-between mt-6">
-        <span class="text-gray-700">深色模式</span>
-        <label class="inline-flex items-center cursor-pointer">
-          <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" onchange="toggleTheme()">
-          <span class="ml-2 text-gray-600">开关</span>
-        </label>
+      <div class="mb-4">
+        <span class="font-semibold">开源地址：</span>
+        <a href="https://github.com/lihailong1/uTools-clipboard-plugin" target="_blank" class="text-blue-500 hover:underline">https://github.com/lihailong1/uTools-clipboard-plugin</a>
       </div>
-    </div>
-    <div class="bg-white rounded-lg shadow p-6">
-      <div class="text-gray-700 font-medium mb-3">偏好设置</div>
-      <ul class="space-y-3">
-        <li class="flex items-center justify-between">
-          <span>剪贴板历史容量</span>
-          <span class="text-gray-400">20条</span>
-        </li>
-        <li class="flex items-center justify-between">
-          <span>自动同步</span>
-          <span class="text-green-500">已开启</span>
-        </li>
-        <li class="flex items-center justify-between">
-          <span>通知提醒</span>
-          <span class="text-gray-400">关闭</span>
-        </li>
-      </ul>
-    </div>
-  </main>
+      <div class="mb-4">
+        <span class="font-semibold">赞助支持：</span>
+        <div class="flex space-x-6 mt-2">
+          <div class="flex flex-col items-center">
+            <img src="https://cdn.jsdelivr.net/gh/lihailong1/assets/wechat-pay.png" alt="微信赞助" class="w-32 h-32 object-contain border rounded mb-2">
+            <span class="text-gray-500 text-sm">微信</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <img src="https://cdn.jsdelivr.net/gh/lihailong1/assets/alipay.png" alt="支付宝赞助" class="w-32 h-32 object-contain border rounded mb-2">
+            <span class="text-gray-500 text-sm">支付宝</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 历史记录设置分组 -->
+    <section class="bg-white rounded-lg shadow p-6">
+      <div class="text-gray-700 font-medium text-lg mb-4 border-l-4 border-blue-500 pl-2">历史记录设置</div>
+      <form class="space-y-6">
+        <div class="flex items-center justify-between">
+          <label class="text-gray-700">保留时长</label>
+          <select class="border rounded px-3 py-1 text-gray-700 focus:outline-none">
+            <option value="1">1天</option>
+            <option value="7">7天</option>
+            <option value="30">30天</option>
+            <option value="forever">永久</option>
+          </select>
+        </div>
+        <div class="flex items-center justify-between">
+          <label class="text-gray-700">最大保留条数</label>
+          <input type="number" min="1" max="200" value="20" class="border rounded px-3 py-1 w-24 text-gray-700 focus:outline-none">
+        </div>
+      </form>
+    </section>
+    <!-- 同步设置分组 -->
+    <section class="bg-white rounded-lg shadow p-6">
+      <div class="text-gray-700 font-medium text-lg mb-4 border-l-4 border-indigo-500 pl-2">同步设置</div>
+      <form class="space-y-6">
+        <div class="flex items-center justify-between">
+          <label class="text-gray-700">自动同步</label>
+          <label class="inline-flex items-center cursor-pointer">
+            <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600">
+            <span class="ml-2 text-gray-600">开关</span>
+          </label>
+        </div>
+        <div class="flex items-center justify-between">
+          <label class="text-gray-700">同步频率</label>
+          <select class="border rounded px-3 py-1 text-gray-700 focus:outline-none">
+            <option value="realtime">每次变动</option>
+            <option value="5min">每5分钟</option>
+            <option value="1h">每小时</option>
+          </select>
+        </div>
+      </form>
+    </section>
+    <!-- 通知设置分组 -->
+    <section class="bg-white rounded-lg shadow p-6">
+      <div class="text-gray-700 font-medium text-lg mb-4 border-l-4 border-yellow-500 pl-2">通知设置</div>
+      <form class="space-y-6">
+        <div class="flex items-center justify-between">
+          <label class="text-gray-700">剪贴板变动通知</label>
+          <label class="inline-flex items-center cursor-pointer">
+            <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600">
+            <span class="ml-2 text-gray-600">开关</span>
+          </label>
+        </div>
+      </form>
+    </section>
+    <!-- 外观设置分组 -->
+    <section class="bg-white rounded-lg shadow p-6">
+      <div class="text-gray-700 font-medium text-lg mb-4 border-l-4 border-purple-500 pl-2">外观设置</div>
+      <form class="space-y-6">
+        <div class="flex items-center justify-between">
+          <label class="text-gray-700">主题模式</label>
+          <select class="border rounded px-3 py-1 text-gray-700 focus:outline-none">
+            <option value="light">浅色</option>
+            <option value="dark">深色</option>
+            <option value="auto">跟随系统</option>
+          </select>
+        </div>
+        <div class="flex items-center justify-between">
+          <label class="text-gray-700">字体大小</label>
+          <select class="border rounded px-3 py-1 text-gray-700 focus:outline-none">
+            <option value="sm">小</option>
+            <option value="base">中</option>
+            <option value="lg">大</option>
+          </select>
+        </div>
+      </form>
+    </section>
+    
+  </div>
 </body>
 </html> 

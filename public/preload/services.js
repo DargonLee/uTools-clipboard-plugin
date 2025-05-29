@@ -116,7 +116,7 @@ const clipboardService = {
    * @param {Object} data 剪贴板内容对象
    * @returns {Promise<void|Object>} 数据库写入结果
    */
-  async _autoSaveToDB(data) {
+  async _autoSaveToDB(data, hash) {
     if (!window.utools) return;
 
     let content = "";
@@ -149,6 +149,7 @@ const clipboardService = {
         entryType,
         time: nowTs(),
         favorite: false,
+        hash,
       });
     }
   },
@@ -169,7 +170,7 @@ const clipboardService = {
         return;
       }
       this._lastHash = currentHash;
-      await this._autoSaveToDB(currentData);
+      await this._autoSaveToDB(currentData, currentHash);
       this._clipboardListeners.forEach((fn) => fn(currentData));
     }, POLL_INTERVAL_MS);
   },

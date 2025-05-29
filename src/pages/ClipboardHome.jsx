@@ -24,7 +24,9 @@ class ClipboardHome extends React.Component {
     return (
       <div>
         <h1>剪贴板测试页面</h1>
-        <button>测试按钮</button>
+        <button onClick={() => {
+          window.clipboardService.writeClipboardText('测试文本')
+        }}>测试按钮</button>
         <p>这是一个测试页面，用于验证基本功能是否正常工作。111</p>
         <pre>
           {JSON.stringify(enterAction, undefined, 2)}

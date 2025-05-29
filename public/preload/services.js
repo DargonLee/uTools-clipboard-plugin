@@ -1,53 +1,42 @@
 const fs = require('node:fs')
 const path = require('node:path')
-const { clipboard } = require('electron')
+const { clipboard, nativeImage } = require('electron')
 
-// 通过 window 对象向渲染进程注入 nodejs 能力
+// 文件与剪贴板写入相关服务
 window.services = {
   // 读文件
-  readFile (file) {
+  readFile(file) {
     return fs.readFileSync(file, { encoding: 'utf-8' })
   },
   // 文本写入到下载目录
-  writeTextFile (text) {
+  writeTextFile(text) {
     const filePath = path.join(window.utools.getPath('downloads'), Date.now().toString() + '.txt')
     fs.writeFileSync(filePath, text, { encoding: 'utf-8' })
     return filePath
   },
   // 图片写入到下载目录
-  writeImageFile (base64Url) {
+  writeImageFile(base64Url) {
     const matchs = /^data:image\/([a-z]{1,20});base64,/i.exec(base64Url)
     if (!matchs) return
     const filePath = path.join(window.utools.getPath('downloads'), Date.now().toString() + '.' + matchs[1])
     fs.writeFileSync(filePath, base64Url.substring(matchs[0].length), { encoding: 'base64' })
     return filePath
   },
-  initClipboardListener: () => {
-    clipboardListener.on('change', (event) => {
-      console.log('change', event)
-    })
+  // 写入文本到剪贴板
+  writeClipboardText(text) {
+    clipboard.writeText(text)
   },
-  copyImage: (imageFilePath) => {
-    console.log('copyImage', imageFilePath)
-  },
-  copyText: (text) => {
-    console.log('copyText', text)
-  },
-  copyFile: (filePath) => {
-    console.log('copyFile', filePath)
+  // 写入图片到剪贴板（base64 格式）
+  writeClipboardImage(base64Url) {
+    const image = nativeImage.createFromDataURL(base64Url)
+    clipboard.writeImage(image)
   }
 }
 
-
-// 注册监听回调
+// 剪贴板监听与数据获取服务
 window.clipboardService = {
-  onChange: function (cb) {
-    if (typeof cb === 'function') clipboardListeners.push(cb)
-  },
-  getCurrent: function () {
-    return clipboard.readText()
-  },
-  getClipboardData: function () {
+  // 获取剪贴板所有主流数据类型
+  getClipboardData() {
     const formats = clipboard.availableFormats()
     const data = {}
     if (formats.includes('text/plain')) {
@@ -66,19 +55,42 @@ window.clipboardService = {
       }
     }
     return data
+  },
+  // 注册剪贴板变化监听回调
+  onChange(cb) {
+    if (typeof cb === 'function') this._clipboardListeners.push(cb)
+  },
+  // 内部：自动保存文本到 uTools 本地数据库
+  _autoSaveToDB(data) {
+    if (window.utools && data.text) {
+      const hash = require('crypto').createHash('md5').update(data.text).digest('hex')
+      const docId = `clipboard/${Date.now()}_${hash}`
+      const docs = window.utools.db.allDocs('clipboard/')
+      if (!docs.length || docs[0].content !== data.text) {
+        window.utools.db.put({
+          _id: docId,
+          content: data.text,
+          type: 'text',
+          time: Date.now()
+        })
+      }
+    }
+  },
+  // 内部：开始轮询监听剪贴板变化
+  _startPolling() {
+    this._lastClipboardData = {}
+    this._clipboardListeners = []
+    setInterval(() => {
+      const data = this.getClipboardData()
+      const dataStr = JSON.stringify(data)
+      const lastDataStr = JSON.stringify(this._lastClipboardData)
+      if (dataStr !== lastDataStr) {
+        this._lastClipboardData = data
+        this._clipboardListeners.forEach(fn => fn(data))
+        this._autoSaveToDB(data)
+      }
+    }, 500)
   }
 }
-
-let lastClipboardData = {}
-let clipboardListeners = []
-setInterval(() => {
-  const data = window.clipboardService.getClipboardData()
-  const dataStr = JSON.stringify(data)
-  const lastDataStr = JSON.stringify(lastClipboardData)
-  if (dataStr !== lastDataStr) {
-    lastClipboardData = data
-    clipboardListeners.forEach(fn => fn(data))
-    // 可选：此处可扩展存储到 uTools 本地数据库等逻辑
-  }
-}, 500) // 每500ms检测一次
+window.clipboardService._startPolling()
 

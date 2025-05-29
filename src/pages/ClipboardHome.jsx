@@ -4,23 +4,26 @@
 import React, { useEffect } from 'react';
 
 class ClipboardHome extends React.Component {
-  state = { clipboardData: {} }
+  state = {
+    history: []
+  }
 
   componentDidMount() {
-    // 监听剪贴板变化
-    window.clipboardService.onChange(() => {
-      console.log('剪贴板变化')
-      const data = window.clipboardService.getClipboardData()
-      this.setState({ clipboardData: data })
+    // 1. 初始化时获取所有历史内容
+    const history = window.clipboardService.getAllHistory()
+    this.setState({ history })
+
+    // 2. 监听新内容追加
+    window.clipboardService.onChange((data) => {
+      // console.log('剪贴板变化', data)
+      // 只追加新内容（可根据实际需求去重）
+      const newHistory = window.clipboardService.getAllHistory()
+      this.setState({ history: newHistory })
     })
-    // 初始化时获取一次
-    const data = window.clipboardService.getClipboardData()
-    this.setState({ clipboardData: data })
   }
 
   render() {
     const { enterAction } = this.props;
-    const { clipboardData } = this.state
     return (
       <div>
         <h1>剪贴板测试页面</h1>
@@ -32,10 +35,12 @@ class ClipboardHome extends React.Component {
           {JSON.stringify(enterAction, undefined, 2)}
         </pre>
         <div>
-          {clipboardData.text && <div>文本：{clipboardData.text}</div>}
-          {clipboardData.html && <div dangerouslySetInnerHTML={{ __html: clipboardData.html }} />}
-          {clipboardData.image && <img src={clipboardData.image} alt="剪贴板图片" />}
-          {/* 其他类型... */}
+          {this.state.history.map(item => (
+            <div key={item._id} className="mb-2 p-2 border rounded">
+              <div>{item.content}</div>
+              <div className="text-xs text-gray-400">{new Date(item.time).toLocaleString()}</div>
+            </div>
+          ))}
         </div>
       </div>
     );

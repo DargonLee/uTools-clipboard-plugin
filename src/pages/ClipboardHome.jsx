@@ -24,6 +24,14 @@ class ClipboardHome extends React.Component {
     return (
       <div>
         <h1>剪贴板测试页面</h1>
+        <button
+          className="mb-4 px-4 py-2 bg-red-600 text-white rounded"
+          onClick={async () => {
+            await window.AppClipboard.clipboardService.deleteAllHistory();
+            const newHistory = await window.AppClipboard.clipboardService.getAllHistory();
+            this.setState({ history: newHistory });
+          }}
+        >清空全部</button>
         <button onClick={() => {
           window.AppClipboard.fileService.writeTextFile('测试文本')
         }}>测试按钮</button>
@@ -51,6 +59,14 @@ class ClipboardHome extends React.Component {
                   this.setState({ history: newHistory })
                 }}
               >删除</button>
+              <button
+                className={`ml-2 px-2 py-1 rounded text-xs ${item.favorite ? 'bg-yellow-400 text-black' : 'bg-gray-300 text-gray-700'}`}
+                onClick={async () => {
+                  await window.AppClipboard.clipboardService.updateFavorite(item._id, !item.favorite)
+                  const newHistory = await window.AppClipboard.clipboardService.getAllHistory()
+                  this.setState({ history: newHistory })
+                }}
+              >{item.favorite ? '取消收藏' : '收藏'}</button>
             </div>
           ))}
         </div>

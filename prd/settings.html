@@ -125,7 +125,30 @@
         </div>
       </form>
     </section>
-    
+    <!-- 删除所有数据分组 -->
+    <section class="bg-white rounded-lg shadow p-6">
+      <div class="text-red-600 font-medium text-lg mb-4 border-l-4 border-red-500 pl-2">删除所有数据</div>
+      <form class="space-y-4">
+        <div class="flex items-center">
+          <input id="delete-fav-checkbox" type="checkbox" class="form-checkbox h-5 w-5 text-red-500">
+          <label for="delete-fav-checkbox" class="ml-2 text-gray-700">同时删除收藏的数据</label>
+        </div>
+        <button type="button" onclick="confirmDeleteAll()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded shadow transition">删除所有数据</button>
+        <div id="delete-warning" class="text-red-500 text-sm mt-2 hidden">此操作不可恢复，请谨慎操作！</div>
+      </form>
+    </section>
   </div>
+  <script>
+  function confirmDeleteAll() {
+    const delFav = document.getElementById('delete-fav-checkbox').checked;
+    const warning = document.getElementById('delete-warning');
+    warning.classList.remove('hidden');
+    setTimeout(() => {
+      warning.classList.add('hidden');
+      alert('已删除所有数据' + (delFav ? '（包括收藏）' : '（不包括收藏）'));
+      // 这里可补充实际删除逻辑
+    }, 1200);
+  }
+  </script>
 </body>
 </html> 

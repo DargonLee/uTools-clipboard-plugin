@@ -1,62 +1,67 @@
 const fs = require('node:fs')
 const path = require('node:path')
+const crypto = require('crypto')
 const { clipboard, nativeImage } = require('electron')
 
-// 文件与剪贴板写入相关服务
-window.services = {
-  /** 读取文件内容 */
-  readFile(file) {
-    return fs.readFileSync(file, { encoding: 'utf-8' })
+const DOWNLOADS_PATH = window.utools.getPath('downloads')
+const CLIPBOARD_DB_PREFIX = 'clipboard/'
+const POLL_INTERVAL_MS = 500
+
+const nowTs = () => Date.now()
+
+const fileService = {
+  async readFile(file) {
+    return await fs.promises.readFile(file, { encoding: 'utf-8' })
   },
-  /** 文本写入到下载目录 */
+
   writeTextFile(text) {
-    const filePath = path.join(window.utools.getPath('downloads'), Date.now().toString() + '.txt')
+    const fileName = `clipboard_${nowTs()}.txt`
+    const filePath = path.join(DOWNLOADS_PATH, fileName)
     fs.writeFileSync(filePath, text, { encoding: 'utf-8' })
     return filePath
   },
-  /** 图片写入到下载目录 */
+
   writeImageFile(base64Url) {
-    const matchs = /^data:image\/([a-z]{1,20});base64,/i.exec(base64Url)
-    if (!matchs) return
-    const filePath = path.join(window.utools.getPath('downloads'), Date.now().toString() + '.' + matchs[1])
-    fs.writeFileSync(filePath, base64Url.substring(matchs[0].length), { encoding: 'base64' })
+    const match = /^data:image\/([a-z0-9+]+);base64,/i.exec(base64Url)
+    if (!match) return null
+    const ext = match[1]
+    const fileName = `clipboard_${nowTs()}.${ext}`
+    const filePath = path.join(DOWNLOADS_PATH, fileName)
+    const base64Data = base64Url.substring(match[0].length)
+    fs.writeFileSync(filePath, base64Data, { encoding: 'base64' })
     return filePath
   },
-  /** 写入文本到剪贴板 */
+
   writeClipboardText(text) {
     clipboard.writeText(text)
   },
-  /** 写入图片到剪贴板（base64 格式） */
+
   writeClipboardImage(base64Url) {
     const image = nativeImage.createFromDataURL(base64Url)
     clipboard.writeImage(image)
   }
 }
 
-// 剪贴板监听与数据获取服务
-window.clipboardService = {
-  /** 获取所有历史剪贴板内容（按时间倒序） */
+const clipboardService = {
+  _clipboardListeners: [],
+  _lastClipboardDataStr: '',
+  _pollingTimer: null,
+
   getAllHistory() {
-    if (window.utools) {
-      const docs = window.utools.db.allDocs('clipboard/')
-      return docs.sort((a, b) => b.time - a.time)
-    }
-    return []
+    if (!window.utools) return []
+    const docs = window.utools.db.allDocs(CLIPBOARD_DB_PREFIX)
+    return docs.sort((a, b) => b.time - a.time)
   },
-  /** 获取当前剪贴板所有主流数据类型 */
+
   getClipboardData() {
     const formats = clipboard.availableFormats()
     const data = {}
-    if (formats.includes('text/plain')) {
-      data.text = clipboard.readText()
-    }
-    if (formats.includes('text/html')) {
-      data.html = clipboard.readHTML()
-    }
-    if (formats.includes('text/rtf')) {
-      data.rtf = clipboard.readRTF()
-    }
-    if (formats.some(f => f.startsWith('image/'))) {
+    if (formats.includes('text/plain')) data.text = clipboard.readText()
+    if (formats.includes('text/html')) data.html = clipboard.readHTML()
+    if (formats.includes('text/rtf')) data.rtf = clipboard.readRTF()
+
+    const hasImage = formats.some(f => f.startsWith('image/'))
+    if (hasImage) {
       const image = clipboard.readImage()
       if (!image.isEmpty()) {
         data.image = image.toDataURL()
@@ -64,59 +69,74 @@ window.clipboardService = {
     }
     return data
   },
-  /** 注册剪贴板变化监听回调 */
-  onChange(cb) {
-    if (typeof cb === 'function') this._clipboardListeners.push(cb)
-  },
-  /** 内部：自动保存文本或图片到 uTools 本地数据库 */
-  _autoSaveToDB(data) {
-    if (window.utools) {
-      let content = ''
-      let type = ''
-      if (data.text) {
-        content = data.text
-        type = 'text'
-      } else if (data.image) {
-        content = data.image // base64
-        type = 'image'
-      } else {
-        return // 其他类型暂不存储
-      }
-      const hash = require('crypto').createHash('md5').update(content).digest('hex')
-      const docId = `clipboard/${Date.now()}_${hash}`
-      const docs = window.utools.db.allDocs('clipboard/')
-      if (!docs.length || docs[0].content !== content) {
-        return window.utools.db.put({
-          _id: docId,
-          content,
-          type,
-          time: Date.now()
-        })
-      }
+
+  onChange(callback) {
+    if (typeof callback === 'function') {
+      this._clipboardListeners.push(callback)
     }
   },
-  /** 内部：开始轮询监听剪贴板变化 */
+
+  _autoSaveToDB(data) {
+    if (!window.utools) return
+
+    let content = ''
+    let type = ''
+    if (data.text) {
+      content = data.text
+      type = 'text'
+    } else if (data.image) {
+      content = data.image
+      type = 'image'
+    } else {
+      return
+    }
+
+    const hash = crypto.createHash('md5').update(content).digest('hex')
+    const docId = `${CLIPBOARD_DB_PREFIX}${nowTs()}_${hash}`
+    const docs = window.utools.db.allDocs(CLIPBOARD_DB_PREFIX)
+    if (!docs.length || docs[0].content !== content) {
+      return window.utools.db.put({
+        _id: docId,
+        content,
+        type,
+        time: nowTs(),
+      })
+    }
+  },
+
   _startPolling() {
-    this._lastClipboardData = {}
-    this._clipboardListeners = []
-    setInterval(() => {
+    if (this._pollingTimer) return
+    this._pollingTimer = setInterval(() => {
       const currentData = this.getClipboardData()
       const currentDataStr = JSON.stringify(currentData)
-      const lastDataStr = JSON.stringify(this._lastClipboardData)
-      if (currentDataStr !== lastDataStr) {
-        this._lastClipboardData = currentData
-        // 先写入数据库，再回调 UI，兼容异步
+      if (currentDataStr !== this._lastClipboardDataStr) {
+        this._lastClipboardDataStr = currentDataStr
+
         const saveResult = this._autoSaveToDB(currentData)
-        if (saveResult && typeof saveResult.then === 'function') {
-          saveResult.then(() => {
-            this._clipboardListeners.forEach(fn => fn(currentData))
-          })
-        } else {
+        const notifyListeners = () => {
           this._clipboardListeners.forEach(fn => fn(currentData))
         }
+
+        if (saveResult && typeof saveResult.then === 'function') {
+          saveResult.then(notifyListeners)
+        } else {
+          notifyListeners()
+        }
       }
-    }, 500)
-  }
+    }, POLL_INTERVAL_MS)
+  },
+
+  stopPolling() {
+    clearInterval(this._pollingTimer)
+    this._pollingTimer = null
+  },
 }
-window.clipboardService._startPolling()
+
+window.AppClipboard = {
+  fileService,
+  clipboardService,
+}
+
+window.AppClipboard.clipboardService._startPolling()
+
 

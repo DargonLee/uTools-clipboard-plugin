@@ -10,14 +10,14 @@ class ClipboardHome extends React.Component {
 
   componentDidMount() {
     // 1. 初始化时获取所有历史内容
-    const history = window.clipboardService.getAllHistory()
+    const history = window.AppClipboard.clipboardService.getAllHistory()
     this.setState({ history })
 
     // 2. 监听新内容追加
-    window.clipboardService.onChange((data) => {
+    window.AppClipboard.clipboardService.onChange((data) => {
       // console.log('剪贴板变化', data)
       // 只追加新内容（可根据实际需求去重）
-      const newHistory = window.clipboardService.getAllHistory()
+      const newHistory = window.AppClipboard.clipboardService.getAllHistory()
       this.setState({ history: newHistory })
     })
   }
@@ -28,7 +28,7 @@ class ClipboardHome extends React.Component {
       <div>
         <h1>剪贴板测试页面</h1>
         <button onClick={() => {
-          window.clipboardService.writeClipboardText('测试文本')
+          window.AppClipboard.fileService.writeTextFile('测试文本')
         }}>测试按钮</button>
         <p>这是一个测试页面，用于验证基本功能是否正常工作。111</p>
         <pre>

@@ -12,6 +12,7 @@ alwaysApply: true
 - **react-icons**（[官方文档](mdc:https:/react-icons.github.io/react-icons)）：提供丰富的图标库，便于 UI 快速集成高质量 icon。
 - **Vite**（[官方文档](mdc:https:/cn.vitejs.dev/guide)）：极速前端构建工具，支持热更新和现代开发体验。
 - **uTools 插件开发**（[官方文档](mdc:https:/www.u-tools.cn/docs/developer/docs.html)）：遵循 uTools 插件开发规范，支持插件生命周期、主/渲染进程通信等。
+- **electronjs的clipboard接口文档** https://www.electronjs.org/docs/latest/api/clipboard
 
 ### 命名规范
 - **组件**：使用 ES6 的 class 定义，组件名首字母大写驼峰（如 `ClipboardCard`）。

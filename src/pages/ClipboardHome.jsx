@@ -4,14 +4,23 @@
 import React, { useEffect } from 'react';
 
 class ClipboardHome extends React.Component {
+  state = { clipboardData: {} }
+
   componentDidMount() {
-    window.utools.onPluginReady(() => {
-      window.services.initClipboardListener()
+    // 监听剪贴板变化
+    window.clipboardService.onChange(() => {
+      console.log('剪贴板变化')
+      const data = window.clipboardService.getClipboardData()
+      this.setState({ clipboardData: data })
     })
+    // 初始化时获取一次
+    const data = window.clipboardService.getClipboardData()
+    this.setState({ clipboardData: data })
   }
 
   render() {
     const { enterAction } = this.props;
+    const { clipboardData } = this.state
     return (
       <div>
         <h1>剪贴板测试页面</h1>
@@ -20,6 +29,12 @@ class ClipboardHome extends React.Component {
         <pre>
           {JSON.stringify(enterAction, undefined, 2)}
         </pre>
+        <div>
+          {clipboardData.text && <div>文本：{clipboardData.text}</div>}
+          {clipboardData.html && <div dangerouslySetInnerHTML={{ __html: clipboardData.html }} />}
+          {clipboardData.image && <img src={clipboardData.image} alt="剪贴板图片" />}
+          {/* 其他类型... */}
+        </div>
       </div>
     );
   }

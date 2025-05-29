@@ -38,36 +38,6 @@ window.services = {
   }
 }
 
-let lastClipboardText = ''
-let clipboardListeners = []
-
-// 轮询监听剪贴板内容变化
-setInterval(() => {
-  const text = clipboard.readText()
-  const image = clipboard.readImage()
-  const file = clipboard.readFile()
-  console.log('text', text)
-  if (text !== lastClipboardText) {
-    lastClipboardText = text
-    clipboardListeners.forEach(fn => fn(text))
-    // 存储到 uTools 本地数据库（仅内容变更时）
-    if (window.utools && text) {
-      // 以内容hash+时间戳作为_id，避免重复
-      const hash = require('crypto').createHash('md5').update(text).digest('hex')
-      const docId = `clipboard/${Date.now()}_${hash}`
-      // 查询最近一条记录，若内容一致则不存储
-      const docs = window.utools.db.allDocs('clipboard/')
-      if (!docs.length || docs[0].content !== text) {
-        window.utools.db.put({
-          _id: docId,
-          content: text,
-          type: 'text',
-          time: Date.now()
-        })
-      }
-    }
-  }
-}, 500) // 每500ms检测一次
 
 // 注册监听回调
 window.clipboardService = {
@@ -76,5 +46,39 @@ window.clipboardService = {
   },
   getCurrent: function () {
     return clipboard.readText()
+  },
+  getClipboardData: function () {
+    const formats = clipboard.availableFormats()
+    const data = {}
+    if (formats.includes('text/plain')) {
+      data.text = clipboard.readText()
+    }
+    if (formats.includes('text/html')) {
+      data.html = clipboard.readHTML()
+    }
+    if (formats.includes('text/rtf')) {
+      data.rtf = clipboard.readRTF()
+    }
+    if (formats.some(f => f.startsWith('image/'))) {
+      const image = clipboard.readImage()
+      if (!image.isEmpty()) {
+        data.image = image.toDataURL()
+      }
+    }
+    return data
   }
 }
+
+let lastClipboardData = {}
+let clipboardListeners = []
+setInterval(() => {
+  const data = window.clipboardService.getClipboardData()
+  const dataStr = JSON.stringify(data)
+  const lastDataStr = JSON.stringify(lastClipboardData)
+  if (dataStr !== lastDataStr) {
+    lastClipboardData = data
+    clipboardListeners.forEach(fn => fn(data))
+    // 可选：此处可扩展存储到 uTools 本地数据库等逻辑
+  }
+}, 500) // 每500ms检测一次
+

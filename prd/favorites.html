@@ -6,43 +6,338 @@
   <title>收藏夹 - 剪贴板工具</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .group-tab {
+      min-width: 72px;
+      max-width: 140px;
+      padding: 0.5rem 1.3rem;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #f4f7fa 60%, #e8f0fe 100%);
+      color: #2563eb;
+      border: none;
+      font-size: 15px;
+      font-weight: 500;
+      margin-right: 0;
+      box-shadow: 0 2px 8px 0 rgba(37,99,235,0.06);
+      transition: all 0.18s;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      position: relative;
+      outline: none;
+      cursor: pointer;
+    }
+    .group-tab.active {
+      background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+      color: #fff;
+      box-shadow: 0 4px 16px 0 rgba(37,99,235,0.13);
+    }
+    .group-tab:hover:not(.active) {
+      background: linear-gradient(90deg, #e0e7ef 60%, #dbeafe 100%);
+      color: #2563eb;
+    }
+    .group-tab .del-btn {
+      right: 6px;
+      top: -8px;
+    }
+    .type-filter {
+      min-width: 64px;
+      max-width: 120px;
+      padding: 0.4rem 1.1rem;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #f4f7fa 60%, #e8f0fe 100%);
+      color: #2563eb;
+      border: none;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 1px 4px 0 rgba(37,99,235,0.04);
+      transition: all 0.18s;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      outline: none;
+      cursor: pointer;
+    }
+    .type-filter.active {
+      background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+      color: #fff;
+      box-shadow: 0 4px 16px 0 rgba(37,99,235,0.13);
+    }
+    .type-filter:hover:not(.active) {
+      background: linear-gradient(90deg, #e0e7ef 60%, #dbeafe 100%);
+      color: #2563eb;
+    }
+    .type-blue { background: linear-gradient(90deg, #e0e7ef 60%, #dbeafe 100%); color: #2563eb; }
+    .type-green { background: linear-gradient(90deg, #d1fae5 60%, #bbf7d0 100%); color: #059669; }
+    .type-purple { background: linear-gradient(90deg, #ede9fe 60%, #c7d2fe 100%); color: #7c3aed; }
+    .type-yellow { background: linear-gradient(90deg, #fef9c3 60%, #fde68a 100%); color: #b45309; }
+    .type-pink { background: linear-gradient(90deg, #fce7f3 60%, #fbcfe8 100%); color: #db2777; }
+    .type-cyan { background: linear-gradient(90deg, #cffafe 60%, #a5f3fc 100%); color: #0891b2; }
+    .type-filter.active.type-blue, .type-filter.active.type-green, .type-filter.active.type-purple, .type-filter.active.type-yellow, .type-filter.active.type-pink, .type-filter.active.type-cyan {
+      background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%);
+      color: #fff;
+    }
+    .tag-filter {
+      border-radius: 9999px;
+      padding: 0.25rem 0.9rem;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 1px 4px 0 rgba(37,99,235,0.04);
+      opacity: 0.92;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+      border: none;
+      outline: none;
+      margin-bottom: 2px;
+      background: #f4f7fa;
+      color: #2563eb;
+    }
+    .tag-filter.selected, .tag-filter:hover {
+      background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%) !important;
+      color: #fff !important;
+      opacity: 1;
+      box-shadow: 0 2px 8px 0 rgba(37,99,235,0.10);
+    }
+    .fav-card {
+      transition: box-shadow 0.22s, transform 0.18s;
+      box-shadow: 0 1px 6px 0 rgba(37,99,235,0.06);
+    }
+    .fav-card:hover {
+      box-shadow: 0 8px 32px 0 rgba(37,99,235,0.10), 0 1.5px 6px 0 rgba(0,0,0,0.04);
+      transform: translateY(-2px) scale(1.01);
+      border-color: #2563eb;
+    }
+    .fav-card .fa-thumbtack.pinned {
+      color: #f59e42;
+      transform: rotate(-20deg) scale(1.2);
+    }
+    .fav-tag {
+      cursor: pointer;
+      opacity: 0.85;
+      transition: background 0.18s, color 0.18s;
+    }
+    .fav-tag.selected {
+      background: #2563eb;
+      color: #fff;
+      opacity: 1;
+    }
+    #batch-bar {
+      box-shadow: 0 4px 24px 0 rgba(37,99,235,0.10);
+      border-radius: 1rem 1rem 0 0;
+    }
+    #preview-modal {
+      animation: fadeIn 0.2s;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+  <script>
+    // 分组切换
+    function selectGroup(group) {
+      document.querySelectorAll('.group-tab').forEach(tab => tab.classList.remove('active'));
+      document.getElementById('group-' + group).classList.add('active');
+      // TODO: 切换分组内容
+    }
+    // 类型筛选
+    function selectType(type) {
+      document.querySelectorAll('.type-filter').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('type-' + type).classList.add('active');
+      // TODO: 类型筛选逻辑
+    }
+    // 标签筛选
+    function toggleTag(tag) {
+      const tagBtn = document.getElementById('tag-' + tag);
+      tagBtn.classList.toggle('selected');
+      // TODO: 多标签筛选逻辑
+    }
+    // 新建分组功能（去空格，重复高亮，自动滚动，可删除）
+    function createGroup() {
+      let name = prompt('请输入新分组名称：');
+      if (!name) return;
+      name = name.replace(/\s+/g, '');
+      if (!name) return;
+      if (document.getElementById('group-' + name)) {
+        const btn = document.getElementById('group-' + name);
+        btn.classList.add('active');
+        btn.classList.add('new-anim');
+        setTimeout(()=>btn.classList.remove('new-anim'), 500);
+        alert('分组已存在');
+        return;
+      }
+      // 创建新分组按钮
+      const btn = document.createElement('button');
+      btn.id = 'group-' + name;
+      btn.className = 'group-tab group relative';
+      btn.textContent = name;
+      btn.onclick = function() { selectGroup(name); };
+      // 删除按钮
+      const del = document.createElement('span');
+      del.className = 'del-btn';
+      del.innerHTML = '<i class="fa fa-times"></i>';
+      del.title = '删除分组';
+      del.onclick = function(e) {
+        e.stopPropagation();
+        if(confirm('确定要删除分组"'+name+'"？')) {
+          btn.remove();
+        }
+      };
+      btn.appendChild(del);
+      // 插入到"新建分组"按钮前
+      const groupTabs = document.getElementById('group-tabs');
+      const plusBtn = document.getElementById('group-add');
+      groupTabs.insertBefore(btn, plusBtn);
+      btn.classList.add('new-anim');
+      selectGroup(name);
+      // 自动滚动到可见
+      setTimeout(()=>{ btn.scrollIntoView({behavior:'smooth',inline:'center'}); }, 200);
+    }
+    // 预览弹窗逻辑，支持Esc关闭
+    function showPreview(type, content) {
+      const modal = document.getElementById('preview-modal');
+      const box = document.getElementById('preview-content');
+      if(type === 'image') {
+        box.innerHTML = `<img src="${content}" class='max-w-full max-h-96 rounded shadow'>`;
+      } else if(type === 'text') {
+        box.innerHTML = `<div class='whitespace-pre-line text-gray-800 text-base'>${content}</div>`;
+      } else {
+        box.innerHTML = `<div>${content}</div>`;
+      }
+      modal.classList.remove('hidden');
+      document.onkeydown = function(e){ if(e.key==='Escape') closePreview(); };
+    }
+    function closePreview() {
+      document.getElementById('preview-modal').classList.add('hidden');
+      document.onkeydown = null;
+    }
+    // 批量操作逻辑
+    function toggleSelect(checkbox) {
+      const checked = document.querySelectorAll('.fav-select:checked').length;
+      const bar = document.getElementById('batch-bar');
+      document.getElementById('batch-count').textContent = checked;
+      if(checked > 0) {
+        bar.classList.remove('hidden');
+      } else {
+        bar.classList.add('hidden');
+      }
+    }
+    function batchDelete() { alert('批量删除功能待实现'); }
+    function batchMove() { alert('批量移动分组功能待实现'); }
+    function batchTag() { alert('批量加标签功能待实现'); }
+  </script>
 </head>
 <body class="bg-gray-100 min-h-screen font-sans">
-  <!-- 顶部导航栏 -->
-  <nav class="bg-white shadow flex items-center justify-between px-6 py-4">
-    <div class="flex items-center space-x-3">
-      <a href="index.html" class="text-blue-500 hover:text-blue-700"><i class="fa-solid fa-chevron-left"></i></a>
-      <span class="text-xl font-bold text-gray-800 ml-2">收藏夹</span>
-    </div>
-    <a href="settings.html" class="text-gray-500 hover:text-blue-500 transition"><i class="fa-solid fa-gear text-xl"></i></a>
-  </nav>
-  <!-- 收藏夹内容列表 -->
-  <main class="max-w-2xl mx-auto py-8">
-    <ul class="space-y-4">
-      <!-- 示例条目 -->
-      <li class="bg-white rounded-lg shadow flex items-center justify-between px-5 py-4 hover:shadow-lg transition group">
-        <div class="flex-1">
-          <div class="text-gray-800 text-base truncate">"常用签名：祝好，李海龙"</div>
-          <div class="text-xs text-gray-400 mt-1">收藏于 2024-05-30</div>
+  <!--
+  收藏区已实现如下功能：
+  1. 收藏内容卡片（类型icon、内容预览、标签、批量勾选、操作按钮、置顶按钮）。
+  2. 批量操作（底部批量栏，支持批量删除、批量移动分组、批量加标签）。
+  3. 内容预览（弹窗大图/全文）。
+  4. 交互与样式动效。
+  -->
+  <!-- 顶部分组Tab美化 -->
+  <div id="group-tabs" class="max-w-3xl mx-auto flex items-center overflow-x-auto gap-3 px-4 mt-10 mb-5 pb-1">
+    <button id="group-all" class="group-tab active" onclick="selectGroup('all')">全部</button>
+    <button id="group-frontend" class="group-tab" onclick="selectGroup('frontend')">前端代码</button>
+    <button id="group-backend" class="group-tab" onclick="selectGroup('backend')">后端代码</button>
+    <button id="group-phrase" class="group-tab" onclick="selectGroup('phrase')">常用短语</button>
+    <button id="group-add" class="group-tab text-blue-500" onclick="createGroup()"><i class="fa fa-plus mr-1"></i>新建分组</button>
+  </div>
+  <!-- 标签筛选区美化 -->
+  <div class="max-w-3xl mx-auto flex items-center flex-wrap gap-2 px-4 mb-3">
+    <span class="text-gray-400 text-xs mr-2">标签筛选：</span>
+    <span id="tag-js" class="tag-filter tag-blue" onclick="toggleTag('js')">JS</span>
+    <span id="tag-vue" class="tag-filter tag-green" onclick="toggleTag('vue')">Vue</span>
+    <span id="tag-api" class="tag-filter tag-purple" onclick="toggleTag('api')">API</span>
+    <span id="tag-常用" class="tag-filter tag-yellow" onclick="toggleTag('常用')">常用</span>
+    <span id="tag-正则" class="tag-filter tag-pink" onclick="toggleTag('正则')">正则</span>
+    <span id="tag-图片" class="tag-filter tag-green" onclick="toggleTag('图片')">图片</span>
+    <span id="tag-链接" class="tag-filter tag-cyan" onclick="toggleTag('链接')">链接</span>
+    <!-- ...更多标签 -->
+  </div>
+  <!-- 类型筛选区美化 -->
+  <div class="max-w-3xl mx-auto flex items-center gap-3 px-4 mb-7">
+    <button id="type-all" class="type-filter type-blue active" onclick="selectType('all')"><i class="fa fa-layer-group mr-1"></i>全部</button>
+    <button id="type-text" class="type-filter type-blue" onclick="selectType('text')"><i class="fa fa-font mr-1"></i>文本</button>
+    <button id="type-image" class="type-filter type-green" onclick="selectType('image')"><i class="fa fa-image mr-1"></i>图片</button>
+    <button id="type-link" class="type-filter type-cyan" onclick="selectType('link')"><i class="fa fa-link mr-1"></i>链接</button>
+    <button id="type-code" class="type-filter type-purple" onclick="selectType('code')"><i class="fa fa-code mr-1"></i>代码</button>
+  </div>
+  <!-- 收藏内容列表 -->
+  <div class="max-w-3xl mx-auto px-4">
+    <ul id="fav-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- 示例收藏卡片 -->
+      <li class="fav-card bg-white border border-gray-200 rounded-xl p-4 flex flex-col relative group transition shadow-md">
+        <div class="flex items-center mb-2">
+          <input type="checkbox" class="fav-select mr-2" onclick="toggleSelect(this)">
+          <i class="fa fa-font text-blue-500 text-2xl mr-2"></i>
+          <span class="font-medium text-gray-800 flex-1 truncate">常用短语</span>
+          <button class="ml-2 text-gray-400 hover:text-blue-500" title="置顶"><i class="fa fa-thumbtack"></i></button>
         </div>
-        <div class="flex items-center space-x-3 ml-4">
-          <button class="text-blue-500 hover:text-blue-700" title="复制"><i class="fa-solid fa-copy"></i></button>
-          <button class="text-red-400 hover:text-red-600" title="移除收藏"><i class="fa-solid fa-star-half-stroke"></i></button>
+        <div class="fav-content text-gray-700 text-sm mb-2 cursor-pointer line-clamp-2 hover:underline" onclick="showPreview('text', '这是一个常用短语内容，点击可预览全部内容。')">
+          这是一个常用短语内容，点击可预览全部内容。
+        </div>
+        <div class="flex flex-wrap items-center mb-2">
+          <span class="fav-tag bg-blue-100 text-blue-600 mr-1 mb-1 px-2 py-0.5 rounded text-xs" onclick="toggleTag('常用')">常用</span>
+          <span class="fav-tag bg-green-100 text-green-600 mr-1 mb-1 px-2 py-0.5 rounded text-xs" onclick="toggleTag('短语')">短语</span>
+        </div>
+        <div class="flex items-center justify-between mt-auto">
+          <span class="text-xs text-gray-400">2024-05-01</span>
+          <div class="flex items-center space-x-2">
+            <button class="icon-btn" title="预览" onclick="showPreview('text', '这是一个常用短语内容，点击可预览全部内容。')"><i class="fa fa-eye"></i></button>
+            <button class="icon-btn" title="编辑"><i class="fa fa-edit"></i></button>
+            <button class="icon-btn" title="删除"><i class="fa fa-trash"></i></button>
+            <button class="icon-btn" title="导出"><i class="fa fa-download"></i></button>
+          </div>
         </div>
       </li>
-      <li class="bg-white rounded-lg shadow flex items-center justify-between px-5 py-4 hover:shadow-lg transition group">
-        <div class="flex-1">
-          <div class="text-gray-800 text-base truncate">https://unsplash.com/photos/xyz789</div>
-          <div class="text-xs text-gray-400 mt-1">收藏于 2024-05-28</div>
+      <!-- 图片类型示例 -->
+      <li class="fav-card bg-white border border-gray-200 rounded-xl p-4 flex flex-col relative group transition shadow-md">
+        <div class="flex items-center mb-2">
+          <input type="checkbox" class="fav-select mr-2" onclick="toggleSelect(this)">
+          <i class="fa fa-image text-green-500 text-2xl mr-2"></i>
+          <span class="font-medium text-gray-800 flex-1 truncate">示例图片</span>
+          <button class="ml-2 text-gray-400 hover:text-blue-500" title="置顶"><i class="fa fa-thumbtack"></i></button>
         </div>
-        <div class="flex items-center space-x-3 ml-4">
-          <button class="text-blue-500 hover:text-blue-700" title="复制"><i class="fa-solid fa-copy"></i></button>
-          <button class="text-red-400 hover:text-red-600" title="移除收藏"><i class="fa-solid fa-star-half-stroke"></i></button>
+        <div class="fav-content text-gray-700 text-sm mb-2 cursor-pointer flex items-center" onclick="showPreview('image', 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=400&q=80')">
+          <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=80&q=80" alt="预览" class="w-16 h-16 rounded object-cover border mr-2">
+          <span class="truncate">图片描述或文件名.jpg</span>
+        </div>
+        <div class="flex flex-wrap items-center mb-2">
+          <span class="fav-tag bg-green-100 text-green-600 mr-1 mb-1 px-2 py-0.5 rounded text-xs" onclick="toggleTag('图片')">图片</span>
+        </div>
+        <div class="flex items-center justify-between mt-auto">
+          <span class="text-xs text-gray-400">2024-05-02</span>
+          <div class="flex items-center space-x-2">
+            <button class="icon-btn" title="预览" onclick="showPreview('image', 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=400&q=80')"><i class="fa fa-eye"></i></button>
+            <button class="icon-btn" title="编辑"><i class="fa fa-edit"></i></button>
+            <button class="icon-btn" title="删除"><i class="fa fa-trash"></i></button>
+            <button class="icon-btn" title="导出"><i class="fa fa-download"></i></button>
+          </div>
         </div>
       </li>
-      <!-- 更多条目... -->
+      <!-- 更多卡片... -->
     </ul>
-    <div class="text-center text-gray-400 text-xs mt-8">已收藏内容共2条</div>
-  </main>
+  </div>
+  <!-- 批量操作栏 -->
+  <div id="batch-bar" class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 shadow-lg py-3 px-4 flex items-center justify-between z-50 hidden">
+    <span class="text-gray-700 text-sm">已选 <span id="batch-count">0</span> 项</span>
+    <div class="flex items-center space-x-3">
+      <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded" onclick="batchDelete()">批量删除</button>
+      <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded" onclick="batchMove()">批量移动分组</button>
+      <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded" onclick="batchTag()">批量加标签</button>
+    </div>
+  </div>
+  <!-- 预览弹窗 -->
+  <div id="preview-modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl shadow-lg p-6 max-w-lg w-full relative">
+      <button class="absolute top-2 right-2 text-gray-400 hover:text-blue-500 text-xl" onclick="closePreview()"><i class="fa fa-times"></i></button>
+      <div id="preview-content"></div>
+    </div>
+  </div>
 </body>
-</html> 
+</html>

@@ -47,9 +47,9 @@ const clipboardService = {
   _lastClipboardDataStr: '',
   _pollingTimer: null,
 
-  getAllHistory() {
+  async getAllHistory() {
     if (!window.utools) return []
-    const docs = window.utools.db.allDocs(CLIPBOARD_DB_PREFIX)
+    const docs = await window.utools.db.promises.allDocs(CLIPBOARD_DB_PREFIX)
     return docs.sort((a, b) => b.time - a.time)
   },
 
@@ -76,7 +76,7 @@ const clipboardService = {
     }
   },
 
-  _autoSaveToDB(data) {
+  async _autoSaveToDB(data) {
     if (!window.utools) return
 
     let content = ''
@@ -93,9 +93,9 @@ const clipboardService = {
 
     const hash = crypto.createHash('md5').update(content).digest('hex')
     const docId = `${CLIPBOARD_DB_PREFIX}${nowTs()}_${hash}`
-    const docs = window.utools.db.allDocs(CLIPBOARD_DB_PREFIX)
+    const docs = await window.utools.db.promises.allDocs(CLIPBOARD_DB_PREFIX)
     if (!docs.length || docs[0].content !== content) {
-      return window.utools.db.put({
+      return await window.utools.db.promises.put({
         _id: docId,
         content,
         type,
@@ -106,22 +106,14 @@ const clipboardService = {
 
   _startPolling() {
     if (this._pollingTimer) return
-    this._pollingTimer = setInterval(() => {
+    this._pollingTimer = setInterval(async () => {
       const currentData = this.getClipboardData()
       const currentDataStr = JSON.stringify(currentData)
       if (currentDataStr !== this._lastClipboardDataStr) {
         this._lastClipboardDataStr = currentDataStr
 
-        const saveResult = this._autoSaveToDB(currentData)
-        const notifyListeners = () => {
-          this._clipboardListeners.forEach(fn => fn(currentData))
-        }
-
-        if (saveResult && typeof saveResult.then === 'function') {
-          saveResult.then(notifyListeners)
-        } else {
-          notifyListeners()
-        }
+        await this._autoSaveToDB(currentData)
+        this._clipboardListeners.forEach(fn => fn(currentData))
       }
     }, POLL_INTERVAL_MS)
   },

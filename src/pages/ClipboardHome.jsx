@@ -8,22 +8,19 @@ class ClipboardHome extends React.Component {
     history: []
   }
 
-  componentDidMount() {
-    // 1. 初始化时获取所有历史内容
-    const history = window.AppClipboard.clipboardService.getAllHistory()
+  async componentDidMount() {
+    const history = await window.AppClipboard.clipboardService.getAllHistory()
     this.setState({ history })
 
-    // 2. 监听新内容追加
-    window.AppClipboard.clipboardService.onChange((data) => {
-      // console.log('剪贴板变化', data)
-      // 只追加新内容（可根据实际需求去重）
-      const newHistory = window.AppClipboard.clipboardService.getAllHistory()
+    window.AppClipboard.clipboardService.onChange(async (data) => {
+      const newHistory = await window.AppClipboard.clipboardService.getAllHistory()
       this.setState({ history: newHistory })
     })
   }
 
   render() {
     const { enterAction } = this.props;
+    const history = Array.isArray(this.state.history) ? this.state.history : []
     return (
       <div>
         <h1>剪贴板测试页面</h1>
@@ -35,7 +32,7 @@ class ClipboardHome extends React.Component {
           {JSON.stringify(enterAction, undefined, 2)}
         </pre>
         <div>
-          {this.state.history.map(item => (
+          {history.map(item => (
             <div key={item._id} className="mb-2 p-2 border rounded">
               {item.type === 'text' && <div>{item.content}</div>}
               {item.type === 'image' && (

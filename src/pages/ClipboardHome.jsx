@@ -43,6 +43,14 @@ class ClipboardHome extends React.Component {
                 />
               )}
               <div className="text-xs text-gray-400">{new Date(item.time).toLocaleString()}</div>
+              <button
+                className="ml-2 px-2 py-1 bg-red-500 text-white rounded text-xs"
+                onClick={async () => {
+                  await window.AppClipboard.clipboardService.deleteHistoryItem(item._id)
+                  const newHistory = await window.AppClipboard.clipboardService.getAllHistory()
+                  this.setState({ history: newHistory })
+                }}
+              >删除</button>
             </div>
           ))}
         </div>

@@ -37,7 +37,14 @@ class ClipboardHome extends React.Component {
         <div>
           {this.state.history.map(item => (
             <div key={item._id} className="mb-2 p-2 border rounded">
-              <div>{item.content}</div>
+              {item.type === 'text' && <div>{item.content}</div>}
+              {item.type === 'image' && (
+                <img
+                  src={item.content}
+                  alt="剪贴板图片"
+                  style={{ maxWidth: 200, maxHeight: 200, display: 'block' }}
+                />
+              )}
               <div className="text-xs text-gray-400">{new Date(item.time).toLocaleString()}</div>
             </div>
           ))}

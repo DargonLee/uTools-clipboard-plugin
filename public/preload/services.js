@@ -68,17 +68,28 @@ window.clipboardService = {
   onChange(cb) {
     if (typeof cb === 'function') this._clipboardListeners.push(cb)
   },
-  /** 内部：自动保存文本到 uTools 本地数据库 */
+  /** 内部：自动保存文本或图片到 uTools 本地数据库 */
   _autoSaveToDB(data) {
-    if (window.utools && data.text) {
-      const hash = require('crypto').createHash('md5').update(data.text).digest('hex')
+    if (window.utools) {
+      let content = ''
+      let type = ''
+      if (data.text) {
+        content = data.text
+        type = 'text'
+      } else if (data.image) {
+        content = data.image // base64
+        type = 'image'
+      } else {
+        return // 其他类型暂不存储
+      }
+      const hash = require('crypto').createHash('md5').update(content).digest('hex')
       const docId = `clipboard/${Date.now()}_${hash}`
       const docs = window.utools.db.allDocs('clipboard/')
-      if (!docs.length || docs[0].content !== data.text) {
+      if (!docs.length || docs[0].content !== content) {
         return window.utools.db.put({
           _id: docId,
-          content: data.text,
-          type: 'text',
+          content,
+          type,
           time: Date.now()
         })
       }

@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const crypto = require("crypto");
+// const crypto = require("crypto");
 const { clipboard, nativeImage } = require("electron");
 
 const DOWNLOADS_PATH = window.utools.getPath("downloads");
@@ -138,8 +138,8 @@ const clipboardService = {
       return;
     }
 
-    const hash = crypto.createHash("md5").update(content).digest("hex");
-    const docId = `${CLIPBOARD_DB_PREFIX}${nowTs()}_${hash}`;
+    const hashValue = simpleHash(content);
+    const docId = `${CLIPBOARD_DB_PREFIX}${nowTs()}_${hashValue}`;
     const docs = await window.utools.db.promises.allDocs(CLIPBOARD_DB_PREFIX);
     if (!docs.length || docs[0].content !== content) {
       return await window.utools.db.promises.put({
@@ -149,7 +149,7 @@ const clipboardService = {
         entryType,
         time: nowTs(),
         favorite: false,
-        hash,
+        hash: hashValue,
       });
     }
   },
@@ -164,7 +164,7 @@ const clipboardService = {
       console.log("currentData", currentData);
       const currentText = currentData.text || '';
       const currentImage = currentData.image || '';
-      const currentHash = crypto.createHash('md5').update(currentText || currentImage).digest('hex');
+      const currentHash = simpleHash(currentText || currentImage);
       
       if (this._lastHash && this._lastHash === currentHash) {
         return;

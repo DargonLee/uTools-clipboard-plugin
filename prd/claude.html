@@ -81,6 +81,207 @@
         .switch.active::after {
             transform: translateX(20px);
         }
+        
+        /* 文本内容处理样式 */
+        .content-preview {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+            max-height: 3em;
+            transition: max-height 0.3s ease;
+        }
+        
+        .content-preview.expanded {
+            -webkit-line-clamp: unset;
+            max-height: none;
+        }
+        
+        .content-title {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .expand-btn {
+            color: #368CFF;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-top: 0.25rem;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        
+        .expand-btn:hover {
+            opacity: 1;
+        }
+        
+        .long-content {
+            position: relative;
+        }
+        
+        .fade-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1.5em;
+            background: linear-gradient(transparent, rgba(255, 255, 255, 0.9));
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .fade-overlay.hidden {
+            opacity: 0;
+        }
+        
+        /* 内容预览模态弹窗样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 800px;
+            max-height: 80vh;
+            width: 90vw;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px) scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+        
+        .modal-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .modal-body {
+            padding: 24px;
+            max-height: 40vh;
+            overflow-y: auto;
+        }
+        
+        .modal-footer {
+            padding: 16px 24px 24px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        
+        .close-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 内容区域交互样式 */
+        .content-clickable {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            padding: 8px;
+            margin: -8px;
+        }
+        
+        .content-clickable:hover {
+            background: rgba(54, 140, 255, 0.08);
+            transform: translateY(-1px);
+        }
+        
+        .content-preview {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+        
+        .content-title {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        /* 内容类型特定样式 */
+        .content-full {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .content-meta {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            border-color: #368CFF;
+            color: #368CFF;
+        }
+        
+        .action-btn.primary {
+            background: #368CFF;
+            color: white;
+            border-color: #368CFF;
+        }
+        
+        .action-btn.primary:hover {
+            background: #2563eb;
+        }
     </style>
 </head>
 <body class="bg-bg-primary min-h-screen font-sans">
@@ -183,16 +384,53 @@
                                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                                 </svg>
                             </div>
-                            <p class="text-text-primary font-medium mb-2">React Hooks 最佳实践指南</p>
-                            <p class="text-text-secondary text-sm line-clamp-2">useState、useEffect、useContext 等核心 Hooks 的使用技巧和注意事项，帮助开发者更好地理解 React 函数式组件的状态管理...</p>
+                            <div class="content-clickable" 
+                                 data-type="text"
+                                 data-title="React Hooks 最佳实践指南 - 完整教程"
+                                 data-content="useState、useEffect、useContext 等核心 Hooks 的使用技巧和注意事项，帮助开发者更好地理解 React 函数式组件的状态管理。
+
+本文将深入探讨 React Hooks 的工作原理，包括：
+
+1. 基础 Hooks 使用
+   - useState: 状态管理
+   - useEffect: 副作用处理
+   - useContext: 上下文共享
+
+2. 性能优化技巧
+   - useCallback: 函数缓存
+   - useMemo: 值缓存
+   - useRef: 引用对象
+
+3. 自定义 Hook 开发
+   - 抽象逻辑复用
+   - 状态管理最佳实践
+   - 生命周期替代方案
+
+4. 常见陷阱和解决方案
+   - 依赖数组的使用
+   - 内存泄漏预防
+   - 无限渲染避免
+
+5. 高级使用场景
+   - useReducer 状态管理
+   - useLayoutEffect 同步操作
+   - useImperativeHandle 命令式接口
+
+通过本教程，您将掌握 React Hooks 的精髓，编写更高效、可维护的函数式组件代码。"
+                                 data-time="2024-01-15 14:30"
+                                 data-size="2.1KB"
+                                 onclick="openPreview(this)">
+                                <p class="text-text-primary font-medium mb-2 content-title">React Hooks 最佳实践指南 - 完整教程</p>
+                                <p class="text-text-secondary text-sm content-preview">useState、useEffect、useContext 等核心 Hooks 的使用技巧和注意事项，帮助开发者更好地理解 React 函数式组件的状态管理...</p>
+                            </div>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="复制">
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="复制" onclick="copyContent(event)">
                                 <svg class="w-4 h-4 text-text-secondary group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                 </svg>
                             </button>
-                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="删除">
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="删除" onclick="deleteContent(event)">
                                 <svg class="w-4 h-4 text-text-secondary group-hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                 </svg>
@@ -215,22 +453,108 @@
                                     <span class="text-xs text-text-secondary bg-purple-100 px-2 py-1 rounded-full text-purple-700">图片</span>
                                     <span class="text-xs text-text-secondary">5 分钟前</span>
                                 </div>
-                                <p class="text-text-primary font-medium mb-1">设计稿截图.png</p>
-                                <p class="text-text-secondary text-sm">1920×1080 • 2.3 MB</p>
+                                <div class="content-clickable"
+                                     data-type="image"
+                                     data-title="UI设计稿-剪贴板工具界面优化方案.png"
+                                     data-content="这是一张UI设计稿，展示了剪贴板工具的界面优化方案。包含了现代化的设计语言、用户体验优化建议以及交互细节说明。"
+                                     data-time="2024-01-15 14:25"
+                                     data-size="2.3MB"
+                                     data-dimensions="1920×1080"
+                                     onclick="openPreview(this)">
+                                    <p class="text-text-primary font-medium mb-1 content-title">UI设计稿-剪贴板工具界面优化方案.png</p>
+                                    <p class="text-text-secondary text-sm">1920×1080 • 2.3 MB</p>
+                                </div>
                             </div>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="复制">
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="复制" onclick="copyContent(event)">
                                 <svg class="w-4 h-4 text-text-secondary group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                 </svg>
                             </button>
-                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="收藏">
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="收藏" onclick="toggleFavorite(event)">
                                 <svg class="w-4 h-4 text-text-secondary group-hover:text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
                                 </svg>
                             </button>
-                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="删除">
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="删除" onclick="deleteContent(event)">
+                                <svg class="w-4 h-4 text-text-secondary group-hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 长文本内容项示例 -->
+                <div class="clip-item bg-bg-secondary rounded-xl p-4 border border-border-light">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1 pr-4">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                </div>
+                                <span class="text-xs text-text-secondary bg-gray-100 px-2 py-1 rounded-full">文本</span>
+                                <span class="text-xs text-text-secondary">8 分钟前</span>
+                            </div>
+                            <div class="content-clickable"
+                                 data-type="text"
+                                 data-title="项目会议纪要 - 剪贴板工具开发计划"
+                                 data-content="会议时间：2024年1月15日 14:00-16:00
+参会人员：产品经理、UI设计师、前端开发工程师、后端开发工程师
+
+会议议题：
+1. 剪贴板工具功能需求确认
+   - 自动监听系统剪贴板变化
+   - 支持文本、图片、文件、链接等多种类型
+   - 提供搜索和分类功能
+   - 收藏功能和快捷操作
+
+2. 技术实现方案讨论
+   - 前端采用React + Tailwind CSS
+   - 使用uTools插件框架
+   - Electron clipboard API集成
+   - 本地数据存储方案
+
+3. 界面设计要求
+   - iOS/macOS风格的现代化界面
+   - 主题色#368CFF
+   - 支持浅色/深色模式切换
+   - 响应式布局设计
+
+4. 开发计划安排
+   第一阶段：基础功能开发（1-2周）
+   第二阶段：高级功能和优化（1周）
+   第三阶段：测试和发布（3-5天）
+
+5. 风险评估和解决方案
+   - 跨平台兼容性问题
+   - 性能优化方案
+   - 数据安全和隐私保护
+
+下次会议时间：2024年1月22日 15:00"
+                                 data-time="2024-01-15 14:22"
+                                 data-size="1.8KB"
+                                 onclick="openPreview(this)">
+                                <p class="text-text-primary font-medium mb-2 content-title">项目会议纪要 - 剪贴板工具开发计划</p>
+                                <p class="text-text-secondary text-sm content-preview">会议时间：2024年1月15日 14:00-16:00
+参会人员：产品经理、UI设计师、前端开发工程师、后端开发工程师...</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="复制" onclick="copyContent(event)">
+                                <svg class="w-4 h-4 text-text-secondary group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                            </button>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="收藏" onclick="toggleFavorite(event)">
+                                <svg class="w-4 h-4 text-text-secondary group-hover:text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                                </svg>
+                            </button>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="删除" onclick="deleteContent(event)">
                                 <svg class="w-4 h-4 text-text-secondary group-hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                 </svg>
@@ -517,6 +841,60 @@
                     </div>
                 </div>
 
+                <!-- 支持开发打赏 -->
+                <div class="glass-effect rounded-xl p-6">
+                    <h2 class="text-lg font-semibold text-text-primary mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                        支持开发
+                    </h2>
+                    
+                    <div class="text-center">
+                        <div class="mb-6">
+                            <h3 class="text-text-primary font-medium mb-2">如果这个工具对您有帮助</h3>
+                            <p class="text-text-secondary text-sm">您的支持是我持续优化和开发新功能的动力 ❤️</p>
+                        </div>
+                        
+                        <div class="flex justify-center space-x-8 mb-6">
+                            <!-- 支付宝 -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-3 shadow-lg cursor-pointer transition-transform hover:scale-105" onclick="showPaymentQR('alipay')">
+                                    <div class="text-center">
+                                        <svg class="w-6 h-6 text-white mx-auto mb-1" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.5 7.5c0 1.38-1.12 2.5-2.5 2.5s-2.5-1.12-2.5-2.5S12.62 7 14 7s2.5 1.12 2.5 2.5zM8 17c0-2.21 1.79-4 4-4s4 1.79 4 4H8z"/>
+                                        </svg>
+                                        <div class="text-white text-xs font-medium">支付宝</div>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-text-secondary">点击查看二维码</div>
+                            </div>
+                            
+                            <!-- 微信 -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-24 h-24 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-3 shadow-lg cursor-pointer transition-transform hover:scale-105" onclick="showPaymentQR('wechat')">
+                                    <div class="text-center">
+                                        <svg class="w-6 h-6 text-white mx-auto mb-1" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8.5 12c-.83 0-1.5-.67-1.5-1.5S7.67 9 8.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm7 0c-.83 0-1.5-.67-1.5-1.5S14.67 9 15.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-3.5 8c-5.52 0-10-4.48-10-10S6.48 0 12 0s10 4.48 10 10-4.48 10-10 10z"/>
+                                        </svg>
+                                        <div class="text-white text-xs font-medium">微信</div>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-text-secondary">点击查看二维码</div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg">
+                            <p class="text-sm text-text-secondary leading-relaxed">
+                                💡 您的每一份支持都会用于：<br>
+                                • 持续优化用户体验和性能<br>
+                                • 开发更多实用功能和特性<br>
+                                • 维护服务器运营和技术支持
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- 设置页底部 -->
@@ -528,6 +906,76 @@
                     <button class="text-sm text-text-secondary hover:text-primary transition-colors">帮助文档</button>
                     <button class="text-sm text-text-secondary hover:text-primary transition-colors">反馈建议</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 内容预览模态弹窗 -->
+    <div id="previewModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="flex-1">
+                    <h2 id="modalTitle" class="text-lg font-semibold text-text-primary mb-1"></h2>
+                    <div id="modalMeta" class="content-meta"></div>
+                </div>
+                <button class="close-btn" onclick="closePreview()">
+                    <svg class="w-6 h-6 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent" class="content-full"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn" onclick="copyModalContent()">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                    复制内容
+                </button>
+                <button class="action-btn primary" onclick="closePreview()">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 支付二维码模态弹窗 -->
+    <div id="paymentModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <div class="flex-1">
+                    <h2 id="paymentTitle" class="text-lg font-semibold text-text-primary mb-1"></h2>
+                    <p class="text-sm text-text-secondary">扫码进行打赏支持</p>
+                </div>
+                <button class="close-btn" onclick="closePaymentModal()">
+                    <svg class="w-6 h-6 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <div id="qrCodeContainer" class="mb-4">
+                    <!-- 这里放置实际的二维码图片 -->
+                    <div id="qrCodePlaceholder" class="w-48 h-48 mx-auto bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div class="text-center">
+                            <svg class="w-16 h-16 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+                            </svg>
+                            <p class="text-sm text-gray-500">请在此处放置您的<br><span id="paymentTypeName"></span>收款码</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-sm text-text-secondary">
+                    <p class="mb-2">感谢您的支持！</p>
+                    <p>任意金额都是对我们的鼓励 ❤️</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn primary w-full" onclick="closePaymentModal()">
+                    关闭
+                </button>
             </div>
         </div>
     </div>
@@ -638,7 +1086,278 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             console.log('剪贴板工具 UI 已加载');
+            initContentHandling();
         });
+
+        // 文本展开/收起功能
+        function toggleContent(btn) {
+            const contentDiv = btn.previousElementSibling;
+            const contentP = contentDiv.querySelector('.content-preview');
+            const fadeOverlay = contentDiv.querySelector('.fade-overlay');
+            const isExpanded = contentP.classList.contains('expanded');
+            
+            if (isExpanded) {
+                // 收起
+                contentP.classList.remove('expanded');
+                fadeOverlay.classList.remove('hidden');
+                btn.textContent = '展开更多';
+                contentP.textContent = contentP.getAttribute('data-full-text').substring(0, 100) + '...';
+            } else {
+                // 展开
+                contentP.classList.add('expanded');
+                fadeOverlay.classList.add('hidden');
+                btn.textContent = '收起';
+                contentP.textContent = contentP.getAttribute('data-full-text');
+            }
+        }
+
+        // 自动检测长文本并显示展开按钮
+        function initContentHandling() {
+            document.querySelectorAll('.content-preview').forEach(content => {
+                const fullText = content.getAttribute('data-full-text');
+                const previewText = content.textContent;
+                
+                // 如果完整文本比预览文本长，显示展开按钮
+                if (fullText && fullText.length > previewText.length) {
+                    const expandBtn = content.parentElement.parentElement.querySelector('.expand-btn');
+                    if (expandBtn) {
+                        expandBtn.style.display = 'inline';
+                    }
+                } else {
+                    // 隐藏展开按钮和渐变遮罩
+                    const expandBtn = content.parentElement.parentElement.querySelector('.expand-btn');
+                    const fadeOverlay = content.parentElement.querySelector('.fade-overlay');
+                    if (expandBtn) expandBtn.style.display = 'none';
+                    if (fadeOverlay) fadeOverlay.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('剪贴板工具 UI 已加载');
+            
+            // 初始化模态弹窗
+            initModal();
+            initPaymentModal();
+        });
+
+        // 模态弹窗功能
+        let currentPreviewData = null;
+
+        function initModal() {
+            const modal = document.getElementById('previewModal');
+            
+            // 点击遮罩关闭
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closePreview();
+                }
+            });
+            
+            // ESC键关闭
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closePreview();
+                }
+            });
+        }
+
+        function openPreview(element) {
+            const data = {
+                type: element.getAttribute('data-type'),
+                title: element.getAttribute('data-title'),
+                content: element.getAttribute('data-content'),
+                time: element.getAttribute('data-time'),
+                size: element.getAttribute('data-size'),
+                dimensions: element.getAttribute('data-dimensions')
+            };
+            
+            currentPreviewData = data;
+            
+            // 更新模态窗口内容
+            document.getElementById('modalTitle').textContent = data.title;
+            
+            // 更新元数据
+            let metaHTML = `
+                <div class="flex items-center space-x-4 text-sm">
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        ${data.time}
+                    </span>
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                        </svg>
+                        ${data.size}
+                    </span>
+            `;
+            
+            if (data.dimensions) {
+                metaHTML += `
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                        </svg>
+                        ${data.dimensions}
+                    </span>
+                `;
+            }
+            
+            metaHTML += '</div>';
+            document.getElementById('modalMeta').innerHTML = metaHTML;
+            
+            // 更新内容
+            if (data.type === 'image') {
+                document.getElementById('modalContent').innerHTML = `
+                    <div class="text-center">
+                        <div class="w-32 h-32 bg-gradient-to-br from-purple-400 to-pink-400 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <p class="text-text-secondary mb-4">图片预览功能</p>
+                        <div class="bg-gray-50 p-4 rounded-lg text-left">
+                            <h4 class="font-medium mb-2">图片信息</h4>
+                            <p class="text-sm text-text-secondary">${data.content}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                document.getElementById('modalContent').textContent = data.content;
+            }
+            
+            // 显示模态窗口
+            document.getElementById('previewModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePreview() {
+            document.getElementById('previewModal').classList.remove('active');
+            document.body.style.overflow = '';
+            currentPreviewData = null;
+        }
+
+        function copyModalContent() {
+            if (currentPreviewData && currentPreviewData.content) {
+                navigator.clipboard.writeText(currentPreviewData.content).then(() => {
+                    showToast('已复制到剪贴板');
+                }).catch(() => {
+                    showToast('复制失败');
+                });
+            }
+        }
+
+        // 操作按钮事件处理
+        function copyContent(event) {
+            event.stopPropagation();
+            const contentElement = event.target.closest('.clip-item').querySelector('.content-clickable');
+            const content = contentElement.getAttribute('data-content');
+            
+            navigator.clipboard.writeText(content).then(() => {
+                showToast('已复制到剪贴板');
+            }).catch(() => {
+                showToast('复制失败');
+            });
+        }
+
+        function toggleFavorite(event) {
+            event.stopPropagation();
+            const starIcon = event.target.closest('button').querySelector('svg');
+            
+            if (starIcon.getAttribute('fill') === 'currentColor') {
+                starIcon.setAttribute('fill', 'none');
+                starIcon.classList.remove('text-yellow-500');
+                starIcon.classList.add('text-text-secondary');
+                showToast('已取消收藏');
+            } else {
+                starIcon.setAttribute('fill', 'currentColor');
+                starIcon.classList.remove('text-text-secondary');
+                starIcon.classList.add('text-yellow-500');
+                showToast('已添加到收藏');
+            }
+        }
+
+        function deleteContent(event) {
+            event.stopPropagation();
+            if (confirm('确定要删除这个剪贴板记录吗？')) {
+                const item = event.target.closest('.clip-item');
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-100%)';
+                setTimeout(() => {
+                    item.remove();
+                    showToast('已删除');
+                }, 300);
+            }
+        }
+
+        // 支付二维码弹窗功能
+        function showPaymentQR(type) {
+            const modal = document.getElementById('paymentModal');
+            const title = document.getElementById('paymentTitle');
+            const typeName = document.getElementById('paymentTypeName');
+            const placeholder = document.getElementById('qrCodePlaceholder');
+            
+            if (type === 'alipay') {
+                title.textContent = '支付宝打赏';
+                typeName.textContent = '支付宝';
+                placeholder.innerHTML = `
+                    <div class="text-center">
+                        <div class="w-32 h-32 bg-blue-500 rounded-lg flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.5 7.5c0 1.38-1.12 2.5-2.5 2.5s-2.5-1.12-2.5-2.5S12.62 7 14 7s2.5 1.12 2.5 2.5zM8 17c0-2.21 1.79-4 4-4s4 1.79 4 4H8z"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm text-gray-500">请将您的支付宝收款码<br>替换到这个位置</p>
+                        <p class="text-xs text-gray-400 mt-2">建议尺寸: 300x300px</p>
+                    </div>
+                `;
+            } else if (type === 'wechat') {
+                title.textContent = '微信打赏';
+                typeName.textContent = '微信';
+                placeholder.innerHTML = `
+                    <div class="text-center">
+                        <div class="w-32 h-32 bg-green-500 rounded-lg flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8.5 12c-.83 0-1.5-.67-1.5-1.5S7.67 9 8.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm7 0c-.83 0-1.5-.67-1.5-1.5S14.67 9 15.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-3.5 8c-5.52 0-10-4.48-10-10S6.48 0 12 0s10 4.48 10 10-4.48 10-10 10z"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm text-gray-500">请将您的微信收款码<br>替换到这个位置</p>
+                        <p class="text-xs text-gray-400 mt-2">建议尺寸: 300x300px</p>
+                    </div>
+                `;
+            }
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePaymentModal() {
+            const modal = document.getElementById('paymentModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // 初始化支付弹窗事件
+        function initPaymentModal() {
+            const paymentModal = document.getElementById('paymentModal');
+            
+            // 点击遮罩关闭
+            paymentModal.addEventListener('click', (e) => {
+                if (e.target === paymentModal) {
+                    closePaymentModal();
+                }
+            });
+            
+            // ESC键关闭支付弹窗
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && paymentModal.classList.contains('active')) {
+                    closePaymentModal();
+                }
+            });
+        }
+
     </script>
 </body>
 </html>

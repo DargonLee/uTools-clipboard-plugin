@@ -3,6 +3,17 @@ const path = require("node:path");
 // const crypto = require("crypto");
 const { clipboard, nativeImage } = require("electron");
 
+function simpleHash(str) {
+  let hash = 0;
+  if (str.length === 0) return hash.toString();
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  return Math.abs(hash).toString(36);
+}
+
 const DOWNLOADS_PATH = window.utools.getPath("downloads");
 const CLIPBOARD_DB_PREFIX = "easy_clipboard/";
 const POLL_INTERVAL_MS = 500;

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClipBoard Pro - 剪贴板管理工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #368CFF;
+            --card-bg: #FFFFFF;
+            --bg-color: #F5F7FA;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6C6C6C;
+            --border-color: #E0E0E0;
+            --hover-bg: #F0F5FF;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            --active-tab: rgba(54, 140, 255, 0.1);
+            --tag-text: #5F6368;
+            --tag-bg: rgba(95, 99, 104, 0.1);
+            --tag-file: #4CAF50;
+            --tag-link: #9C27B0;
+            --tag-image: #FF9800;
+            --tag-text: #2196F3;
+        }
+
+        [data-theme="dark"] {
+            --card-bg: #1E1E1E;
+            --bg-color: #121212;
+            --text-primary: #E0E0E0;
+            --text-secondary: #A0A0A0;
+            --border-color: #333333;
+            --hover-bg: #2A2A2A;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+            --active-tab: rgba(54, 140, 255, 0.2);
+            --tag-bg: rgba(200, 200, 200, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* 顶部导航 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .app-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .app-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #368CFF, #6AB1FF);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-btn {
+            background: none;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: background-color 0.2s;
+            position: relative;
+        }
+
+        .header-btn:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .tooltip {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .header-btn:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* 搜索栏 */
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            font-size: 16px;
+            color: var(--text-primary);
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(54, 140, 255, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        /* 分类标签 */
+        .category-tabs {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 20px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 4px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 12px;
+            color: var(--text-secondary);
+            background-color: transparent;
+            border: none;
+        }
+
+        .tab:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .tab.active {
+            background-color: var(--active-tab);
+            color: var(--primary-color);
+        }
+
+        .tab-icon {
+            font-size: 18px;
+        }
+
+        /* 内容卡片 */
+        .content-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .card:hover, .card.selected {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background-color: var(--tag-bg);
+            color: var(--tag-text);
+        }
+
+        .tag-text { color: var(--tag-text); }
+        .tag-image { color: var(--tag-image); }
+        .tag-link { color: var(--tag-link); }
+        .tag-file { color: var(--tag-file); }
+
+        .time {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .card-content {
+            margin-bottom: 15px;
+        }
+
+        .text-content {
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--text-primary);
+            max-height: 3em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .image-content {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .image-thumb {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background-color: var(--hover-bg);
+            border-radius: 8px;
+        }
+
+        .favicon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .link-text {
+            flex: 1;
+            font-size: 15px;
+            color: var(--primary-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            font-size: 24px;
+            color: var(--tag-file);
+        }
+
+        .file-name {
+            flex: 1;
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: var(--hover-bg);
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .action-btn.favorite.active {
+            color: #FFC107;
+        }
+
+        /* 底部信息 */
+        .footer-info {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-secondary);
+            padding: 15px 0;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            color: var(--text-secondary);
+            opacity: 0.3;
+        }
+
+        .empty-text {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 300px;
+        }
+
+        /* 主题切换 */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(54, 140, 255, 0.3);
+            border: none;
+            font-size: 20px;
+            z-index: 100;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .category-tabs {
+                gap: 1px;
+            }
+            
+            .tab {
+                min-width: 70px;
+                padding: 8px 3px;
+                font-size: 11px;
+            }
+            
+            .tab-icon {
+                font-size: 16px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部导航 -->
+        <div class="header">
+            <div class="app-title">
+                <div class="app-icon">
+                    <i class="fas fa-clipboard"></i>
+                </div>
+                <span>ClipBoard Pro</span>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="tooltip">通知</span>
+                </button>
+                <button class="header-btn">
+                    <i class="fas fa-cog"></i>
+                    <span class="tooltip">设置</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 搜索栏 -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="搜索剪贴板内容...">
+        </div>
+        
+        <!-- 分类标签 -->
+        <div class="category-tabs">
+            <button class="tab active">
+                <i class="fas fa-list tab-icon"></i>
+                <span>全部</span>
+            </button>
+            <button class="tab">
+                <i class="fas fa-font tab-icon"></i>
+                <span>文本</span>
+            </button>
+            <button class="tab">
+                <i class="fas fa-image tab-icon"></i>
+                <span>图片</span>
+            </button>
+            <button class="tab">
+                <i class="fas fa-file tab-icon"></i>
+                <span>文件</span>
+            </button>
+            <button class="tab">
+                <i class="fas fa-link tab-icon"></i>
+                <span>链接</span>
+            </button>
+            <button class="tab">
+                <i class="fas fa-star tab-icon"></i>
+                <span>收藏</span>
+            </button>
+        </div>
+        
+        <!-- 内容列表 -->
+        <div class="content-list">
+            <!-- 文本卡片 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="tag tag-text">
+                        <i class="fas fa-font"></i>
+                        <span>文本</span>
+                    </div>
+                    <div class="time">10:24 上午</div>
+                </div>
+                <div class="card-content">
+                    <div class="text-content">
+                        这是一个文本示例，展示了剪贴板工具如何处理较长的文本内容。当文本超过两行时，会自动显示省略号。用户可以通过点击展开查看完整内容。
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="action-btn copy">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button class="action-btn favorite active">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button class="action-btn delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 图片卡片 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="tag tag-image">
+                        <i class="fas fa-image"></i>
+                        <span>图片</span>
+                    </div>
+                    <div class="time">昨天 3:45 下午</div>
+                </div>
+                <div class="card-content">
+                    <div class="image-content">
+                        <img src="https://via.placeholder.com/300x150/FF9800/FFFFFF?text=图片预览" alt="图片预览" class="image-thumb">
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="action-btn copy">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button class="action-btn favorite">
+                        <i class="far fa-star"></i>
+                    </button>
+                    <button class="action-btn delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 链接卡片 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="tag tag-link">
+                        <i class="fas fa-link"></i>
+                        <span>链接</span>
+                    </div>
+                    <div class="time">昨天 2:30 下午</div>
+                </div>
+                <div class="card-content">
+                    <div class="link-content">
+                        <img src="https://via.placeholder.com/20/9C27B0/FFFFFF?text=F" class="favicon">
+                        <div class="link-text">https://www.example.com/this-is-a-very-long-url-that-will-be-truncated</div>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="action-btn copy">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button class="action-btn favorite">
+                        <i class="far fa-star"></i>
+                    </button>
+                    <button class="action-btn delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 文件卡片 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="tag tag-file">
+                        <i class="fas fa-file"></i>
+                        <span>文件</span>
+                    </div>
+                    <div class="time">2023年10月5日</div>
+                </div>
+                <div class="card-content">
+                    <div class="file-content">
+                        <i class="fas fa-file-pdf file-icon"></i>
+                        <div class="file-name">项目设计文档-最终版-修改版-v2.1-final-真正最终版.pdf</div>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="action-btn copy">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button class="action-btn favorite">
+                        <i class="far fa-star"></i>
+                    </button>
+                    <button class="action-btn delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 代码文本卡片 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="tag tag-text">
+                        <i class="fas fa-code"></i>
+                        <span>代码</span>
+                    </div>
+                    <div class="time">2023年10月4日</div>
+                </div>
+                <div class="card-content">
+                    <div class="text-content">
+                        function helloWorld() { console.log("Hello, world!"); } // 这是一个JavaScript函数示例
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="action-btn copy">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button class="action-btn favorite">
+                        <i class="far fa-star"></i>
+                    </button>
+                    <button class="action-btn delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部信息 -->
+        <div class="footer-info">
+            仅展示最近 20 条记录
+        </div>
+    </div>
+    
+    <!-- 主题切换按钮 -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // 检查本地存储中的主题设置
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+        
+        // 分类标签切换
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+        
+        // 卡片悬停效果
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                cards.forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+            });
+        });
+        
+        // 收藏按钮切换
+        const favButtons = document.querySelectorAll('.action-btn.favorite');
+        favButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                btn.classList.toggle('active');
+                const icon = btn.querySelector('i');
+                if (btn.classList.contains('active')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

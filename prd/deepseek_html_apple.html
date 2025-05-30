@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClipBoard Pro - Apple风格剪贴板工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        :root {
+            --system-blue: #007AFF;
+            --system-green: #34C759;
+            --system-indigo: #5856D6;
+            --system-orange: #FF9500;
+            --system-pink: #FF2D55;
+            --system-purple: #AF52DE;
+            --system-red: #FF3B30;
+            --system-teal: #5AC8FA;
+            --system-yellow: #FFCC00;
+            
+            --label-primary: #000000;
+            --label-secondary: #8E8E93;
+            --label-tertiary: #AEAEB2;
+            --label-quaternary: #C7C7CC;
+            
+            --system-background: #F2F2F7;
+            --secondary-system-background: #FFFFFF;
+            --tertiary-system-background: #F2F2F7;
+            
+            --system-grouped-background: #F2F2F7;
+            --secondary-grouped-background: #FFFFFF;
+            --tertiary-grouped-background: #F2F2F7;
+            
+            --separator: #C6C6C8;
+            --opaque-separator: #C6C6C8;
+            
+            --card-corner-radius: 14px;
+            --control-corner-radius: 8px;
+            
+            --card-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            --menu-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            
+            --blur-bg: rgba(242, 242, 247, 0.8);
+        }
+
+        [data-theme="dark"] {
+            --label-primary: #FFFFFF;
+            --label-secondary: #8E8E93;
+            --label-tertiary: #636366;
+            --label-quaternary: #3A3A3C;
+            
+            --system-background: #000000;
+            --secondary-system-background: #1C1C1E;
+            --tertiary-system-background: #2C2C2E;
+            
+            --system-grouped-background: #000000;
+            --secondary-grouped-background: #1C1C1E;
+            --tertiary-grouped-background: #2C2C2E;
+            
+            --separator: #38383A;
+            --opaque-separator: #38383A;
+            
+            --card-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            --menu-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            
+            --blur-bg: rgba(28, 28, 30, 0.8);
+        }
+
+        body {
+            background-color: var(--system-background);
+            color: var(--label-primary);
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+            padding: 0;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 顶部导航 - Apple风格 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .app-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .app-icon {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, var(--system-blue), #5AC8FA);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.15);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .header-btn {
+            background: none;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--label-primary);
+            transition: background-color 0.2s;
+            position: relative;
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        .header-btn:hover {
+            background-color: rgba(0,0,0,0.06);
+        }
+
+        [data-theme="dark"] .header-btn {
+            background-color: rgba(255,255,255,0.06);
+        }
+
+        [data-theme="dark"] .header-btn:hover {
+            background-color: rgba(255,255,255,0.12);
+        }
+
+        .tooltip {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .header-btn:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* 搜索栏 - Apple风格 */
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+            z-index: 10;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px 14px 50px;
+            border-radius: 10px;
+            border: none;
+            background-color: var(--secondary-system-background);
+            font-size: 17px;
+            color: var(--label-primary);
+            transition: all 0.3s;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: var(--blur-bg);
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--system-blue), var(--card-shadow);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--label-tertiary);
+            font-size: 18px;
+        }
+
+        /* 分类标签 - Apple风格 */
+        .category-tabs {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 20px;
+            background-color: var(--secondary-system-background);
+            border-radius: var(--card-corner-radius);
+            padding: 6px;
+            box-shadow: var(--card-shadow);
+            overflow-x: auto;
+            scrollbar-width: none;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: var(--blur-bg);
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            flex: 1;
+            min-width: 80px;
+            padding: 10px 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+            color: var(--label-secondary);
+            background-color: transparent;
+            border: none;
+        }
+
+        .tab:hover {
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        [data-theme="dark"] .tab:hover {
+            background-color: rgba(255,255,255,0.06);
+        }
+
+        .tab.active {
+            background-color: rgba(0, 122, 255, 0.1);
+            color: var(--system-blue);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+        }
+
+        /* 内容容器 */
+        .content-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            border-radius: var(--card-corner-radius);
+            background-color: var(--secondary-system-background);
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: var(--blur-bg);
+        }
+        
+        /* 内容列表 */
+        .content-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            padding: 0;
+        }
+
+        /* 滚动条样式 */
+        .content-list::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .content-list::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 10px;
+        }
+        
+        .content-list::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 122, 255, 0.3);
+            border-radius: 10px;
+        }
+        
+        .content-list::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(0, 122, 255, 0.5);
+        }
+
+        /* 卡片样式 - Apple风格 */
+        .card {
+            background-color: var(--secondary-system-background);
+            padding: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--separator);
+        }
+
+        .card:first-child {
+            border-top-left-radius: var(--card-corner-radius);
+            border-top-right-radius: var(--card-corner-radius);
+        }
+
+        .card:last-child {
+            border-bottom-left-radius: var(--card-corner-radius);
+            border-bottom-right-radius: var(--card-corner-radius);
+            border-bottom: none;
+        }
+
+        .card:hover, .card.selected {
+            background-color: var(--tertiary-system-background);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            background-color: rgba(0, 122, 255, 0.1);
+            color: var(--system-blue);
+        }
+
+        .tag-text { 
+            background-color: rgba(0, 122, 255, 0.1);
+            color: var(--system-blue);
+        }
+        .tag-image { 
+            background-color: rgba(255, 149, 0, 0.1);
+            color: var(--system-orange);
+        }
+        .tag-link { 
+            background-color: rgba(88, 86, 214, 0.1);
+            color: var(--system-indigo);
+        }
+        .tag-file { 
+            background-color: rgba(52, 199, 89, 0.1);
+            color: var(--system-green);
+        }
+
+        .time {
+            font-size: 13px;
+            color: var(--label-tertiary);
+        }
+
+        .card-content {
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .text-content {
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--label-primary);
+            max-height: 3em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .image-content {
+            display: flex;
+            justify-content: center;
+            margin: 8px 0;
+            position: relative;
+        }
+
+        .image-thumb {
+            max-width: 100%;
+            max-height: 140px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background-color: rgba(0,0,0,0.03);
+            border-radius: 8px;
+        }
+
+        [data-theme="dark"] .link-content {
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        .favicon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .link-text {
+            flex: 1;
+            font-size: 16px;
+            color: var(--system-blue);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            font-size: 24px;
+            color: var(--system-green);
+        }
+
+        .file-name {
+            flex: 1;
+            font-size: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--label-tertiary);
+            transition: all 0.2s;
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        [data-theme="dark"] .action-btn {
+            background-color: rgba(255,255,255,0.08);
+        }
+
+        .action-btn:hover {
+            background-color: rgba(0,0,0,0.06);
+            color: var(--label-primary);
+        }
+
+        [data-theme="dark"] .action-btn:hover {
+            background-color: rgba(255,255,255,0.12);
+        }
+
+        .action-btn.favorite.active {
+            color: #FFCC00;
+            background-color: rgba(255, 204, 0, 0.1);
+        }
+
+        /* 底部信息 */
+        .footer-info {
+            text-align: center;
+            padding: 16px;
+            font-size: 13px;
+            color: var(--label-tertiary);
+            border-top: 1px solid var(--separator);
+            background-color: var(--secondary-system-background);
+            border-bottom-left-radius: var(--card-corner-radius);
+            border-bottom-right-radius: var(--card-corner-radius);
+        }
+
+        /* 主题切换 */
+        .theme-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background-color: var(--system-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.25);
+            border: none;
+            font-size: 22px;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(0, 122, 255, 0.9);
+        }
+
+        /* 设置页面 */
+        .settings-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--system-background);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .settings-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-top: 10px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--label-primary);
+            transition: background-color 0.2s;
+            margin-right: 15px;
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        [data-theme="dark"] .back-btn {
+            background-color: rgba(255,255,255,0.08);
+        }
+
+        .back-btn:hover {
+            background-color: rgba(0,0,0,0.06);
+        }
+
+        [data-theme="dark"] .back-btn:hover {
+            background-color: rgba(255,255,255,0.12);
+        }
+
+        .settings-title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .settings-section {
+            background-color: var(--secondary-system-background);
+            border-radius: var(--card-corner-radius);
+            margin-bottom: 24px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 18px 16px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--label-primary);
+            border-bottom: 1px solid var(--separator);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--separator);
+            transition: background-color 0.2s;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-item:hover {
+            background-color: var(--tertiary-system-background);
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+            font-size: 17px;
+        }
+
+        .item-desc {
+            font-size: 15px;
+            color: var(--label-secondary);
+        }
+
+        /* Apple风格开关 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 32px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #E9E9EA;
+            transition: .4s;
+            border-radius: 16px;
+        }
+
+        [data-theme="dark"] .slider {
+            background-color: #3A3A3C;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 28px;
+            width: 28px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        input:checked + .slider {
+            background-color: var(--system-green);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .category-tabs {
+                gap: 1px;
+            }
+            
+            .tab {
+                min-width: 70px;
+                padding: 8px 3px;
+                font-size: 12px;
+            }
+            
+            .tab-icon {
+                font-size: 18px;
+            }
+            
+            .card {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 主界面 -->
+    <div class="container">
+        <!-- 顶部导航 -->
+        <div class="header">
+            <div class="app-title">
+                <div class="app-icon">
+                    <i class="fas fa-clipboard"></i>
+                </div>
+                <span>剪贴板工具</span>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="tooltip">通知</span>
+                </button>
+                <button class="header-btn" id="settingsBtn">
+                    <i class="fas fa-cog"></i>
+                    <span class="tooltip">设置</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 搜索栏 -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="搜索剪贴板内容">
+        </div>
+        
+        <!-- 分类标签 -->
+        <div class="category-tabs">
+            <button class="tab active">
+                <i class="fas fa-list tab-icon"></i>
+                <span>全部</span>
+            </button>
+            <button class="tab">
+                <i class="fas fa-font tab-icon"></i>
+                <span>文本</span>
+            </button>
+            <button class="tab">
+                <i class="fas fa-image tab-icon"></i>
+                <span>图片</span>
+            </button>
+            <button class="tab">
+                <i class="fas fa-file tab-icon"></i>
+                <span>文件</span>
+            </button>
+            <button class="tab">
+                <i class="fas fa-link tab-icon"></i>
+                <span>链接</span>
+            </button>
+            <button class="tab">
+                <i class="fas fa-star tab-icon"></i>
+                <span>收藏</span>
+            </button>
+        </div>
+        
+        <!-- 内容容器 -->
+        <div class="content-container">
+            <!-- 内容列表 -->
+            <div class="content-list" id="contentList">
+                <!-- 文本卡片 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="tag tag-text">
+                            <i class="fas fa-font"></i>
+                            <span>文本</span>
+                        </div>
+                        <div class="time">10:24 上午</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="text-content">
+                            这是一个文本示例，展示了剪贴板工具如何处理较长的文本内容。当文本超过两行时，会自动显示省略号。
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn copy">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="action-btn favorite active">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <button class="action-btn delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 图片卡片 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="tag tag-image">
+                            <i class="fas fa-image"></i>
+                            <span>图片</span>
+                        </div>
+                        <div class="time">昨天 3:45 下午</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="image-content">
+                            <img src="https://images.unsplash.com/photo-1543857778-c4a1a569e7bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="图片预览" class="image-thumb">
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn copy">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="action-btn favorite">
+                            <i class="far fa-star"></i>
+                        </button>
+                        <button class="action-btn delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 链接卡片 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="tag tag-link">
+                            <i class="fas fa-link"></i>
+                            <span>链接</span>
+                        </div>
+                        <div class="time">昨天 2:30 下午</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="link-content">
+                            <img src="https://www.google.com/favicon.ico" class="favicon">
+                            <div class="link-text">https://www.google.com/search?q=apple+design+system</div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn copy">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="action-btn favorite">
+                            <i class="far fa-star"></i>
+                        </button>
+                        <button class="action-btn delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 文件卡片 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="tag tag-file">
+                            <i class="fas fa-file"></i>
+                            <span>文件</span>
+                        </div>
+                        <div class="time">2023年10月5日</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="file-content">
+                            <i class="fas fa-file-pdf file-icon"></i>
+                            <div class="file-name">Apple设计指南.pdf</div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn copy">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="action-btn favorite">
+                            <i class="far fa-star"></i>
+                        </button>
+                        <button class="action-btn delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 代码文本卡片 -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="tag tag-text">
+                            <i class="fas fa-code"></i>
+                            <span>代码</span>
+                        </div>
+                        <div class="time">2023年10月4日</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="text-content">
+                            function helloWorld() { console.log("Hello, world!"); } // 这是一个JavaScript函数示例
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn copy">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="action-btn favorite">
+                            <i class="far fa-star"></i>
+                        </button>
+                        <button class="action-btn delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 底部信息 -->
+            <div class="footer-info">
+                仅展示最近 20 条记录
+            </div>
+        </div>
+    </div>
+    
+    <!-- 设置页面 -->
+    <div class="settings-container" id="settingsPage">
+        <div class="settings-header">
+            <button class="back-btn" id="backBtn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="settings-title">设置</h1>
+        </div>
+
+        <!-- 常规设置 -->
+        <div class="settings-section">
+            <div class="section-header">常规设置</div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">开机自启动</div>
+                    <div class="item-desc">应用在系统启动时自动运行</div>
+                </div>
+                <div class="item-controls">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">历史记录保存</div>
+                    <div class="item-desc">剪贴板历史记录保存天数</div>
+                </div>
+                <div class="item-controls">
+                    <select>
+                        <option>7天</option>
+                        <option selected>30天</option>
+                        <option>90天</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">最大记录数量</div>
+                    <div class="item-desc">最多保存的剪贴板项目数量</div>
+                </div>
+                <div class="item-controls">
+                    <select>
+                        <option>100条</option>
+                        <option selected>200条</option>
+                        <option>500条</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 界面设置 -->
+        <div class="settings-section">
+            <div class="section-header">界面设置</div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">深色模式</div>
+                    <div class="item-desc">启用深色主题界面</div>
+                </div>
+                <div class="item-controls">
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">字体大小</div>
+                    <div class="item-desc">调整应用界面字体大小</div>
+                </div>
+                <div class="item-controls">
+                    <select>
+                        <option>小</option>
+                        <option selected>中</option>
+                        <option>大</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 数据管理 -->
+        <div class="settings-section">
+            <div class="section-header">数据管理</div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">自动备份</div>
+                    <div class="item-desc">每天自动备份剪贴板数据</div>
+                </div>
+                <div class="item-controls">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">备份数据</div>
+                    <div class="item-desc">创建当前数据的备份文件</div>
+                </div>
+                <div class="item-controls">
+                    <button class="btn">立即备份</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 主题切换按钮 -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        
+        // 检查本地存储中的主题设置
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            if(darkModeToggle) darkModeToggle.checked = true;
+        }
+        
+        // 主题切换按钮
+        themeToggle.addEventListener('click', () => {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                if(darkModeToggle) darkModeToggle.checked = false;
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                if(darkModeToggle) darkModeToggle.checked = true;
+            }
+        });
+        
+        // 深色模式切换
+        if(darkModeToggle) {
+            darkModeToggle.addEventListener('change', () => {
+                if (darkModeToggle.checked) {
+                    body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    body.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            });
+        }
+        
+        // 设置页面切换
+        const settingsBtn = document.getElementById('settingsBtn');
+        const backBtn = document.getElementById('backBtn');
+        const settingsPage = document.getElementById('settingsPage');
+        
+        settingsBtn.addEventListener('click', () => {
+            settingsPage.style.display = 'block';
+        });
+        
+        backBtn.addEventListener('click', () => {
+            settingsPage.style.display = 'none';
+        });
+        
+        // 卡片交互
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                cards.forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+            });
+        });
+        
+        // 收藏按钮切换
+        const favButtons = document.querySelectorAll('.action-btn.favorite');
+        favButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                btn.classList.toggle('active');
+                const icon = btn.querySelector('i');
+                if (btn.classList.contains('active')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                }
+            });
+        });
+        
+        // 分类标签切换
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

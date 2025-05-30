@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClipBoard Pro - 设置</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #368CFF;
+            --card-bg: #FFFFFF;
+            --bg-color: #F5F7FA;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6C6C6C;
+            --border-color: #E0E0E0;
+            --hover-bg: #F0F5FF;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            --active-tab: rgba(54, 140, 255, 0.1);
+            --tag-text: #5F6368;
+            --tag-bg: rgba(95, 99, 104, 0.1);
+            --tag-file: #4CAF50;
+            --tag-link: #9C27B0;
+            --tag-image: #FF9800;
+            --tag-text: #2196F3;
+            --preview-hint: rgba(54, 140, 255, 0.1);
+            --section-bg: rgba(245, 247, 250, 0.8);
+        }
+
+        [data-theme="dark"] {
+            --card-bg: #1E1E1E;
+            --bg-color: #121212;
+            --text-primary: #E0E0E0;
+            --text-secondary: #A0A0A0;
+            --border-color: #333333;
+            --hover-bg: #2A2A2A;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+            --active-tab: rgba(54, 140, 255, 0.2);
+            --tag-bg: rgba(200, 200, 200, 0.1);
+            --preview-hint: rgba(54, 140, 255, 0.2);
+            --section-bg: rgba(30, 30, 30, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* 容器 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 顶部导航 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .app-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .app-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #368CFF, #6AB1FF);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-btn {
+            background: none;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: background-color 0.2s;
+            position: relative;
+        }
+
+        .header-btn:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .tooltip {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .header-btn:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* 设置页面容器 */
+        .settings-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .settings-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: background-color 0.2s;
+            margin-right: 15px;
+        }
+
+        .back-btn:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .settings-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        /* 设置部分 */
+        .settings-section {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 36px;
+            height: 36px;
+            background-color: var(--hover-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* 设置项 */
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .item-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            max-width: 80%;
+        }
+
+        /* 开关样式 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* 按钮样式 */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2a7ae0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(54, 140, 255, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .btn-danger {
+            background-color: #ff4d4f;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #e04345;
+        }
+
+        /* 选择框 */
+        select {
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 14px;
+            width: 120px;
+        }
+
+        /* 快捷键展示 */
+        .key-shortcut {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px 8px;
+            background-color: var(--hover-bg);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0 4px;
+            min-width: 24px;
+            height: 24px;
+        }
+
+        /* 主题切换 */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(54, 140, 255, 0.3);
+            border: none;
+            font-size: 20px;
+            z-index: 100;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .settings-container {
+                padding: 15px;
+            }
+            
+            .settings-section {
+                padding: 20px;
+            }
+            
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .item-controls {
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部导航 -->
+        <div class="header">
+            <div class="app-title">
+                <div class="app-icon">
+                    <i class="fas fa-clipboard"></i>
+                </div>
+                <span>ClipBoard Pro</span>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="tooltip">通知</span>
+                </button>
+                <button class="header-btn">
+                    <i class="fas fa-cog"></i>
+                    <span class="tooltip">设置</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置页面 -->
+    <div class="settings-container">
+        <div class="settings-header">
+            <button class="back-btn" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="settings-title">设置</h1>
+        </div>
+
+        <!-- 常规设置 -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <h2 class="section-title">常规设置</h2>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-power-off"></i>
+                        开机自启动
+                    </div>
+                    <div class="item-desc">应用在系统启动时自动运行</div>
+                </div>
+                <div class="item-controls">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-history"></i>
+                        历史记录保存
+                    </div>
+                    <div class="item-desc">剪贴板历史记录保存天数</div>
+                </div>
+                <div class="item-controls">
+                    <select>
+                        <option>7天</option>
+                        <option selected>30天</option>
+                        <option>90天</option>
+                        <option>永久保存</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-database"></i>
+                        最大记录数量
+                    </div>
+                    <div class="item-desc">最多保存的剪贴板项目数量</div>
+                </div>
+                <div class="item-controls">
+                    <select>
+                        <option>50条</option>
+                        <option>100条</option>
+                        <option selected>200条</option>
+                        <option>500条</option>
+                        <option>1000条</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-bell"></i>
+                        桌面通知
+                    </div>
+                    <div class="item-desc">当复制重要内容时显示通知</div>
+                </div>
+                <div class="item-controls">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 界面设置 -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h2 class="section-title">界面设置</h2>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-moon"></i>
+                        深色模式
+                    </div>
+                    <div class="item-desc">启用深色主题界面</div>
+                </div>
+                <div class="item-controls">
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-font"></i>
+                        字体大小
+                    </div>
+                    <div class="item-desc">调整应用界面字体大小</div>
+                </div>
+                <div class="item-controls">
+                    <select>
+                        <option>小</option>
+                        <option selected>中</option>
+                        <option>大</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-border-all"></i>
+                        卡片圆角
+                    </div>
+                    <div class="item-desc">调整卡片圆角大小</div>
+                </div>
+                <div class="item-controls">
+                    <select>
+                        <option>小圆角</option>
+                        <option selected>中圆角</option>
+                        <option>大圆角</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 快捷键设置 -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-keyboard"></i>
+                </div>
+                <h2 class="section-title">快捷键设置</h2>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-clone"></i>
+                        复制选中项
+                    </div>
+                    <div class="item-desc">将选中的剪贴板内容复制到系统剪贴板</div>
+                </div>
+                <div class="item-controls">
+                    <div class="key-shortcut">Enter</div>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-star"></i>
+                        收藏/取消收藏
+                    </div>
+                    <div class="item-desc">将选中项添加到收藏或从收藏中移除</div>
+                </div>
+                <div class="item-controls">
+                    <div class="key-shortcut">⌘</div>
+                    <div class="key-shortcut">L</div>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-trash-alt"></i>
+                        删除选中项
+                    </div>
+                    <div class="item-desc">删除选中的剪贴板项目</div>
+                </div>
+                <div class="item-controls">
+                    <div class="key-shortcut">⌘</div>
+                    <div class="key-shortcut">⌫</div>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-search"></i>
+                        搜索内容
+                    </div>
+                    <div class="item-desc">聚焦到搜索框</div>
+                </div>
+                <div class="item-controls">
+                    <div class="key-shortcut">⌘</div>
+                    <div class="key-shortcut">F</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 数据管理 -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h2 class="section-title">数据管理</h2>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-sync-alt"></i>
+                        自动备份
+                    </div>
+                    <div class="item-desc">每天自动备份剪贴板数据</div>
+                </div>
+                <div class="item-controls">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        备份数据
+                    </div>
+                    <div class="item-desc">创建当前数据的备份文件</div>
+                </div>
+                <div class="item-controls">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-file-export"></i> 立即备份
+                    </button>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-cloud-download-alt"></i>
+                        恢复数据
+                    </div>
+                    <div class="item-desc">从备份文件恢复数据</div>
+                </div>
+                <div class="item-controls">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-file-import"></i> 恢复备份
+                    </button>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-trash"></i>
+                        清除所有数据
+                    </div>
+                    <div class="item-desc">删除所有剪贴板历史记录和设置</div>
+                </div>
+                <div class="item-controls">
+                    <button class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> 清除数据
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 关于应用 -->
+        <div class="settings-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <h2 class="section-title">关于应用</h2>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-box"></i>
+                        版本信息
+                    </div>
+                    <div class="item-desc">当前版本：v2.1.0 (Build 20231015)</div>
+                </div>
+                <div class="item-controls">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-sync-alt"></i> 检查更新
+                    </button>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-code"></i>
+                        开源许可
+                    </div>
+                    <div class="item-desc">查看应用使用的开源协议</div>
+                </div>
+                <div class="item-controls">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-file-alt"></i> 查看协议
+                    </button>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-book"></i>
+                        帮助文档
+                    </div>
+                    <div class="item-desc">查看使用指南和常见问题</div>
+                </div>
+                <div class="item-controls">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-book-open"></i> 打开文档
+                    </button>
+                </div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="item-info">
+                    <div class="item-title">
+                        <i class="fas fa-heart"></i>
+                        支持我们
+                    </div>
+                    <div class="item-desc">帮助我们改进产品</div>
+                </div>
+                <div class="item-controls">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-coffee"></i> 捐赠
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 主题切换按钮 -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        
+        // 检查本地存储中的主题设置
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            if(darkModeToggle) darkModeToggle.checked = true;
+        }
+        
+        // 主题切换按钮
+        themeToggle.addEventListener('click', () => {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                if(darkModeToggle) darkModeToggle.checked = false;
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                if(darkModeToggle) darkModeToggle.checked = true;
+            }
+        });
+        
+        // 深色模式切换
+        if(darkModeToggle) {
+            darkModeToggle.addEventListener('change', () => {
+                if (darkModeToggle.checked) {
+                    body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    body.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            });
+        }
+        
+        // 清除数据确认
+        const clearDataBtn = document.querySelector('.btn-danger');
+        if(clearDataBtn) {
+            clearDataBtn.addEventListener('click', () => {
+                if(confirm('确定要清除所有剪贴板数据吗？此操作不可撤销！')) {
+                    alert('所有数据已清除！');
+                }
+            });
+        }
+        
+        // 模拟切换效果
+        document.querySelectorAll('.switch input').forEach(sw => {
+            if(!sw.id) {
+                sw.addEventListener('change', function() {
+                    if(this.checked) {
+                        this.parentNode.classList.add('active');
+                    } else {
+                        this.parentNode.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

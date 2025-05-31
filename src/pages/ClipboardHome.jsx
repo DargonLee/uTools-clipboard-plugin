@@ -78,6 +78,17 @@ class ClipboardHome extends React.Component {
                 }}
               >删除</button>
               <button
+                className="ml-2 px-2 py-1 bg-blue-500 text-white rounded text-xs"
+                onClick={async () => {
+                  console.log('复制', item.type, item.content)
+                  if (item.type === 'image') {
+                    await window.AppClipboard.clipboardService.writeClipboardImage(item.content);
+                  } else {
+                    await window.AppClipboard.clipboardService.writeClipboardText(item.content);
+                  }
+                }}
+              >复制</button>
+              <button
                 className={`ml-2 px-2 py-1 rounded text-xs ${item.favorite ? 'bg-yellow-400 text-black' : 'bg-gray-300 text-gray-700'}`}
                 onClick={async () => {
                   await window.AppClipboard.clipboardService.updateFavorite(item._id, !item.favorite)

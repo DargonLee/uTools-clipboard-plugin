@@ -70,7 +70,13 @@ const fileService = {
     const base64Data = base64Url.substring(match[0].length);
     fs.writeFileSync(filePath, base64Data, { encoding: "base64" });
     return filePath;
-  },
+  }
+};
+
+const clipboardService = {
+  _clipboardListeners: [],
+  _lastHash: "",
+  _pollingTimer: null,
 
   /**
    * 写入文本到系统剪贴板
@@ -87,14 +93,7 @@ const fileService = {
   writeClipboardImage(base64Url) {
     const image = nativeImage.createFromDataURL(base64Url);
     clipboard.writeImage(image);
-  }
-};
-
-const clipboardService = {
-  _clipboardListeners: [],
-  _lastHash: "",
-  _pollingTimer: null,
-
+  },
   /**
    * 获取所有剪贴板历史记录，按时间倒序
    * @returns {Promise<Array>} 剪贴板历史数组

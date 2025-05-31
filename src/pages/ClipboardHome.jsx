@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { FaFileAlt, FaLink, FaFile, FaSearch, FaImage, FaStar, FaClock } from 'react-icons/fa';
 import TextCard from '../components/TextCard';
 import FilterBar from '../components/FilterBar';
+import ContentState from '../components/ContentState';
 import { formatTime } from '../utils/TimeUtils';
 import { truncateText } from '../utils/TextUtils';
 
@@ -327,39 +328,15 @@ class ClipboardHome extends React.Component {
             onClearAll={this.handleClearAll}
           />
 
-          {/* 加载状态 */}
-          {isLoading && (
-            <div className="text-center py-8">
-              <div className="text-gray-500 dark:text-gray-400">加载中...</div>
-            </div>
-          )}
-
-          {/* 空状态 */}
-          {!isLoading && history.length === 0 && (
-            <div className="text-center py-12">
-              <div className="text-gray-400 dark:text-gray-500 text-lg mb-2">
-                {searchKeyword || selectedType !== 'all' ? '没有找到匹配的记录' : '暂无剪贴板历史'}
-              </div>
-              <div className="text-gray-500 dark:text-gray-600 text-sm">
-                {searchKeyword || selectedType !== 'all' ? '尝试调整搜索条件' : '复制一些内容开始使用吧'}
-              </div>
-            </div>
-          )}
-
-          {/* 历史记录列表 */}
-          <div className="space-y-3">
-            {history.map(item => this.renderHistoryItem(item))}
-          </div>
-
-          {/* 调试信息 */}
-          {enterAction && (
-            <details className="mt-8 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <summary className="cursor-pointer text-sm text-gray-600 dark:text-gray-400 mb-2">调试信息</summary>
-              <pre className="text-xs text-gray-500 dark:text-gray-500 overflow-auto">
-                {JSON.stringify(enterAction, undefined, 2)}
-              </pre>
-            </details>
-          )}
+          {/* 内容状态组件 - 包含加载状态、空状态、历史记录列表和调试信息 */}
+          <ContentState
+            isLoading={isLoading}
+            history={history}
+            searchKeyword={searchKeyword}
+            selectedType={selectedType}
+            renderHistoryItem={this.renderHistoryItem}
+            enterAction={enterAction}
+          />
         </div>
       </div>
     );

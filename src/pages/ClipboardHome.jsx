@@ -4,6 +4,7 @@
 import React, { useEffect } from 'react';
 import { FaFileAlt, FaLink, FaFile, FaSearch, FaImage, FaStar, FaClock } from 'react-icons/fa';
 import TextCard from '../components/TextCard';
+import FilterBar from '../components/FilterBar';
 import { formatTime } from '../utils/TimeUtils';
 import { truncateText } from '../utils/TextUtils';
 
@@ -165,6 +166,24 @@ class ClipboardHome extends React.Component {
     }
   }
 
+  // 清空全部历史记录
+  handleClearAll = async () => {
+    if (confirm('确定要清空所有历史记录吗？')) {
+      try {
+        await window.AppClipboard.clipboardService.deleteAllHistory();
+        const newHistory = await window.AppClipboard.clipboardService.getAllHistory();
+        this.setState({ 
+          history: newHistory, 
+          originalHistory: newHistory,
+          searchKeyword: '',
+          selectedType: 'all'
+        });
+      } catch (error) {
+        console.error('清空历史记录失败:', error);
+      }
+    }
+  }
+
   // 渲染单个历史记录项
   renderHistoryItem = (item) => {
     // 如果是文本类型，使用 TextCard 组件
@@ -297,123 +316,16 @@ class ClipboardHome extends React.Component {
             </div>
           </div>
 
-          {/* 类型过滤和快捷操作 */}
-          <div className="mb-6 flex flex-wrap gap-2">
-            <button
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedType === 'all' 
-                  ? 'bg-blue-500 text-white' 
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-              onClick={() => this.handleTypeFilter('all')}
-            >
-              全部 ({stats.total})
-            </button>
-            <button
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedType === 'text' 
-                  ? 'bg-blue-500 text-white' 
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-              onClick={() => this.handleTypeFilter('text')}
-            >
-              <FaFileAlt className="inline mr-1" />
-              文本 ({stats.text})
-            </button>
-            <button
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedType === 'image' 
-                  ? 'bg-blue-500 text-white' 
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-              onClick={() => this.handleTypeFilter('image')}
-            >
-              <FaImage className="inline mr-1" />
-              图片 ({stats.image})
-            </button>
-            <button
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedType === 'files' 
-                  ? 'bg-blue-500 text-white' 
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-              onClick={() => this.handleTypeFilter('files')}
-            >
-              <FaFile className="inline mr-1" />
-              文件 ({stats.files})
-            </button>
-            <button
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedType === 'link' 
-                  ? 'bg-blue-500 text-white' 
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-              onClick={() => this.handleTypeFilter('link')}
-            >
-              <FaLink className="inline mr-1" />
-              链接 ({stats.link})
-            </button>
-            <button
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedType === 'favorite' 
-                  ? 'bg-yellow-500 text-white' 
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-              onClick={() => this.handleTypeFilter('favorite')}
-            >
-              <FaStar className="inline mr-1" />
-              收藏 ({stats.favorite})
-            </button>
-            <button
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedType === 'today' 
-                  ? 'bg-green-500 text-white' 
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-              onClick={this.showTodayHistory}
-            >
-              <FaClock className="inline mr-1" />
-              今日
-            </button>
-          </div>
-
-          {/* 操作按钮 */}
-          <div className="mb-4 flex justify-between items-center">
-            <div className="flex space-x-2">
-              {(searchKeyword || selectedType !== 'all') && (
-                <button
-                  className="px-3 py-1 bg-gray-500 dark:bg-gray-600 text-white rounded text-sm hover:bg-gray-600 dark:hover:bg-gray-500 transition-colors"
-                  onClick={this.resetFilters}
-                >
-                  重置筛选
-                </button>
-              )}
-            </div>
-            <div className="flex space-x-2">
-              <button onClick={() => {
-                window.AppClipboard.fileService.writeTextFile('测试文本')
-              }} className="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600 transition-colors">
-                测试按钮
-              </button>
-              <button
-                className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition-colors"
-                onClick={async () => {
-                  if (confirm('确定要清空所有历史记录吗？')) {
-                    await window.AppClipboard.clipboardService.deleteAllHistory();
-                    const newHistory = await window.AppClipboard.clipboardService.getAllHistory();
-                    this.setState({ 
-                      history: newHistory, 
-                      originalHistory: newHistory,
-                      searchKeyword: '',
-                      selectedType: 'all'
-                    });
-                  }
-                }}
-              >
-                清空全部
-              </button>
-            </div>
-          </div>
+          {/* 类型过滤和快捷操作组件 */}
+          <FilterBar
+            stats={stats}
+            selectedType={selectedType}
+            searchKeyword={searchKeyword}
+            onTypeFilter={this.handleTypeFilter}
+            onShowToday={this.showTodayHistory}
+            onResetFilters={this.resetFilters}
+            onClearAll={this.handleClearAll}
+          />
 
           {/* 加载状态 */}
           {isLoading && (

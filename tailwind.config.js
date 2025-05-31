@@ -8,8 +8,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 项目主题色
-        primary: '#368CFF',
+        primary: '2D75F3',
       }
     },
   },

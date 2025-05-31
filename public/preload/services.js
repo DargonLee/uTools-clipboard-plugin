@@ -162,6 +162,7 @@ const clipboardService = {
   /**
    * 自动保存文本或图片到uTools本地数据库（如内容重复则不存储）
    * @param {Object} data 剪贴板内容对象
+   * @param {string} hash 当前内容的hash值
    * @returns {Promise<void|Object>} 数据库写入结果
    */
   async _autoSaveToDB(data, hash) {
@@ -185,11 +186,29 @@ const clipboardService = {
       type = "text";
     }
 
+    // 如果没有有效内容，不保存
+    if (!content) return;
+
     const hashValue = simpleHash(content);
-    const docId = `${CLIPBOARD_DB_PREFIX}${nowTs()}_${hashValue}`;
-    const docs = await window.utools.db.promises.allDocs(CLIPBOARD_DB_PREFIX);
-    if (!docs.length || docs[0].content !== content) {
-      return await window.utools.db.promises.put({
+    
+    // 获取数据库中最新的记录进行内容对比
+    try {
+      const docs = await window.utools.db.promises.allDocs(CLIPBOARD_DB_PREFIX);
+      
+      // 检查是否与最新记录内容相同
+      if (docs.length > 0) {
+        const latestDoc = docs[0]; // 数据库返回的是按时间倒序排列的
+        
+        // 比较内容是否相同（优先比较hash，再比较原始内容）
+        if (latestDoc.hash === hashValue || latestDoc.content === content) {
+          console.log('内容与最新记录相同，跳过存储');
+          return;
+        }
+      }
+      
+      // 内容不同或数据库为空，保存新记录
+      const docId = `${CLIPBOARD_DB_PREFIX}${nowTs()}_${hashValue}`;
+      const result = await window.utools.db.promises.put({
         _id: docId,
         content,
         type,
@@ -197,14 +216,33 @@ const clipboardService = {
         favorite: false,
         hash: hashValue,
       });
+      
+      console.log('新剪贴板内容已保存:', { type, contentLength: content.length });
+      return result;
+      
+    } catch (error) {
+      console.error('保存剪贴板内容失败:', error);
+      return;
     }
   },
 
   /**
    * 启动剪贴板内容轮询监听，内容变化时自动存储并通知监听者
    */
-  _startPolling() {
+  async _startPolling() {
     if (this._pollingTimer) return;
+    
+    // 初始化时设置当前剪贴板内容的hash，避免重启后立即重复存储
+    try {
+      const currentData = this.getClipboardData();
+      const currentContent = currentData.files || currentData.image || currentData.text || '';
+      this._lastHash = simpleHash(currentContent);
+      console.log('初始化剪贴板hash:', this._lastHash);
+    } catch (error) {
+      console.error('初始化剪贴板hash失败:', error);
+      this._lastHash = "";
+    }
+    
     this._pollingTimer = setInterval(async () => {
       const currentData = this.getClipboardData();
       console.log("currentData", currentData);

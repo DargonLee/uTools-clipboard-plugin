@@ -277,6 +277,229 @@ const clipboardService = {
       }
     }
   },
+
+  /**
+   * 搜索剪贴板历史记录
+   * @param {string} keyword 搜索关键词
+   * @param {string|null} type 类型过滤 ('text', 'image', 'files', 'link')
+   * @param {Object} options 搜索选项
+   * @returns {Promise<Array>} 搜索结果
+   */
+  async searchHistory(keyword = '', type = null, options = {}) {
+    if (!window.utools) return [];
+    
+    const { 
+      caseSensitive = false,     // 是否区分大小写
+      exactMatch = false,        // 是否精确匹配
+      maxResults = 100,          // 最大结果数
+      sortBy = 'time'            // 排序方式: 'time' | 'relevance'
+    } = options;
+    
+    try {
+      const allHistory = await this.getAllHistory();
+      
+      let results = allHistory.filter(item => {
+        // 类型过滤
+        if (type && item.type !== type) {
+          return false;
+        }
+        
+        // 关键词搜索
+        if (keyword) {
+          const searchText = caseSensitive ? item.content : item.content.toLowerCase();
+          const searchKeyword = caseSensitive ? keyword : keyword.toLowerCase();
+          
+          if (exactMatch) {
+            return searchText === searchKeyword;
+          } else {
+            return searchText.includes(searchKeyword);
+          }
+        }
+        
+        return true;
+      });
+      
+      // 限制结果数量
+      if (maxResults > 0) {
+        results = results.slice(0, maxResults);
+      }
+      
+      return results;
+    } catch (error) {
+      console.error('搜索历史记录失败:', error);
+      return [];
+    }
+  },
+
+  /**
+   * 按类型获取历史记录
+   * @param {string} type 类型 ('text', 'image', 'files', 'link')
+   * @param {number} limit 限制数量，0为不限制
+   * @returns {Promise<Array>} 过滤后的历史记录
+   */
+  async getHistoryByType(type, limit = 0) {
+    if (!window.utools) return [];
+    
+    try {
+      const allHistory = await this.getAllHistory();
+      let filtered = allHistory.filter(item => item.type === type);
+      
+      if (limit > 0) {
+        filtered = filtered.slice(0, limit);
+      }
+      
+      return filtered;
+    } catch (error) {
+      console.error(`获取${type}类型历史记录失败:`, error);
+      return [];
+    }
+  },
+
+  /**
+   * 获取收藏的历史记录
+   * @param {string|null} type 可选的类型过滤
+   * @returns {Promise<Array>} 收藏的历史记录
+   */
+  async getFavoriteHistory(type = null) {
+    if (!window.utools) return [];
+    
+    try {
+      const allHistory = await this.getAllHistory();
+      let favorites = allHistory.filter(item => item.favorite === true);
+      
+      if (type) {
+        favorites = favorites.filter(item => item.type === type);
+      }
+      
+      return favorites;
+    } catch (error) {
+      console.error('获取收藏记录失败:', error);
+      return [];
+    }
+  },
+
+  /**
+   * 按时间范围获取历史记录
+   * @param {number} startTime 开始时间戳
+   * @param {number} endTime 结束时间戳
+   * @param {string|null} type 可选的类型过滤
+   * @returns {Promise<Array>} 时间范围内的历史记录
+   */
+  async getHistoryByTimeRange(startTime, endTime, type = null) {
+    if (!window.utools) return [];
+    
+    try {
+      const allHistory = await this.getAllHistory();
+      let filtered = allHistory.filter(item => {
+        const itemTime = item.time;
+        const inTimeRange = itemTime >= startTime && itemTime <= endTime;
+        const matchesType = type ? item.type === type : true;
+        return inTimeRange && matchesType;
+      });
+      
+      return filtered;
+    } catch (error) {
+      console.error('按时间范围获取历史记录失败:', error);
+      return [];
+    }
+  },
+
+  /**
+   * 获取今天的历史记录
+   * @param {string|null} type 可选的类型过滤
+   * @returns {Promise<Array>} 今天的历史记录
+   */
+  async getTodayHistory(type = null) {
+    const today = new Date();
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+    const endOfDay = startOfDay + 24 * 60 * 60 * 1000 - 1;
+    
+    return await this.getHistoryByTimeRange(startOfDay, endOfDay, type);
+  },
+
+  /**
+   * 高级搜索 - 支持多条件组合
+   * @param {Object} criteria 搜索条件
+   * @returns {Promise<Array>} 搜索结果
+   */
+  async advancedSearch(criteria) {
+    if (!window.utools) return [];
+    
+    const {
+      keyword = '',
+      type = null,
+      favorite = null,         // null | true | false
+      startTime = null,
+      endTime = null,
+      minLength = 0,           // 最小内容长度
+      maxLength = Infinity,    // 最大内容长度
+      sortBy = 'time',         // 'time' | 'length' | 'type'
+      sortOrder = 'desc'       // 'asc' | 'desc'
+    } = criteria;
+    
+    try {
+      const allHistory = await this.getAllHistory();
+      
+      let results = allHistory.filter(item => {
+        // 关键词过滤
+        if (keyword && !item.content.toLowerCase().includes(keyword.toLowerCase())) {
+          return false;
+        }
+        
+        // 类型过滤
+        if (type && item.type !== type) {
+          return false;
+        }
+        
+        // 收藏状态过滤
+        if (favorite !== null && item.favorite !== favorite) {
+          return false;
+        }
+        
+        // 时间范围过滤
+        if (startTime && item.time < startTime) {
+          return false;
+        }
+        if (endTime && item.time > endTime) {
+          return false;
+        }
+        
+        // 内容长度过滤
+        const contentLength = item.content ? item.content.length : 0;
+        if (contentLength < minLength || contentLength > maxLength) {
+          return false;
+        }
+        
+        return true;
+      });
+      
+      // 排序
+      results.sort((a, b) => {
+        let comparison = 0;
+        
+        switch (sortBy) {
+          case 'time':
+            comparison = a.time - b.time;
+            break;
+          case 'length':
+            comparison = (a.content?.length || 0) - (b.content?.length || 0);
+            break;
+          case 'type':
+            comparison = a.type.localeCompare(b.type);
+            break;
+          default:
+            comparison = a.time - b.time;
+        }
+        
+        return sortOrder === 'desc' ? -comparison : comparison;
+      });
+      
+      return results;
+    } catch (error) {
+      console.error('高级搜索失败:', error);
+      return [];
+    }
+  },
 };
 
 window.AppClipboard = {

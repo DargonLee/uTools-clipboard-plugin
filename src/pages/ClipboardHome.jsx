@@ -3,6 +3,9 @@
 // {"code": "paste", "type": "text", "payload": "Easy剪贴板","from": "main"}
 import React, { useEffect } from 'react';
 import { FaFileAlt, FaLink, FaFile, FaSearch, FaImage, FaStar, FaClock } from 'react-icons/fa';
+import TextCard from '../components/TextCard';
+import { formatTime } from '../utils/TimeUtils';
+import { truncateText } from '../utils/TextUtils';
 
 class ClipboardHome extends React.Component {
   state = {
@@ -118,25 +121,135 @@ class ClipboardHome extends React.Component {
     }
   }
 
-  // 格式化时间显示
-  formatTime = (timestamp) => {
-    const now = Date.now();
-    const diff = now - timestamp;
-    const minutes = Math.floor(diff / (1000 * 60));
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-    if (minutes < 1) return '刚刚';
-    if (minutes < 60) return `${minutes} 分钟前`;
-    if (hours < 24) return `${hours} 小时前`;
-    if (days < 7) return `${days} 天前`;
-    return new Date(timestamp).toLocaleDateString();
+  // 复制操作处理
+  handleCopy = async (item) => {
+    console.log('复制', item.type, item.content);
+    try {
+      if (item.type === 'image') {
+        await window.AppClipboard.clipboardService.writeClipboardImage(item.content);
+      } else {
+        await window.AppClipboard.clipboardService.writeClipboardText(item.content);
+      }
+    } catch (error) {
+      console.error('复制失败:', error);
+    }
   }
 
-  // 截断长文本
-  truncateText = (text, maxLength = 100) => {
-    if (!text || text.length <= maxLength) return text;
-    return text.substring(0, maxLength) + '...';
+  // 收藏/取消收藏操作处理
+  handleToggleFavorite = async (item) => {
+    try {
+      await window.AppClipboard.clipboardService.updateFavorite(item._id, !item.favorite);
+      const newHistory = await window.AppClipboard.clipboardService.getAllHistory();
+      this.setState({ 
+        originalHistory: newHistory 
+      });
+      this.applyCurrentFilters(newHistory);
+    } catch (error) {
+      console.error('更新收藏状态失败:', error);
+    }
+  }
+
+  // 删除操作处理
+  handleDelete = async (item) => {
+    if (confirm('确定要删除这条记录吗？')) {
+      try {
+        await window.AppClipboard.clipboardService.deleteHistoryItem(item._id);
+        const newHistory = await window.AppClipboard.clipboardService.getAllHistory();
+        this.setState({ 
+          originalHistory: newHistory 
+        });
+        this.applyCurrentFilters(newHistory);
+      } catch (error) {
+        console.error('删除失败:', error);
+      }
+    }
+  }
+
+  // 渲染单个历史记录项
+  renderHistoryItem = (item) => {
+    // 如果是文本类型，使用 TextCard 组件
+    if (item.type === 'text') {
+      return (
+        <TextCard
+          key={item._id}
+          item={item}
+          onCopy={this.handleCopy}
+          onToggleFavorite={this.handleToggleFavorite}
+          onDelete={this.handleDelete}
+        />
+      );
+    }
+
+    // 其他类型保持原来的渲染方式
+    return (
+      <div key={item._id} className="bg-white rounded-lg p-4 border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
+        <div className="flex items-start justify-between">
+          {/* 左侧内容 */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center space-x-3 mb-2">
+              {this.getTypeIcon(item.type)}
+              <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full capitalize">
+                {item.type === 'files' ? '文件' : 
+                 item.type === 'image' ? '图片' : 
+                 item.type === 'link' ? '链接' : '文本'}
+              </span>
+              <span className="text-xs text-gray-500">
+                {formatTime(item.time)}
+              </span>
+              {item.favorite && (
+                <FaStar className="text-yellow-500 text-xs" title="已收藏" />
+              )}
+            </div>
+            
+            {/* 内容显示 */}
+            <div className="mb-2">
+              {item.type === 'image' ? (
+                <img
+                  src={item.content}
+                  alt="剪贴板图片"
+                  className="max-w-xs max-h-32 rounded border object-cover"
+                />
+              ) : (
+                <div className="text-gray-800 text-sm leading-relaxed">
+                  {truncateText(item.content, 200)}
+                </div>
+              )}
+            </div>
+            
+            {/* 元信息 */}
+            <div className="text-xs text-gray-400">
+              {item.content?.length > 0 && `${item.content.length} 字符`}
+            </div>
+          </div>
+
+          {/* 右侧操作按钮 */}
+          <div className="flex flex-col space-y-1 ml-4">
+            <button
+              className="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition-colors"
+              onClick={() => this.handleCopy(item)}
+            >
+              复制
+            </button>
+            <button
+              className={`px-3 py-1 rounded text-xs transition-colors ${
+                item.favorite 
+                  ? 'bg-yellow-400 text-black hover:bg-yellow-500' 
+                  : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
+              }`}
+              onClick={() => this.handleToggleFavorite(item)}
+            >
+              {item.favorite ? '取消收藏' : '收藏'}
+            </button>
+            <button
+              className="px-3 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600 transition-colors"
+              onClick={() => this.handleDelete(item)}
+            >
+              删除
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   render() {
@@ -322,98 +435,7 @@ class ClipboardHome extends React.Component {
 
         {/* 历史记录列表 */}
         <div className="space-y-3">
-          {history.map(item => (
-            <div key={item._id} className="bg-white rounded-lg p-4 border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
-              <div className="flex items-start justify-between">
-                {/* 左侧内容 */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center space-x-3 mb-2">
-                    {this.getTypeIcon(item.type)}
-                    <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full capitalize">
-                      {item.type === 'files' ? '文件' : 
-                       item.type === 'image' ? '图片' : 
-                       item.type === 'link' ? '链接' : '文本'}
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      {this.formatTime(item.time)}
-                    </span>
-                    {item.favorite && (
-                      <FaStar className="text-yellow-500 text-xs" title="已收藏" />
-                    )}
-                  </div>
-                  
-                  {/* 内容显示 */}
-                  <div className="mb-2">
-                    {item.type === 'image' ? (
-                      <img
-                        src={item.content}
-                        alt="剪贴板图片"
-                        className="max-w-xs max-h-32 rounded border object-cover"
-                      />
-                    ) : (
-                      <div className="text-gray-800 text-sm leading-relaxed">
-                        {this.truncateText(item.content, 200)}
-                      </div>
-                    )}
-                  </div>
-                  
-                  {/* 元信息 */}
-                  <div className="text-xs text-gray-400">
-                    {item.content?.length > 0 && `${item.content.length} 字符`}
-                  </div>
-                </div>
-
-                {/* 右侧操作按钮 */}
-                <div className="flex flex-col space-y-1 ml-4">
-                  <button
-                    className="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition-colors"
-                    onClick={async () => {
-                      console.log('复制', item.type, item.content);
-                      if (item.type === 'image') {
-                        await window.AppClipboard.clipboardService.writeClipboardImage(item.content);
-                      } else {
-                        await window.AppClipboard.clipboardService.writeClipboardText(item.content);
-                      }
-                    }}
-                  >
-                    复制
-                  </button>
-                  <button
-                    className={`px-3 py-1 rounded text-xs transition-colors ${
-                      item.favorite 
-                        ? 'bg-yellow-400 text-black hover:bg-yellow-500' 
-                        : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
-                    }`}
-                    onClick={async () => {
-                      await window.AppClipboard.clipboardService.updateFavorite(item._id, !item.favorite);
-                      const newHistory = await window.AppClipboard.clipboardService.getAllHistory();
-                      this.setState({ 
-                        originalHistory: newHistory 
-                      });
-                      this.applyCurrentFilters(newHistory);
-                    }}
-                  >
-                    {item.favorite ? '取消收藏' : '收藏'}
-                  </button>
-                  <button
-                    className="px-3 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600 transition-colors"
-                    onClick={async () => {
-                      if (confirm('确定要删除这条记录吗？')) {
-                        await window.AppClipboard.clipboardService.deleteHistoryItem(item._id);
-                        const newHistory = await window.AppClipboard.clipboardService.getAllHistory();
-                        this.setState({ 
-                          originalHistory: newHistory 
-                        });
-                        this.applyCurrentFilters(newHistory);
-                      }
-                    }}
-                  >
-                    删除
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+          {history.map(item => this.renderHistoryItem(item))}
         </div>
 
         {/* 调试信息 */}

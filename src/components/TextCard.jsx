@@ -28,9 +28,9 @@ class TextCard extends React.Component {
     }
 
     return (
-      <div className="group bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 
-                     hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md 
-                     transition-all duration-200 ease-in-out transform hover:-translate-y-0.5">
+      <div className="group rounded-lg p-4 border transition-all duration-200 ease-in-out transform hover:-translate-y-0.5
+                     border-gray-200 hover:border-blue-300 hover:shadow-md
+                     dark:bg-gray-800 dark:border-gray-700 dark:hover:border-blue-500 dark:hover:shadow-gray-900/20">
         
         <div className="flex items-start justify-between">
           {/* 左侧内容区域 */}

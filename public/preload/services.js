@@ -14,6 +14,20 @@ function simpleHash(str) {
   return Math.abs(hash).toString(36);
 }
 
+/**
+ * 判断文本是否为URL
+ * @param {string} text 
+ * @returns {boolean}
+ */
+function isUrl(text) {
+  try {
+    const url = new URL(text);
+    return ['http:', 'https:', 'ftp:', 'file:'].includes(url.protocol);
+  } catch {
+    return false;
+  }
+}
+
 const DOWNLOADS_PATH = window.utools.getPath("downloads");
 const CLIPBOARD_DB_PREFIX = "easy_clipboard/";
 const POLL_INTERVAL_MS = 500;
@@ -73,7 +87,7 @@ const fileService = {
   writeClipboardImage(base64Url) {
     const image = nativeImage.createFromDataURL(base64Url);
     clipboard.writeImage(image);
-  },
+  }
 };
 
 const clipboardService = {
@@ -92,16 +106,26 @@ const clipboardService = {
   },
 
   /**
-   * 获取当前剪贴板内容（支持文本、图片、RTF）
-   * @returns {Object} 剪贴板内容对象，如{text, image, rtf}
+   * 获取当前剪贴板内容（支持文本、图片、RTF、文件）
+   * @returns {Object} 剪贴板内容对象，如{text, image, rtf, files}
    */
   getClipboardData() {
     const formats = clipboard.availableFormats();
     const data = {};
-    if (formats.includes("text/plain")) data.text = clipboard.readText();
-    // if (formats.includes('text/html')) data.html = clipboard.readHTML()
-    if (formats.includes("text/rtf")) data.rtf = clipboard.readRTF();
+    
+    console.log("Available formats:", formats);
 
+    // 检测文本内容
+    if (formats.includes("text/plain")) {
+      data.text = clipboard.readText();
+    }
+    
+    // 检测RTF内容
+    if (formats.includes("text/rtf")) {
+      data.rtf = clipboard.readRTF();
+    }
+
+    // 检测图片内容
     const hasImage = formats.some((f) => f.startsWith("image/"));
     if (hasImage) {
       const image = clipboard.readImage();
@@ -109,6 +133,20 @@ const clipboardService = {
         data.image = image.toDataURL();
       }
     }
+
+    // 检测文件和文件夹
+    // 注意：不同操作系统的文件格式可能不同
+    const hasFiles = formats.some((f) => 
+      f.includes("Files") || 
+      f.includes("file") || 
+      f.includes("text/uri-list") ||
+      f === "application/x-file-name"
+    );
+    
+    if (hasFiles) {
+      data.files = clipboard.readText();
+    }
+    
     return data;
   },
 
@@ -132,21 +170,20 @@ const clipboardService = {
 
     let content = "";
     let type = "";
-    let entryType = 1; // 1文本，2图片，3文件
-    if (data.text) {
-      content = data.text;
-      type = "text";
-      entryType = 1;
+    
+    // 优先级：文件/文件夹 > 图片 > 链接 > 文本
+    if (data.files && data.files.length > 0) {
+      content = data.files;
+      type = "files"; 
     } else if (data.image) {
       content = data.image;
       type = "image";
-      entryType = 2;
-    } else if (data.file) {
-      content = data.file;
-      type = "file";
-      entryType = 3;
-    } else {
-      return;
+    } else if (data.text && isUrl(data.text)) {
+      content = data.text;
+      type = "link";
+    } else if (data.text) {
+      content = data.text;
+      type = "text";
     }
 
     const hashValue = simpleHash(content);
@@ -157,7 +194,6 @@ const clipboardService = {
         _id: docId,
         content,
         type,
-        entryType,
         time: nowTs(),
         favorite: false,
         hash: hashValue,
@@ -173,9 +209,10 @@ const clipboardService = {
     this._pollingTimer = setInterval(async () => {
       const currentData = this.getClipboardData();
       console.log("currentData", currentData);
-      const currentText = currentData.text || '';
-      const currentImage = currentData.image || '';
-      const currentHash = simpleHash(currentText || currentImage);
+      
+      // 优先使用文件路径，然后是图片，最后是文本
+      const currentContent = currentData.files || currentData.image || currentData.text || '';
+      const currentHash = simpleHash(currentContent);
       
       if (this._lastHash && this._lastHash === currentHash) {
         return;

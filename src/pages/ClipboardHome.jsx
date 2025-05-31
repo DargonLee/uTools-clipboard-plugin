@@ -2,6 +2,7 @@
 // {JSON.stringify(enterAction, undefined, 2)}
 // {"code": "paste", "type": "text", "payload": "Easy剪贴板","from": "main"}
 import React, { useEffect } from 'react';
+import { FaFileAlt, FaLink, FaFile } from 'react-icons/fa';
 
 class ClipboardHome extends React.Component {
   state = {
@@ -42,7 +43,24 @@ class ClipboardHome extends React.Component {
         <div>
           {history.map(item => (
             <div key={item._id} className="mb-2 p-2 border rounded">
-              {item.type === 'text' && <div>{item.content}</div>}
+              {item.type === 'link' && (
+                <div className="flex items-center gap-2">
+                  <FaLink className="text-blue-500" />
+                  <div>{item.content}</div>
+                </div>
+              )}
+              {item.type === 'files' && (
+                <div className="flex items-center gap-2">
+                  <FaFile className="text-green-500" />
+                  <div>{item.content}</div>
+                </div>
+              )}
+              {item.type === 'text' && (
+                <div className="flex items-center gap-2">
+                  <FaFileAlt className="text-gray-500" />
+                  <div>{item.content}</div>
+                </div>
+              )}
               {item.type === 'image' && (
                 <img
                   src={item.content}

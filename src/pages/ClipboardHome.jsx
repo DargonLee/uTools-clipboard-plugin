@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { FaFileAlt, FaLink, FaFile, FaSearch, FaImage, FaStar, FaClock } from 'react-icons/fa';
 import TextCard from '../components/TextCard';
 import LinkCard from '../components/LinkCard';
+import SearchBar from '../components/SearchBar';
 import FilterBar from '../components/FilterBar';
 import ContentState from '../components/ContentState';
 import { formatTime } from '../utils/TimeUtils';
@@ -309,27 +310,11 @@ class ClipboardHome extends React.Component {
             <p className="text-gray-600 dark:text-gray-400 text-sm">共 {stats.total} 条记录</p>
           </div>
 
-          {/* 搜索栏 */}
-          <div className="mb-4">
-            <div className="relative">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
-              <input
-                type="text"
-                placeholder="搜索剪贴板内容..."
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
-                value={searchKeyword}
-                onChange={(e) => this.handleSearch(e.target.value)}
-              />
-              {searchKeyword && (
-                <button
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
-                  onClick={() => this.handleSearch('')}
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-          </div>
+          {/* 搜索栏组件 */}
+          <SearchBar
+            searchKeyword={searchKeyword}
+            onSearch={this.handleSearch}
+          />
 
           {/* 类型过滤和快捷操作组件 */}
           <FilterBar

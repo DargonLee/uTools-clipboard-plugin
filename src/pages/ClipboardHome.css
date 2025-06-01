@@ -1,0 +1,93 @@
+/* ClipboardHome 页面样式 */
+
+/* 头部容器基础样式 */
+.header-container {
+  position: relative;
+  z-index: 10;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+}
+
+/* 悬停头部样式 */
+.sticky-header {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 56rem; /* max-w-4xl */
+  background: rgba(249, 250, 251, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 1rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+/* 暗色模式下的悬停头部样式 */
+.dark .sticky-header {
+  background: rgba(17, 24, 39, 0.95);
+  border-bottom-color: rgba(75, 85, 99, 0.6);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* 滑下动画 */
+@keyframes slideDown {
+  from {
+    transform: translateX(-50%) translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 为内容区域添加顶部间距，避免被悬停头部遮挡 */
+.content-offset {
+  margin-top: 120px;
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+  .sticky-header {
+    padding: 0.75rem;
+    border-radius: 0;
+  }
+  
+  .content-offset {
+    margin-top: 140px;
+  }
+}
+
+/* 小屏幕优化 */
+@media (max-width: 480px) {
+  .sticky-header {
+    padding: 0.5rem;
+  }
+  
+  .content-offset {
+    margin-top: 160px;
+  }
+}
+
+/* 悬停头部内部组件间距调整 */
+.sticky-header .search-bar {
+  margin-bottom: 0.75rem;
+}
+
+.sticky-header .filter-bar {
+  margin-top: 0;
+}
+
+/* 确保悬停时头部始终在最顶层 */
+.sticky-header {
+  z-index: 50;
+}
+
+/* 平滑过渡效果 */
+.header-container,
+.content-offset {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+} 

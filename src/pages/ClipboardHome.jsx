@@ -11,6 +11,7 @@ import FilterBar from '../components/FilterBar';
 import ContentState from '../components/ContentState';
 import { formatTime } from '../utils/TimeUtils';
 import { truncateText } from '../utils/TextUtils';
+import './ClipboardHome.css';
 
 class ClipboardHome extends React.Component {
   state = {
@@ -18,7 +19,11 @@ class ClipboardHome extends React.Component {
     originalHistory: [], // 保存完整历史，用于重置搜索
     searchKeyword: '',
     selectedType: 'all',
-    isLoading: false
+    isLoading: false,
+    // 滚动相关状态
+    isHeaderSticky: false,
+    lastScrollY: 0,
+    scrollDirection: 'down'
   }
 
   async componentDidMount() {
@@ -38,6 +43,38 @@ class ClipboardHome extends React.Component {
       });
       // 如果当前有搜索或过滤，重新应用
       this.applyCurrentFilters(newHistory);
+    });
+
+    // 添加滚动监听器
+    window.addEventListener('scroll', this.handleScroll, { passive: true });
+  }
+
+  componentWillUnmount() {
+    // 移除滚动监听器
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  // 滚动处理函数
+  handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    const { lastScrollY } = this.state;
+    
+    // 判断滚动方向
+    const scrollDirection = currentScrollY > lastScrollY ? 'up' : 'down';
+    
+    // 设置悬停阈值，滚动超过100px时开始判断是否悬停
+    const scrollThreshold = 100;
+    
+    // 向上滚动且滚动距离超过阈值时悬停
+    const shouldStick = scrollDirection === 'up' && currentScrollY > scrollThreshold;
+    
+    // 向下滚动到顶部附近时取消悬停
+    const shouldUnstick = currentScrollY <= scrollThreshold;
+    
+    this.setState({
+      lastScrollY: currentScrollY,
+      scrollDirection,
+      isHeaderSticky: shouldUnstick ? false : shouldStick || this.state.isHeaderSticky
     });
   }
 
@@ -303,7 +340,7 @@ class ClipboardHome extends React.Component {
 
   render() {
     const { enterAction } = this.props;
-    const { history, searchKeyword, selectedType, isLoading } = this.state;
+    const { history, searchKeyword, selectedType, isLoading, isHeaderSticky } = this.state;
     
     // 统计数据
     const stats = {
@@ -318,32 +355,37 @@ class ClipboardHome extends React.Component {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
         <div className="max-w-4xl mx-auto p-4">
-          {/* 搜索栏组件 */}
-          <SearchBar
-            searchKeyword={searchKeyword}
-            onSearch={this.handleSearch}
-          />
+          {/* 悬停头部容器 */}
+          <div className={`header-container ${isHeaderSticky ? 'sticky-header' : ''}`}>
+            {/* 搜索栏组件 */}
+            <SearchBar
+              searchKeyword={searchKeyword}
+              onSearch={this.handleSearch}
+            />
 
-          {/* 类型过滤和快捷操作组件 */}
-          <FilterBar
-            stats={stats}
-            selectedType={selectedType}
-            searchKeyword={searchKeyword}
-            onTypeFilter={this.handleTypeFilter}
-            onShowToday={this.showTodayHistory}
-            onResetFilters={this.resetFilters}
-            onClearAll={this.handleClearAll}
-          />
+            {/* 类型过滤和快捷操作组件 */}
+            <FilterBar
+              stats={stats}
+              selectedType={selectedType}
+              searchKeyword={searchKeyword}
+              onTypeFilter={this.handleTypeFilter}
+              onShowToday={this.showTodayHistory}
+              onResetFilters={this.resetFilters}
+              onClearAll={this.handleClearAll}
+            />
+          </div>
 
           {/* 内容状态组件 - 包含加载状态、空状态、历史记录列表和调试信息 */}
-          <ContentState
-            isLoading={isLoading}
-            history={history}
-            searchKeyword={searchKeyword}
-            selectedType={selectedType}
-            renderHistoryItem={this.renderHistoryItem}
-            enterAction={enterAction}
-          />
+          <div className={isHeaderSticky ? 'content-offset' : ''}>
+            <ContentState
+              isLoading={isLoading}
+              history={history}
+              searchKeyword={searchKeyword}
+              selectedType={selectedType}
+              renderHistoryItem={this.renderHistoryItem}
+              enterAction={enterAction}
+            />
+          </div>
         </div>
       </div>
     );

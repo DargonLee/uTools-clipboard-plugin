@@ -1,17 +1,18 @@
 /* CardHeader 组件样式 */
+@import './common.css';
 
 .card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--spacing-3);
 }
 
 /* 左侧信息区域 */
 .header-info {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--spacing-3);
 }
 
 /* 类型图标容器 */
@@ -22,19 +23,19 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  border-radius: var(--radius-lg);
+  transition: var(--transition-normal);
 }
 
 /* 图标主题样式 */
 .type-icon.light {
-  background-color: rgb(219, 234, 254);
-  color: rgb(37, 99, 235);
+  background-color: var(--blue-100);
+  color: var(--blue-600);
 }
 
 .type-icon.dark {
-  background-color: rgb(30, 64, 175);
-  color: rgb(191, 219, 254);
+  background-color: var(--blue-800);
+  color: var(--blue-200);
 }
 
 /* 类型标签基础样式 */
@@ -42,7 +43,7 @@
   display: inline-flex;
   align-items: center;
   padding: 0.125rem 0.625rem;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1rem;
@@ -50,13 +51,13 @@
 
 /* 类型标签颜色变体 */
 .type-tag.blue {
-  background-color: rgb(219, 234, 254);
-  color: rgb(30, 64, 175);
+  background-color: var(--blue-100);
+  color: var(--blue-800);
 }
 
 .type-tag.blue.dark {
-  background-color: rgb(30, 58, 138);
-  color: rgb(191, 219, 254);
+  background-color: var(--blue-900);
+  color: var(--blue-200);
 }
 
 .type-tag.green {
@@ -103,16 +104,16 @@
 .time-info {
   font-size: 0.75rem;
   line-height: 1rem;
-  color: rgb(107, 114, 128);
+  color: var(--gray-500);
 }
 
 .time-info.dark {
-  color: rgb(156, 163, 175);
+  color: var(--gray-400);
 }
 
 /* 收藏星标 */
 .favorite-star {
-  color: rgb(245, 158, 11);
+  color: var(--warning-color);
   width: 0.75rem;
   height: 0.75rem;
 }
@@ -121,9 +122,9 @@
 .actions-container {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--spacing-2);
   opacity: 0.6;
-  transition: opacity 0.2s ease;
+  transition: var(--transition-normal);
 }
 
 .card-header:hover .actions-container {
@@ -135,10 +136,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 0.375rem;
-  transition: all 0.2s ease;
+  width: var(--spacing-8);
+  height: var(--spacing-8);
+  border-radius: var(--radius-md);
+  transition: var(--transition-normal);
   transform-origin: center;
   border: none;
   cursor: pointer;
@@ -152,7 +153,7 @@
 .action-btn:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5), 0 0 0 4px rgba(59, 130, 246, 0.1);
+  box-shadow: var(--shadow-focus);
 }
 
 .action-btn svg {
@@ -162,35 +163,35 @@
 
 /* 复制按钮 */
 .copy-btn {
-  background-color: #368CFF;
+  background-color: var(--primary-color);
   color: white;
 }
 
 .copy-btn:hover {
-  background-color: rgb(37, 99, 235);
+  background-color: var(--primary-hover);
 }
 
 .copy-btn:focus {
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5), 0 0 0 4px rgba(59, 130, 246, 0.1);
+  box-shadow: var(--shadow-focus);
 }
 
 /* 收藏按钮 */
 .favorite-btn {
-  background-color: rgb(229, 231, 235);
-  color: rgb(75, 85, 99);
+  background-color: var(--gray-200);
+  color: var(--gray-600);
 }
 
 .favorite-btn.dark {
-  background-color: rgb(75, 85, 99);
-  color: rgb(156, 163, 175);
+  background-color: var(--gray-600);
+  color: var(--gray-400);
 }
 
 .favorite-btn:hover {
-  background-color: rgb(209, 213, 219);
+  background-color: var(--gray-300);
 }
 
 .favorite-btn.dark:hover {
-  background-color: rgb(107, 114, 128);
+  background-color: var(--gray-500);
 }
 
 .favorite-btn:focus {
@@ -199,30 +200,36 @@
 
 /* 删除按钮 */
 .delete-btn {
-  background-color: rgb(239, 68, 68);
-  color: white;
+  background-color: var(--gray-200);
+  color: var(--gray-600);
+}
+
+.delete-btn.dark {
+  background-color: var(--gray-600);
+  color: var(--gray-400);
 }
 
 .delete-btn:hover {
-  background-color: rgb(220, 38, 38);
+  background-color: var(--danger-color);
+  color: white;
 }
 
 .delete-btn:focus {
   box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5), 0 0 0 4px rgba(239, 68, 68, 0.1);
 }
 
-/* 暗色模式适配 */
+/* 暗色模式媒体查询适配 */
 @media (prefers-color-scheme: dark) {
   .time-info:not(.dark) {
-    color: rgb(156, 163, 175);
+    color: var(--gray-400);
   }
   
   .favorite-btn:not(.dark) {
-    background-color: rgb(75, 85, 99);
-    color: rgb(156, 163, 175);
+    background-color: var(--gray-600);
+    color: var(--gray-400);
   }
   
   .favorite-btn:not(.dark):hover {
-    background-color: rgb(107, 114, 128);
+    background-color: var(--gray-500);
   }
 } 

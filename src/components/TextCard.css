@@ -1,30 +1,30 @@
 /* TextCard 组件样式 */
+@import './common.css';
 
-/* 文本卡片主容器 */
+/* 文本卡片主容器 - 继承基础卡片样式 */
 .text-card {
-  border-radius: 0.5rem;
-  padding: 1rem;
-  border: 1px solid;
-  transition: all 0.2s ease-in-out;
+  /* 继承 base-card 的所有样式 */
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+  border: 1px solid var(--gray-200);
+  transition: var(--transition-normal);
   transform-origin: center;
-  border-color: rgb(229, 231, 235);
   background-color: white;
 }
 
 .text-card:hover {
   transform: translateY(-2px);
-  border-color: rgb(147, 197, 253);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-color: var(--blue-300);
+  box-shadow: var(--shadow-md);
 }
 
-/* 暗色模式样式 */
 .text-card.dark {
-  background-color: rgb(31, 41, 55);
-  border-color: rgb(75, 85, 99);
+  background-color: var(--gray-800);
+  border-color: var(--gray-600);
 }
 
 .text-card.dark:hover {
-  border-color: rgb(59, 130, 246);
+  border-color: var(--blue-500);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
@@ -62,32 +62,32 @@
 
 /* 文本内容区域 */
 .text-content {
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--spacing-3);
 }
 
 .text-content-body {
-  color: rgb(31, 41, 55);
+  color: var(--gray-900);
   font-size: 0.875rem;
   line-height: 1.625;
   word-break: break-words;
 }
 
 .text-content-body.dark {
-  color: rgb(229, 231, 235);
+  color: var(--gray-100);
 }
 
 /* 文本统计信息 */
 .text-stats {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--spacing-4);
   font-size: 0.75rem;
   line-height: 1rem;
-  color: rgb(156, 163, 175);
+  color: var(--gray-400);
 }
 
 .text-stats.dark {
-  color: rgb(107, 114, 128);
+  color: var(--gray-500);
 }
 
 .text-stats span {
@@ -103,23 +103,23 @@
 /* 响应式设计 */
 @media (max-width: 640px) {
   .text-card {
-    padding: 0.75rem;
+    padding: var(--spacing-3);
   }
   
   .text-stats {
-    gap: 0.75rem;
+    gap: var(--spacing-3);
   }
 }
 
 /* 暗色模式媒体查询适配 */
 @media (prefers-color-scheme: dark) {
   .text-card:not(.dark) {
-    background-color: rgb(31, 41, 55);
-    border-color: rgb(75, 85, 99);
+    background-color: var(--gray-800);
+    border-color: var(--gray-600);
   }
   
   .text-card:not(.dark):hover {
-    border-color: rgb(59, 130, 246);
+    border-color: var(--blue-500);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
   
@@ -128,10 +128,10 @@
   }
   
   .text-content-body:not(.dark) {
-    color: rgb(229, 231, 235);
+    color: var(--gray-100);
   }
   
   .text-stats:not(.dark) {
-    color: rgb(107, 114, 128);
+    color: var(--gray-500);
   }
 } 

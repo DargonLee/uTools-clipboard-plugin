@@ -35,7 +35,7 @@ class TextCard extends React.Component {
         {/* 使用 CardHeader 组件 */}
         <CardHeader
           item={item}
-          icon={<FaFileAlt className="text-gray-500 dark:text-gray-400 w-4 h-4" />}
+          icon={<FaFileAlt className="w-4 h-4" />}
           typeName="文本"
           typeColor="blue"
           onCopy={onCopy}

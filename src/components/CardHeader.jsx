@@ -17,6 +17,11 @@ import { formatTime } from '../utils/TimeUtils';
  *   - extraActions: 额外的操作按钮（可选）
  */
 class CardHeader extends React.Component {
+  // 获取当前主题状态
+  getCurrentTheme = () => {
+    return document.documentElement.classList.contains('dark');
+  }
+
   render() {
     const { 
       item, 
@@ -29,6 +34,8 @@ class CardHeader extends React.Component {
       onDelete,
       extraActions = []
     } = this.props;
+
+    const isDark = this.getCurrentTheme();
 
     // 类型标签颜色配置
     const typeColorClasses = {
@@ -45,7 +52,23 @@ class CardHeader extends React.Component {
         <div className="flex items-center space-x-3">
           {/* 类型图标 */}
           {icon && (
-            <div className="flex-shrink-0">
+            <div 
+              className="flex-shrink-0 flex items-center justify-center w-8 h-8 
+                           bg-blue-100 dark:bg-blue-800 rounded-lg 
+                           text-blue-600 dark:text-blue-200"
+              style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+                // 动态背景色和文字色
+                backgroundColor: isDark ? 'rgb(30, 64, 175)' : 'rgb(219, 234, 254)',
+                color: isDark ? 'rgb(191, 219, 254)' : 'rgb(37, 99, 235)'
+              }}
+            >
               {icon}
             </div>
           )}

@@ -94,7 +94,7 @@ class LinkCard extends React.Component {
           item={item}
           icon={<FaLink />}
           typeName="链接"
-          typeColor="blue"
+          typeColor="purple"
           onCopy={onCopy}
           onToggleFavorite={onToggleFavorite}
           onDelete={onDelete}

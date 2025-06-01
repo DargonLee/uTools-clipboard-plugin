@@ -1,0 +1,228 @@
+/* CardHeader 组件样式 */
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+/* 左侧信息区域 */
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* 类型图标容器 */
+.type-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+/* 图标主题样式 */
+.type-icon.light {
+  background-color: rgb(219, 234, 254);
+  color: rgb(37, 99, 235);
+}
+
+.type-icon.dark {
+  background-color: rgb(30, 64, 175);
+  color: rgb(191, 219, 254);
+}
+
+/* 类型标签基础样式 */
+.type-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1rem;
+}
+
+/* 类型标签颜色变体 */
+.type-tag.blue {
+  background-color: rgb(219, 234, 254);
+  color: rgb(30, 64, 175);
+}
+
+.type-tag.blue.dark {
+  background-color: rgb(30, 58, 138);
+  color: rgb(191, 219, 254);
+}
+
+.type-tag.green {
+  background-color: rgb(220, 252, 231);
+  color: rgb(22, 101, 52);
+}
+
+.type-tag.green.dark {
+  background-color: rgb(20, 83, 45);
+  color: rgb(187, 247, 208);
+}
+
+.type-tag.purple {
+  background-color: rgb(243, 232, 255);
+  color: rgb(107, 33, 168);
+}
+
+.type-tag.purple.dark {
+  background-color: rgb(88, 28, 135);
+  color: rgb(221, 214, 254);
+}
+
+.type-tag.orange {
+  background-color: rgb(255, 237, 213);
+  color: rgb(154, 52, 18);
+}
+
+.type-tag.orange.dark {
+  background-color: rgb(124, 45, 18);
+  color: rgb(254, 215, 170);
+}
+
+.type-tag.red {
+  background-color: rgb(254, 226, 226);
+  color: rgb(153, 27, 27);
+}
+
+.type-tag.red.dark {
+  background-color: rgb(127, 29, 29);
+  color: rgb(252, 165, 165);
+}
+
+/* 时间信息 */
+.time-info {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: rgb(107, 114, 128);
+}
+
+.time-info.dark {
+  color: rgb(156, 163, 175);
+}
+
+/* 收藏星标 */
+.favorite-star {
+  color: rgb(245, 158, 11);
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+/* 操作按钮区域 */
+.actions-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.card-header:hover .actions-container {
+  opacity: 1;
+}
+
+/* 操作按钮基础样式 */
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  transform-origin: center;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.action-btn:hover {
+  transform: scale(1.05);
+}
+
+.action-btn:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5), 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.action-btn svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+/* 复制按钮 */
+.copy-btn {
+  background-color: #368CFF;
+  color: white;
+}
+
+.copy-btn:hover {
+  background-color: rgb(37, 99, 235);
+}
+
+.copy-btn:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5), 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* 收藏按钮 */
+.favorite-btn {
+  background-color: rgb(229, 231, 235);
+  color: rgb(75, 85, 99);
+}
+
+.favorite-btn.dark {
+  background-color: rgb(75, 85, 99);
+  color: rgb(156, 163, 175);
+}
+
+.favorite-btn:hover {
+  background-color: rgb(209, 213, 219);
+}
+
+.favorite-btn.dark:hover {
+  background-color: rgb(107, 114, 128);
+}
+
+.favorite-btn:focus {
+  box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5), 0 0 0 4px rgba(107, 114, 128, 0.1);
+}
+
+/* 删除按钮 */
+.delete-btn {
+  background-color: rgb(239, 68, 68);
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: rgb(220, 38, 38);
+}
+
+.delete-btn:focus {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5), 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+/* 暗色模式适配 */
+@media (prefers-color-scheme: dark) {
+  .time-info:not(.dark) {
+    color: rgb(156, 163, 175);
+  }
+  
+  .favorite-btn:not(.dark) {
+    background-color: rgb(75, 85, 99);
+    color: rgb(156, 163, 175);
+  }
+  
+  .favorite-btn:not(.dark):hover {
+    background-color: rgb(107, 114, 128);
+  }
+} 

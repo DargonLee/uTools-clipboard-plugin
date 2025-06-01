@@ -11,7 +11,6 @@ import './FilterBar.css';
  *   - searchKeyword: 当前搜索关键词
  *   - onTypeFilter: 类型过滤回调函数
  *   - onShowToday: 显示今日记录回调函数
- *   - onResetFilters: 重置筛选回调函数
  *   - onClearAll: 清空全部回调函数
  */
 class FilterBar extends React.Component {
@@ -27,7 +26,6 @@ class FilterBar extends React.Component {
       searchKeyword, 
       onTypeFilter, 
       onShowToday, 
-      onResetFilters, 
       onClearAll 
     } = this.props;
 
@@ -117,16 +115,6 @@ class FilterBar extends React.Component {
 
         {/* 操作按钮 */}
         <div className="action-buttons-container">
-          <div className="left-actions">
-            {(searchKeyword || selectedType !== 'all') && (
-              <button
-                className={`action-btn reset-btn ${isDark ? 'dark' : ''}`}
-                onClick={onResetFilters}
-              >
-                重置筛选
-              </button>
-            )}
-          </div>
           <div className="right-actions flex items-center">
             <button 
               onClick={() => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaFileAlt, FaLink, FaFile, FaImage, FaStar, FaClock } from 'react-icons/fa';
+import './FilterBar.css';
 
 /**
  * 过滤按钮组件
@@ -14,6 +15,11 @@ import { FaFileAlt, FaLink, FaFile, FaImage, FaStar, FaClock } from 'react-icons
  *   - onClearAll: 清空全部回调函数
  */
 class FilterBar extends React.Component {
+  // 获取当前主题状态
+  getCurrentTheme = () => {
+    return document.documentElement.classList.contains('dark');
+  }
+
   render() {
     const { 
       stats, 
@@ -25,111 +31,113 @@ class FilterBar extends React.Component {
       onClearAll 
     } = this.props;
 
+    const isDark = this.getCurrentTheme();
+
     return (
       <>
         {/* 类型过滤和快捷操作 */}
-        <div className="mb-6 flex flex-wrap gap-2">
+        <div className="filter-buttons-container">
           <button
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`filter-btn ${
               selectedType === 'all' 
-                ? 'bg-blue-500 text-white' 
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'active all' 
+                : `inactive ${isDark ? 'dark' : ''}`
             }`}
             onClick={() => onTypeFilter('all')}
           >
             全部 ({stats.total})
           </button>
           <button
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`filter-btn ${
               selectedType === 'text' 
-                ? 'bg-blue-500 text-white' 
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'active text' 
+                : `inactive ${isDark ? 'dark' : ''}`
             }`}
             onClick={() => onTypeFilter('text')}
           >
-            <FaFileAlt className="inline mr-1" />
+            <FaFileAlt className="filter-btn-icon" />
             文本 ({stats.text})
           </button>
           <button
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`filter-btn ${
               selectedType === 'image' 
-                ? 'bg-blue-500 text-white' 
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'active image' 
+                : `inactive ${isDark ? 'dark' : ''}`
             }`}
             onClick={() => onTypeFilter('image')}
           >
-            <FaImage className="inline mr-1" />
+            <FaImage className="filter-btn-icon" />
             图片 ({stats.image})
           </button>
           <button
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`filter-btn ${
               selectedType === 'files' 
-                ? 'bg-blue-500 text-white' 
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'active files' 
+                : `inactive ${isDark ? 'dark' : ''}`
             }`}
             onClick={() => onTypeFilter('files')}
           >
-            <FaFile className="inline mr-1" />
+            <FaFile className="filter-btn-icon" />
             文件 ({stats.files})
           </button>
           <button
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`filter-btn ${
               selectedType === 'link' 
-                ? 'bg-blue-500 text-white' 
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'active link' 
+                : `inactive ${isDark ? 'dark' : ''}`
             }`}
             onClick={() => onTypeFilter('link')}
           >
-            <FaLink className="inline mr-1" />
+            <FaLink className="filter-btn-icon" />
             链接 ({stats.link})
           </button>
           <button
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`filter-btn ${
               selectedType === 'favorite' 
-                ? 'bg-yellow-500 text-white' 
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'active favorite' 
+                : `inactive ${isDark ? 'dark' : ''}`
             }`}
             onClick={() => onTypeFilter('favorite')}
           >
-            <FaStar className="inline mr-1" />
+            <FaStar className="filter-btn-icon" />
             收藏 ({stats.favorite})
           </button>
           <button
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`filter-btn ${
               selectedType === 'today' 
-                ? 'bg-green-500 text-white' 
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? 'active today' 
+                : `inactive ${isDark ? 'dark' : ''}`
             }`}
             onClick={onShowToday}
           >
-            <FaClock className="inline mr-1" />
+            <FaClock className="filter-btn-icon" />
             今日
           </button>
         </div>
 
         {/* 操作按钮 */}
-        <div className="mb-4 flex justify-between items-center">
-          <div className="flex space-x-2">
+        <div className="action-buttons-container">
+          <div className="left-actions">
             {(searchKeyword || selectedType !== 'all') && (
               <button
-                className="px-3 py-1 bg-gray-500 dark:bg-gray-600 text-white rounded text-sm hover:bg-gray-600 dark:hover:bg-gray-500 transition-colors"
+                className={`action-btn reset-btn ${isDark ? 'dark' : ''}`}
                 onClick={onResetFilters}
               >
                 重置筛选
               </button>
             )}
           </div>
-          <div className="flex space-x-2">
+          <div className="right-actions">
             <button 
               onClick={() => {
                 window.AppClipboard.fileService.writeTextFile('测试文本')
               }} 
-              className="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600 transition-colors"
+              className="action-btn test-btn"
             >
               测试按钮
             </button>
             <button
-              className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition-colors"
+              className="action-btn clear-btn"
               onClick={onClearAll}
             >
               清空全部

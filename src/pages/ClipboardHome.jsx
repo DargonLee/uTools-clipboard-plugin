@@ -21,6 +21,7 @@ class ClipboardHome extends React.Component {
     selectedType: 'all',
     isLoading: false,
     // 滚动相关状态
+    enableStickyHeader: true, // 控制悬停功能的开关
     isHeaderSticky: false,
     lastScrollY: 0,
     scrollDirection: 'down'
@@ -56,6 +57,11 @@ class ClipboardHome extends React.Component {
 
   // 滚动处理函数
   handleScroll = () => {
+    // 如果禁用悬停功能，直接返回
+    if (!this.state.enableStickyHeader) {
+      return;
+    }
+
     const currentScrollY = window.scrollY;
     const { lastScrollY } = this.state;
     
@@ -76,6 +82,15 @@ class ClipboardHome extends React.Component {
       scrollDirection,
       isHeaderSticky: shouldUnstick ? false : shouldStick || this.state.isHeaderSticky
     });
+  }
+
+  // 切换悬停功能的开关
+  toggleStickyHeader = () => {
+    this.setState(prevState => ({
+      enableStickyHeader: !prevState.enableStickyHeader,
+      // 如果禁用悬停功能，同时取消当前的悬停状态
+      isHeaderSticky: !prevState.enableStickyHeader ? false : prevState.isHeaderSticky
+    }));
   }
 
   // 应用当前的过滤器和搜索
@@ -340,7 +355,7 @@ class ClipboardHome extends React.Component {
 
   render() {
     const { enterAction } = this.props;
-    const { history, searchKeyword, selectedType, isLoading, isHeaderSticky } = this.state;
+    const { history, searchKeyword, selectedType, isLoading, enableStickyHeader, isHeaderSticky } = this.state;
     
     // 统计数据
     const stats = {
@@ -352,11 +367,31 @@ class ClipboardHome extends React.Component {
       favorite: this.state.originalHistory.filter(item => item.favorite).length,
     };
 
+    // 计算是否应该显示悬停效果
+    const shouldShowSticky = enableStickyHeader && isHeaderSticky;
+
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
         <div className="max-w-4xl mx-auto p-4">
           {/* 悬停头部容器 */}
-          <div className={`header-container ${isHeaderSticky ? 'sticky-header' : ''}`}>
+          <div className={`header-container ${shouldShowSticky ? 'sticky-header' : ''}`}>
+            {/* 开发调试：悬停功能切换按钮 */}
+            {process.env.NODE_ENV === 'development' && (
+              <div className="mb-2 flex justify-end">
+                <button
+                  onClick={this.toggleStickyHeader}
+                  className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
+                    enableStickyHeader 
+                      ? 'bg-blue-500 text-white hover:bg-blue-600' 
+                      : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
+                  }`}
+                  title={`${enableStickyHeader ? '禁用' : '启用'}头部悬停`}
+                >
+                  悬停: {enableStickyHeader ? 'ON' : 'OFF'}
+                </button>
+              </div>
+            )}
+            
             {/* 搜索栏组件 */}
             <SearchBar
               searchKeyword={searchKeyword}
@@ -376,7 +411,7 @@ class ClipboardHome extends React.Component {
           </div>
 
           {/* 内容状态组件 - 包含加载状态、空状态、历史记录列表和调试信息 */}
-          <div className={isHeaderSticky ? 'content-offset' : ''}>
+          <div className={shouldShowSticky ? 'content-offset' : ''}>
             <ContentState
               isLoading={isLoading}
               history={history}

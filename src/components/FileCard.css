@@ -1,0 +1,295 @@
+/* FileCard 组件样式 */
+@import './Common.css';
+
+/* 文件卡片主容器 - 继承基础卡片样式 */
+.file-card {
+  /* 继承 base-card 的所有样式 */
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+  border: 1px solid var(--gray-200);
+  transition: var(--transition-normal);
+  transform-origin: center;
+  background-color: white;
+}
+
+.file-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--blue-300);
+  box-shadow: var(--shadow-md);
+}
+
+.file-card.dark {
+  background-color: var(--gray-800);
+  border-color: var(--gray-600);
+}
+
+.file-card.dark:hover {
+  border-color: var(--blue-500);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* 文件内容区域 */
+.file-content {
+  margin-bottom: var(--spacing-3);
+}
+
+.file-preview {
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3);
+  background-color: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  transition: var(--transition-normal);
+}
+
+.file-preview.dark {
+  background-color: var(--gray-700);
+  border-color: var(--gray-600);
+}
+
+/* 文件图标和信息容器 */
+.file-icon-container {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+}
+
+.file-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-md);
+  background-color: white;
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.file-icon.dark {
+  background-color: var(--gray-800);
+  border-color: var(--gray-600);
+}
+
+.file-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* 文件信息 */
+.file-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.file-name {
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--gray-900);
+  margin-bottom: var(--spacing-1);
+  word-break: break-all;
+}
+
+.file-name.dark {
+  color: var(--gray-100);
+}
+
+.file-type {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--gray-500);
+}
+
+.file-type.dark {
+  color: var(--gray-400);
+}
+
+/* 文件路径 */
+.file-path {
+  border-top: 1px solid var(--gray-200);
+  padding-top: var(--spacing-2);
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.file-path.dark {
+  border-top-color: var(--gray-600);
+}
+
+.path-label {
+  color: var(--gray-500);
+  margin-right: var(--spacing-2);
+  font-weight: 500;
+}
+
+.path-label.dark {
+  color: var(--gray-400);
+}
+
+.path-text {
+  color: var(--gray-700);
+  word-break: break-all;
+  font-family: 'Courier New', monospace;
+  font-size: 0.6875rem;
+}
+
+.path-text.dark {
+  color: var(--gray-300);
+}
+
+/* 文件统计信息 */
+.file-stats {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--gray-400);
+}
+
+.file-stats.dark {
+  color: var(--gray-500);
+}
+
+.file-stats span {
+  display: inline-block;
+}
+
+/* CardHeader图标调整 */
+.file-card .card-header .type-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* 文件类型特定样式 */
+.file-icon .text-green-500 {
+  color: rgb(34, 197, 94);
+}
+
+.file-icon .text-red-500 {
+  color: rgb(239, 68, 68);
+}
+
+.file-icon .text-purple-500 {
+  color: rgb(168, 85, 247);
+}
+
+.file-icon .text-orange-500 {
+  color: rgb(249, 115, 22);
+}
+
+.file-icon .text-red-600 {
+  color: rgb(220, 38, 38);
+}
+
+.file-icon .text-blue-600 {
+  color: rgb(37, 99, 235);
+}
+
+.file-icon .text-green-600 {
+  color: rgb(22, 163, 74);
+}
+
+.file-icon .text-orange-600 {
+  color: rgb(234, 88, 12);
+}
+
+.file-icon .text-indigo-500 {
+  color: rgb(99, 102, 241);
+}
+
+.file-icon .text-gray-500 {
+  color: rgb(107, 114, 128);
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+  .file-card {
+    padding: var(--spacing-3);
+  }
+  
+  .file-stats {
+    gap: var(--spacing-3);
+    flex-wrap: wrap;
+  }
+  
+  .file-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .file-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .file-icon-container {
+    gap: var(--spacing-2);
+  }
+}
+
+/* 小屏幕优化 */
+@media (max-width: 480px) {
+  .file-stats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-1);
+  }
+  
+  .file-name {
+    font-size: 0.8125rem;
+  }
+  
+  .path-text {
+    font-size: 0.625rem;
+  }
+}
+
+/* 暗色模式媒体查询适配 */
+@media (prefers-color-scheme: dark) {
+  .file-card:not(.dark) {
+    background-color: var(--gray-800);
+    border-color: var(--gray-600);
+  }
+  
+  .file-card:not(.dark):hover {
+    border-color: var(--blue-500);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .file-preview:not(.dark) {
+    background-color: var(--gray-700);
+    border-color: var(--gray-600);
+  }
+  
+  .file-icon:not(.dark) {
+    background-color: var(--gray-800);
+    border-color: var(--gray-600);
+  }
+  
+  .file-name:not(.dark) {
+    color: var(--gray-100);
+  }
+  
+  .file-type:not(.dark) {
+    color: var(--gray-400);
+  }
+  
+  .file-path:not(.dark) {
+    border-top-color: var(--gray-600);
+  }
+  
+  .path-label:not(.dark) {
+    color: var(--gray-400);
+  }
+  
+  .path-text:not(.dark) {
+    color: var(--gray-300);
+  }
+  
+  .file-stats:not(.dark) {
+    color: var(--gray-500);
+  }
+} 

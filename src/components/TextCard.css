@@ -1,0 +1,137 @@
+/* TextCard 组件样式 */
+
+/* 文本卡片主容器 */
+.text-card {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: 1px solid;
+  transition: all 0.2s ease-in-out;
+  transform-origin: center;
+  border-color: rgb(229, 231, 235);
+  background-color: white;
+}
+
+.text-card:hover {
+  transform: translateY(-2px);
+  border-color: rgb(147, 197, 253);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* 暗色模式样式 */
+.text-card.dark {
+  background-color: rgb(31, 41, 55);
+  border-color: rgb(75, 85, 99);
+}
+
+.text-card.dark:hover {
+  border-color: rgb(59, 130, 246);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* 空状态容器 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+  color: rgb(156, 163, 175);
+}
+
+.empty-state.dark {
+  color: rgb(107, 114, 128);
+}
+
+.empty-state-icon {
+  font-size: 3.75rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.empty-state-title {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 500;
+}
+
+.empty-state-subtitle {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+/* 文本内容区域 */
+.text-content {
+  margin-bottom: 0.75rem;
+}
+
+.text-content-body {
+  color: rgb(31, 41, 55);
+  font-size: 0.875rem;
+  line-height: 1.625;
+  word-break: break-words;
+}
+
+.text-content-body.dark {
+  color: rgb(229, 231, 235);
+}
+
+/* 文本统计信息 */
+.text-stats {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: rgb(156, 163, 175);
+}
+
+.text-stats.dark {
+  color: rgb(107, 114, 128);
+}
+
+.text-stats span {
+  display: inline-block;
+}
+
+/* CardHeader图标调整 */
+.text-card .card-header .type-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+  .text-card {
+    padding: 0.75rem;
+  }
+  
+  .text-stats {
+    gap: 0.75rem;
+  }
+}
+
+/* 暗色模式媒体查询适配 */
+@media (prefers-color-scheme: dark) {
+  .text-card:not(.dark) {
+    background-color: rgb(31, 41, 55);
+    border-color: rgb(75, 85, 99);
+  }
+  
+  .text-card:not(.dark):hover {
+    border-color: rgb(59, 130, 246);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .empty-state:not(.dark) {
+    color: rgb(107, 114, 128);
+  }
+  
+  .text-content-body:not(.dark) {
+    color: rgb(229, 231, 235);
+  }
+  
+  .text-stats:not(.dark) {
+    color: rgb(107, 114, 128);
+  }
+} 

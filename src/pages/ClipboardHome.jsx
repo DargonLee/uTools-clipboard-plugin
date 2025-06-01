@@ -318,12 +318,6 @@ class ClipboardHome extends React.Component {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
         <div className="max-w-4xl mx-auto p-4">
-          {/* 标题栏 */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">剪贴板管理器</h1>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">共 {stats.total} 条记录</p>
-          </div>
-
           {/* 搜索栏组件 */}
           <SearchBar
             searchKeyword={searchKeyword}

@@ -10,6 +10,7 @@ import { formatTime } from '../utils/TimeUtils';
  *   - icon: 类型图标组件
  *   - typeName: 类型名称（如"文本"、"链接"等）
  *   - typeColor: 类型标签颜色配置，默认为蓝色
+ *   - showActions: 是否显示右侧操作按钮，默认为 true
  *   - onCopy: 复制回调函数
  *   - onToggleFavorite: 收藏/取消收藏回调函数
  *   - onDelete: 删除回调函数
@@ -22,6 +23,7 @@ class CardHeader extends React.Component {
       icon, 
       typeName, 
       typeColor = 'blue',
+      showActions = true,
       onCopy, 
       onToggleFavorite, 
       onDelete,
@@ -66,59 +68,56 @@ class CardHeader extends React.Component {
         </div>
         
         {/* 右侧操作按钮区域 */}
-        <div className="flex items-center space-x-2 opacity-60 group-hover:opacity-100 transition-opacity duration-200">
-          {/* 额外操作按钮 */}
-          {extraActions.map((action, index) => (
+        {showActions && (
+          <div className="flex items-center space-x-2 opacity-60 group-hover:opacity-100 transition-opacity duration-200">
+            {/* 额外操作按钮 */}
+            {extraActions.map((action, index) => (
+              <button
+                key={index}
+                className={action.className}
+                onClick={action.onClick}
+                title={action.title}
+              >
+                {action.icon}
+              </button>
+            ))}
+            
+            {/* 复制按钮 */}
             <button
-              key={index}
-              className={action.className}
-              onClick={action.onClick}
-              title={action.title}
+              className="flex items-center justify-center w-8 h-8 bg-[#368CFF] hover:bg-blue-600 
+                       text-white rounded-md transition-all duration-200 transform hover:scale-105
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+              onClick={() => onCopy && onCopy(item)}
+              title="复制到剪贴板"
             >
-              {action.icon}
+              <FaCopy className="w-3 h-3" />
             </button>
-          ))}
-          
-          {/* 复制按钮 */}
-          <button
-            className="flex items-center justify-center w-8 h-8 bg-[#368CFF] hover:bg-blue-600 
-                     text-white rounded-md transition-all duration-200 transform hover:scale-105
-                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-            onClick={() => onCopy && onCopy(item)}
-            title="复制到剪贴板"
-          >
-            <FaCopy className="w-3 h-3" />
-          </button>
-          
-          {/* 收藏/取消收藏按钮 */}
-          <button
-            className={`flex items-center justify-center w-8 h-8 rounded-md transition-all duration-200 
-                      transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-              item.favorite 
-                ? 'bg-yellow-500 hover:bg-yellow-600 text-white focus:ring-yellow-500' 
-                : 'bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-600 dark:text-gray-400 focus:ring-gray-500'
-            }`}
-            onClick={() => onToggleFavorite && onToggleFavorite(item)}
-            title={item.favorite ? '取消收藏' : '添加到收藏'}
-          >
-            {item.favorite ? (
-              <FaStar className="w-3 h-3" />
-            ) : (
-              <FaRegStar className="w-3 h-3" />
+            
+            {/* 收藏/取消收藏按钮 - 点击收藏后隐藏 */}
+            {!item.favorite && (
+              <button
+                className="flex items-center justify-center w-8 h-8 rounded-md transition-all duration-200 
+                          transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-1 
+                          bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-600 dark:text-gray-400 focus:ring-gray-500"
+                onClick={() => onToggleFavorite && onToggleFavorite(item)}
+                title="添加到收藏"
+              >
+                <FaRegStar className="w-3 h-3" />
+              </button>
             )}
-          </button>
-          
-          {/* 删除按钮 */}
-          <button
-            className="flex items-center justify-center w-8 h-8 bg-red-500 hover:bg-red-600 
-                     text-white rounded-md transition-all duration-200 transform hover:scale-105
-                     focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
-            onClick={() => onDelete && onDelete(item)}
-            title="删除"
-          >
-            <FaTrashAlt className="w-3 h-3" />
-          </button>
-        </div>
+            
+            {/* 删除按钮 */}
+            <button
+              className="flex items-center justify-center w-8 h-8 bg-red-500 hover:bg-red-600 
+                       text-white rounded-md transition-all duration-200 transform hover:scale-105
+                       focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
+              onClick={() => onDelete && onDelete(item)}
+              title="删除"
+            >
+              <FaTrashAlt className="w-3 h-3" />
+            </button>
+          </div>
+        )}
       </div>
     );
   }

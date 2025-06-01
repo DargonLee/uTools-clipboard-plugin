@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaSearch } from 'react-icons/fa';
+import './SearchBar.css';
 
 /**
  * 搜索栏组件
@@ -14,6 +15,11 @@ class SearchBar extends React.Component {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
+  }
+
+  // 获取当前主题状态
+  getCurrentTheme = () => {
+    return document.documentElement.classList.contains('dark');
   }
 
   // 处理输入变化
@@ -58,22 +64,20 @@ class SearchBar extends React.Component {
       className = "" 
     } = this.props;
 
+    const isDark = this.getCurrentTheme();
+
     return (
-      <div className={`mb-4 ${className}`}>
-        <div className="relative">
+      <div className={`search-bar ${className}`}>
+        <div className="search-input-container">
           {/* 搜索图标 */}
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none" />
+          <FaSearch className={`search-icon ${isDark ? 'dark' : ''}`} />
           
           {/* 搜索输入框 */}
           <input
             ref={this.inputRef}
             type="text"
             placeholder={placeholder}
-            className="w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-gray-600 
-                     bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 
-                     rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-                     outline-none transition-colors duration-200
-                     placeholder-gray-400 dark:placeholder-gray-500"
+            className={`search-input ${isDark ? 'dark' : ''}`}
             value={searchKeyword}
             onChange={this.handleInputChange}
             onKeyDown={this.handleKeyDown}
@@ -82,21 +86,18 @@ class SearchBar extends React.Component {
           {/* 清除按钮 */}
           {searchKeyword && (
             <button
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 
-                       text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300
-                       w-6 h-6 flex items-center justify-center rounded-full
-                       hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+              className={`clear-button ${isDark ? 'dark' : ''}`}
               onClick={this.handleClearSearch}
               title="清除搜索 (Esc)"
             >
-              <span className="text-sm font-medium">✕</span>
+              <span className="clear-button-text">✕</span>
             </button>
           )}
         </div>
         
         {/* 搜索提示信息 */}
         {searchKeyword && (
-          <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+          <div className={`search-hint ${isDark ? 'dark' : ''}`}>
             搜索关键词: "{searchKeyword}" | 按 Esc 键清除搜索
           </div>
         )}

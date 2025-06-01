@@ -1,5 +1,5 @@
 /* TextCard 组件样式 */
-@import './common.css';
+@import './Common.css';
 
 /* 文本卡片主容器 - 继承基础卡片样式 */
 .text-card {

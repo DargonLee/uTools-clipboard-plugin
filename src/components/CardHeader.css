@@ -1,5 +1,5 @@
 /* CardHeader 组件样式 */
-@import './common.css';
+@import './Common.css';
 
 .card-header {
   display: flex;

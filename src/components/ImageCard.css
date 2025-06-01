@@ -1,0 +1,149 @@
+/* ImageCard 组件样式 */
+@import './Common.css';
+
+/* 图片卡片主容器 - 继承基础卡片样式 */
+.image-card {
+  /* 继承 base-card 的所有样式 */
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+  border: 1px solid var(--gray-200);
+  transition: var(--transition-normal);
+  transform-origin: center;
+  background-color: white;
+}
+
+.image-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--blue-300);
+  box-shadow: var(--shadow-md);
+}
+
+.image-card.dark {
+  background-color: var(--gray-800);
+  border-color: var(--gray-600);
+}
+
+.image-card.dark:hover {
+  border-color: var(--blue-500);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* 图片内容区域 */
+.image-content {
+  margin-bottom: var(--spacing-3);
+}
+
+.image-preview {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background-color: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  transition: var(--transition-normal);
+}
+
+.image-preview.dark {
+  background-color: var(--gray-700);
+  border-color: var(--gray-600);
+}
+
+.preview-image {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  display: block;
+  transition: var(--transition-normal);
+}
+
+.preview-image:hover {
+  transform: scale(1.02);
+}
+
+/* 图片统计信息 */
+.image-stats {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--gray-400);
+}
+
+.image-stats.dark {
+  color: var(--gray-500);
+}
+
+.image-stats span {
+  display: inline-block;
+}
+
+/* CardHeader图标调整 */
+.image-card .card-header .type-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* 图片加载状态 */
+.preview-image[src=""] {
+  background: var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+}
+
+.preview-image[src=""]:before {
+  content: "🖼️";
+  font-size: 2rem;
+  color: var(--gray-400);
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+  .image-card {
+    padding: var(--spacing-3);
+  }
+  
+  .image-stats {
+    gap: var(--spacing-3);
+  }
+  
+  .preview-image {
+    max-height: 150px;
+  }
+}
+
+/* 小屏幕优化 */
+@media (max-width: 480px) {
+  .image-stats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-1);
+  }
+  
+  .preview-image {
+    max-height: 120px;
+  }
+}
+
+/* 暗色模式媒体查询适配 */
+@media (prefers-color-scheme: dark) {
+  .image-card:not(.dark) {
+    background-color: var(--gray-800);
+    border-color: var(--gray-600);
+  }
+  
+  .image-card:not(.dark):hover {
+    border-color: var(--blue-500);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .image-preview:not(.dark) {
+    background-color: var(--gray-700);
+    border-color: var(--gray-600);
+  }
+  
+  .image-stats:not(.dark) {
+    color: var(--gray-500);
+  }
+} 

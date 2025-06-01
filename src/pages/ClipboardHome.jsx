@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { FaFileAlt, FaLink, FaFile, FaSearch, FaImage, FaStar, FaClock } from 'react-icons/fa';
 import TextCard from '../components/TextCard';
 import LinkCard from '../components/LinkCard';
+import ImageCard from '../components/ImageCard';
 import SearchBar from '../components/SearchBar';
 import FilterBar from '../components/FilterBar';
 import ContentState from '../components/ContentState';
@@ -206,6 +207,19 @@ class ClipboardHome extends React.Component {
     if (item.type === 'link') {
       return (
         <LinkCard
+          key={item._id}
+          item={item}
+          onCopy={this.handleCopy}
+          onToggleFavorite={this.handleToggleFavorite}
+          onDelete={this.handleDelete}
+        />
+      );
+    }
+
+    // 如果是图片类型，使用 ImageCard 组件
+    if (item.type === 'image') {
+      return (
+        <ImageCard
           key={item._id}
           item={item}
           onCopy={this.handleCopy}

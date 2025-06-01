@@ -127,17 +127,17 @@ class FilterBar extends React.Component {
               </button>
             )}
           </div>
-          <div className="right-actions">
+          <div className="right-actions flex items-center">
             <button 
               onClick={() => {
                 window.AppClipboard.fileService.writeTextFile('测试文本')
               }} 
-              className="action-btn test-btn"
+              className="action-btn test-btn flex items-center justify-center min-w-[80px]"
             >
               测试按钮
             </button>
             <button
-              className="action-btn clear-btn"
+              className="action-btn clear-btn flex items-center justify-center min-w-[80px]"
               onClick={onClearAll}
             >
               清空全部

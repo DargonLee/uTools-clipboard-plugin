@@ -112,26 +112,6 @@ class FilterBar extends React.Component {
             今日
           </button>
         </div>
-
-        {/* 操作按钮 */}
-        <div className="action-buttons-container">
-          <div className="right-actions flex items-center">
-            <button 
-              onClick={() => {
-                window.AppClipboard.fileService.writeTextFile('测试文本')
-              }} 
-              className="test-btn"
-            >
-              测试按钮
-            </button>
-            <button
-              className="clear-btn"
-              onClick={onClearAll}
-            >
-              清空全部
-            </button>
-          </div>
-        </div>
       </>
     );
   }

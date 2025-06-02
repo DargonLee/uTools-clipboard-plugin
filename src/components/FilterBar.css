@@ -178,56 +178,6 @@
   background-color: var(--gray-500);
 }
 
-/* 测试按钮 */
-.test-btn {
-  padding: var(--spacing-1) var(--spacing-3);
-  border-radius: var(--radius-sm);
-  font-size: 0.875rem;
-  transition: var(--transition-normal);
-  border: none;
-  cursor: pointer;
-  outline: none;
-  color: white;
-  background-color: var(--success-color);
-}
-
-.test-btn:hover {
-  padding: var(--spacing-1) var(--spacing-3);
-  border-radius: var(--radius-sm);
-  font-size: 0.875rem;
-  transition: var(--transition-normal);
-  border: none;
-  cursor: pointer;
-  outline: none;
-  color: white;
-  background-color: var(--success-hover);
-}
-
-/* 清空按钮 */
-.clear-btn {
-  padding: var(--spacing-1) var(--spacing-3);
-  border-radius: var(--radius-sm);
-  font-size: 0.875rem;
-  transition: var(--transition-normal);
-  border: none;
-  cursor: pointer;
-  outline: none;
-  color: white;
-  background-color: var(--danger-color);
-}
-
-.clear-btn:hover {
-  padding: var(--spacing-1) var(--spacing-3);
-  border-radius: var(--radius-sm);
-  font-size: 0.875rem;
-  transition: var(--transition-normal);
-  border: none;
-  cursor: pointer;
-  outline: none;
-  color: white;
-  background-color: var(--danger-hover);
-}
-
 /* 暗色模式媒体查询适配 */
 @media (prefers-color-scheme: dark) {
   .filter-btn.inactive:not(.dark) {

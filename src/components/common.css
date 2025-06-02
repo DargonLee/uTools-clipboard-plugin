@@ -448,4 +448,79 @@
     background-color: var(--blue-900);
     color: var(--blue-200);
   }
+}
+
+/* ========== 操作按钮样式 ========== */
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--spacing-8);
+  height: var(--spacing-8);
+  padding: var(--spacing-2);
+  border-radius: var(--radius-lg);
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition-normal);
+  transform-origin: center;
+  background-color: transparent;
+}
+
+.action-button:hover {
+  background-color: var(--gray-100);
+  transform: scale(1.05);
+}
+
+.action-button.dark:hover {
+  background-color: var(--gray-700);
+}
+
+.action-button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
+}
+
+.action-button svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--gray-500);
+  transition: var(--transition-normal);
+}
+
+.action-button.dark svg {
+  color: var(--gray-400);
+}
+
+/* 操作按钮颜色变体 */
+.action-button:hover svg.copy-icon {
+  color: var(--blue-600);
+}
+
+.action-button.dark:hover svg.copy-icon {
+  color: var(--blue-400);
+}
+
+.action-button:hover svg.favorite-icon {
+  color: var(--warning-color);
+}
+
+.action-button.dark:hover svg.favorite-icon {
+  color: rgb(251, 191, 36); /* yellow-400 */
+}
+
+.action-button:hover svg.delete-icon {
+  color: var(--danger-color);
+}
+
+.action-button.dark:hover svg.delete-icon {
+  color: rgb(248, 113, 113); /* red-400 */
+}
+
+/* 操作按钮容器 */
+.actions-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
 } 

@@ -8,7 +8,7 @@ alwaysApply: true
 本项目基于以下技术栈开发，适用于 uTools 插件的高效前端实现：
 
 - **React + JavaScript**：构建用户界面与组件逻辑，采用函数式与类组件混合模式。
-- **Tailwind CSS**（[官方文档](mdc:https:/tailwind.org.cn/docs)）：原子化 CSS 框架，实现高效、响应式、主题化样式开发。
+- **原生 CSS实现**：每个jsx文件都有自己的css文件，公共的样式则在/src/components/Common.css文件中
 - **react-icons**（[官方文档](mdc:https:/react-icons.github.io/react-icons)）：提供丰富的图标库，便于 UI 快速集成高质量 icon。
 - **Vite**（[官方文档](mdc:https:/cn.vitejs.dev/guide)）：极速前端构建工具，支持热更新和现代开发体验。
 - **uTools 插件开发**（[官方文档](mdc:https:/www.u-tools.cn/docs/developer/docs.html)）：遵循 uTools 插件开发规范，支持插件生命周期、主/渲染进程通信等。

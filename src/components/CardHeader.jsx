@@ -86,7 +86,7 @@ class CardHeader extends React.Component {
               onClick={() => onCopy && onCopy(item)}
               title="复制到剪贴板"
             >
-              <FaCopy />
+              <FaCopy className="copy-icon" />
             </button>
             
             {/* 收藏/取消收藏按钮 - 点击收藏后隐藏 */}
@@ -96,7 +96,7 @@ class CardHeader extends React.Component {
                 onClick={() => onToggleFavorite && onToggleFavorite(item)}
                 title="添加到收藏"
               >
-                <FaRegStar />
+                <FaRegStar className="favorite-icon" />
               </button>
             )}
             
@@ -106,7 +106,7 @@ class CardHeader extends React.Component {
               onClick={() => onDelete && onDelete(item)}
               title="删除"
             >
-              <FaTrashAlt />
+              <FaTrashAlt className="delete-icon" />
             </button>
           </div>
         )}

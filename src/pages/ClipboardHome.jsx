@@ -22,7 +22,12 @@ class ClipboardHome extends React.Component {
     enableStickyHeader: true, // 控制悬停功能的开关
     isHeaderSticky: false,
     lastScrollY: 0,
-    scrollDirection: 'down'
+    scrollDirection: 'down',
+    // 防重复复制相关状态
+    isIgnoringClipboard: false, // 是否忽略剪贴板变化
+    lastCopiedContent: null, // 最后一次复制的内容
+    lastCopiedType: null, // 最后一次复制的类型
+    ignoreTimer: null // 忽略定时器
   }
 
   async componentDidMount() {
@@ -35,6 +40,28 @@ class ClipboardHome extends React.Component {
     });
 
     window.AppClipboard.clipboardService.onChange(async (data) => {
+      // 防重复检查：如果正在忽略剪贴板变化，则跳过
+      if (this.state.isIgnoringClipboard) {
+        console.log('正在忽略剪贴板变化，跳过此次更新');
+        return;
+      }
+
+      // 防重复检查：如果内容与最近复制的内容相同，则跳过
+      if (data && this.state.lastCopiedContent && this.state.lastCopiedType) {
+        const isSameContent = data.content === this.state.lastCopiedContent;
+        const isSameType = data.type === this.state.lastCopiedType;
+        if (isSameContent && isSameType) {
+          console.log('检测到重复内容，跳过此次更新');
+          // 清除最后复制的记录，避免影响后续正常操作
+          this.setState({
+            lastCopiedContent: null,
+            lastCopiedType: null
+          });
+          return;
+        }
+      }
+
+      // 正常更新历史记录
       const newHistory = await window.AppClipboard.clipboardService.getAllHistory();
       this.setState({ 
         history: newHistory, 
@@ -51,6 +78,11 @@ class ClipboardHome extends React.Component {
   componentWillUnmount() {
     // 移除滚动监听器
     window.removeEventListener('scroll', this.handleScroll);
+    
+    // 清理防重复定时器
+    if (this.state.ignoreTimer) {
+      clearTimeout(this.state.ignoreTimer);
+    }
   }
 
   // 滚动处理函数
@@ -179,14 +211,48 @@ class ClipboardHome extends React.Component {
   // 复制操作处理
   handleCopy = async (item) => {
     console.log('复制', item.type, item.content);
+    
     try {
+      // 清理之前的定时器
+      if (this.state.ignoreTimer) {
+        clearTimeout(this.state.ignoreTimer);
+      }
+
+      // 设置防重复标志和记录即将复制的内容
+      this.setState({
+        isIgnoringClipboard: true,
+        lastCopiedContent: item.content,
+        lastCopiedType: item.type
+      });
+
+      // 执行复制操作
       if (item.type === 'image') {
         await window.AppClipboard.clipboardService.writeClipboardImage(item.content);
       } else {
         await window.AppClipboard.clipboardService.writeClipboardText(item.content);
       }
+
+      // 设置定时器，一段时间后取消忽略标志
+      const timer = setTimeout(() => {
+        this.setState({
+          isIgnoringClipboard: false,
+          ignoreTimer: null
+        });
+        console.log('恢复剪贴板监听');
+      }, 1000); // 1秒后恢复监听
+
+      this.setState({ ignoreTimer: timer });
+      
+      console.log('复制成功，暂时忽略剪贴板变化 1 秒');
+      
     } catch (error) {
       console.error('复制失败:', error);
+      // 复制失败时也要恢复监听
+      this.setState({
+        isIgnoringClipboard: false,
+        lastCopiedContent: null,
+        lastCopiedType: null
+      });
     }
   }
 

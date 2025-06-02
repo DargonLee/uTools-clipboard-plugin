@@ -210,7 +210,7 @@
 
 .copy-btn:hover {
   background-color: var(--blue-50);
-  border-radius: var(--border-radius-xl);
+  border-radius: var(--border-radius-md);
 }
 
 .copy-btn:hover .copy-icon {
@@ -232,7 +232,7 @@
 
 .favorite-btn:hover {
   background-color: #fef3c7;
-  border-radius: var(--border-radius-xl);
+  border-radius: var(--border-radius-md);
 }
 
 .favorite-btn:hover .favorite-icon {
@@ -254,7 +254,7 @@
 
 .delete-btn:hover {
   background-color: #fee2e2;
-  border-radius: var(--border-radius-xl);
+  border-radius: var(--border-radius-md);
 }
 
 .delete-btn:hover .delete-icon {

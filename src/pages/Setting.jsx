@@ -623,8 +623,8 @@ class Setting extends React.Component {
                       </div>
                     </div>
                     <div className="payment-label">点击查看二维码</div>
-                  </div>
-                </div>
+          </div>
+        </div>
 
                 <div className="support-info">
                   <p className="support-tips">

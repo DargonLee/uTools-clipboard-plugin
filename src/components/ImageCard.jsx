@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaImage } from 'react-icons/fa';
+import { FaImage, FaExpand } from 'react-icons/fa';
 import CardHeader from './CardHeader';
 import './ImageCard.css';
 
@@ -100,6 +100,7 @@ class ImageCard extends React.Component {
           {item.dimensions && (
             <span>{item.dimensions.width} × {item.dimensions.height}</span>
           )}
+          <span className="preview-tip">悬停后按空格预览</span>
         </div>
       </div>
     );

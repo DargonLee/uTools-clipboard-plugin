@@ -11,6 +11,8 @@ import './ImageCard.css';
  *   - onCopy: 复制回调函数
  *   - onToggleFavorite: 收藏/取消收藏回调函数
  *   - onDelete: 删除回调函数
+ *   - onHover: 鼠标进入回调函数
+ *   - onLeave: 鼠标离开回调函数
  */
 class ImageCard extends React.Component {
   // 获取当前主题状态
@@ -45,7 +47,7 @@ class ImageCard extends React.Component {
   }
 
   render() {
-    const { item, onCopy, onToggleFavorite, onDelete } = this.props;
+    const { item, onCopy, onToggleFavorite, onDelete, onHover, onLeave } = this.props;
     const isDark = this.getCurrentTheme();
 
     // 如果没有传入 item，显示空状态
@@ -60,7 +62,11 @@ class ImageCard extends React.Component {
     }
 
     return (
-      <div className={`image-card ${isDark ? 'dark' : ''}`}>
+      <div 
+        className={`image-card ${isDark ? 'dark' : ''}`}
+        onMouseEnter={onHover}
+        onMouseLeave={onLeave}
+      >
         
         {/* 使用 CardHeader 组件 */}
         <CardHeader

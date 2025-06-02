@@ -11,6 +11,7 @@ import SearchBar from '../components/SearchBar';
 import FilterBar from '../components/FilterBar';
 import ContentState from '../components/ContentState';
 import Setting from './Setting';
+import ImagePreview from '../components/ImagePreview';
 import './ClipboardHome.css';
 
 class ClipboardHome extends React.Component {
@@ -29,7 +30,12 @@ class ClipboardHome extends React.Component {
     lastCopiedContent: null, // 最后一次复制的内容
     lastCopiedType: null, // 最后一次复制的类型
     ignoreTimer: null, // 忽略定时器
-    showSetting: false // 是否显示设置页面
+    showSetting: false, // 是否显示设置页面
+    // 新增预览相关状态
+    hoveredCard: null,        // 当前悬停的卡片
+    hoveredCardType: null,    // 悬停卡片的类型
+    showImagePreview: false,  // 是否显示图片预览
+    previewImageData: null,   // 预览的图片数据
   }
 
   async componentDidMount() {
@@ -78,6 +84,10 @@ class ClipboardHome extends React.Component {
 
     // 添加滚动监听器
     window.addEventListener('scroll', this.handleScroll, { passive: true });
+
+    // 添加键盘事件监听
+    document.addEventListener('keydown', this.handleGlobalKeyDown);
+    document.addEventListener('keyup', this.handleGlobalKeyUp);
   }
 
   componentWillUnmount() {
@@ -88,6 +98,10 @@ class ClipboardHome extends React.Component {
     if (this.state.ignoreTimer) {
       clearTimeout(this.state.ignoreTimer);
     }
+
+    // 清理键盘事件监听
+    document.removeEventListener('keydown', this.handleGlobalKeyDown);
+    document.removeEventListener('keyup', this.handleGlobalKeyUp);
   }
 
   // 滚动处理函数
@@ -351,17 +365,68 @@ class ClipboardHome extends React.Component {
     }
   }
 
-  // 渲染单个历史记录项
+  // 全局键盘事件处理
+  handleGlobalKeyDown = (e) => {
+    // 如果当前有悬停的图片卡片，按空格键预览
+    if (e.code === 'Space' && this.state.hoveredCard && this.state.hoveredCardType === 'image') {
+      e.preventDefault();
+      this.showImagePreview(this.state.hoveredCard);
+    }
+  }
+
+  handleGlobalKeyUp = (e) => {
+    // 处理按键释放事件
+  }
+
+  // 处理卡片悬停
+  handleCardHover = (item, cardType) => {
+    this.setState({
+      hoveredCard: item,
+      hoveredCardType: cardType
+    });
+  }
+
+  // 处理卡片离开悬停
+  handleCardLeave = () => {
+    this.setState({
+      hoveredCard: null,
+      hoveredCardType: null
+    });
+  }
+
+  // 显示图片预览
+  showImagePreview = (imageItem) => {
+    this.setState({
+      showImagePreview: true,
+      previewImageData: imageItem
+    });
+  }
+
+  // 关闭图片预览
+  closeImagePreview = () => {
+    this.setState({
+      showImagePreview: false,
+      previewImageData: null
+    });
+  }
+
+  // 修改渲染单个历史记录项的方法
   renderHistoryItem = (item) => {
+    const commonProps = {
+      onCopy: this.handleCopy,
+      onToggleFavorite: this.handleToggleFavorite,
+      onDelete: this.handleDelete,
+      onHover: () => this.handleCardHover(item, item.type),
+      onLeave: this.handleCardLeave
+    };
+
     // 如果是文本类型，使用 TextCard 组件
     if (item.type === 'text') {
       return (
         <TextCard
           key={item._id}
           item={item}
-          onCopy={this.handleCopy}
-          onToggleFavorite={this.handleToggleFavorite}
-          onDelete={this.handleDelete}
+          {...commonProps}
         />
       );
     }
@@ -372,9 +437,7 @@ class ClipboardHome extends React.Component {
         <LinkCard
           key={item._id}
           item={item}
-          onCopy={this.handleCopy}
-          onToggleFavorite={this.handleToggleFavorite}
-          onDelete={this.handleDelete}
+          {...commonProps}
         />
       );
     }
@@ -385,9 +448,7 @@ class ClipboardHome extends React.Component {
         <ImageCard
           key={item._id}
           item={item}
-          onCopy={this.handleCopy}
-          onToggleFavorite={this.handleToggleFavorite}
-          onDelete={this.handleDelete}
+          {...commonProps}
         />
       );
     }
@@ -398,20 +459,17 @@ class ClipboardHome extends React.Component {
         <FileCard
           key={item._id}
           item={item}
-          onCopy={this.handleCopy}
-          onToggleFavorite={this.handleToggleFavorite}
-          onDelete={this.handleDelete}
+          {...commonProps}
         />
       );
     }
 
-    // 未知类型返回 null，不渲染
     return null;
   }
 
   render() {
     const { enterAction } = this.props;
-    const { history, searchKeyword, selectedType, isLoading, enableStickyHeader, isHeaderSticky, showSetting } = this.state;
+    const { history, searchKeyword, selectedType, isLoading, enableStickyHeader, isHeaderSticky, showSetting, showImagePreview, previewImageData } = this.state;
     
     // 如果显示设置页面，直接返回设置组件
     if (showSetting) {
@@ -473,6 +531,14 @@ class ClipboardHome extends React.Component {
             />
           </div>
         </div>
+
+        {/* 图片预览组件 */}
+        <ImagePreview
+          isVisible={showImagePreview}
+          imageData={previewImageData}
+          onClose={this.closeImagePreview}
+          onCopy={this.handleCopy}
+        />
       </div>
     );
   }

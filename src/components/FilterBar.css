@@ -180,62 +180,52 @@
 
 /* 测试按钮 */
 .test-btn {
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  transition: var(--transition-normal);
+  border: none;
+  cursor: pointer;
+  outline: none;
+  color: white;
   background-color: var(--success-color);
 }
 
 .test-btn:hover {
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  transition: var(--transition-normal);
+  border: none;
+  cursor: pointer;
+  outline: none;
+  color: white;
   background-color: var(--success-hover);
 }
 
 /* 清空按钮 */
 .clear-btn {
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  transition: var(--transition-normal);
+  border: none;
+  cursor: pointer;
+  outline: none;
+  color: white;
   background-color: var(--danger-color);
 }
 
 .clear-btn:hover {
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  transition: var(--transition-normal);
+  border: none;
+  cursor: pointer;
+  outline: none;
+  color: white;
   background-color: var(--danger-hover);
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .filter-buttons-container {
-    gap: var(--spacing-1);
-  }
-  
-  .filter-btn {
-    padding: var(--spacing-1) var(--spacing-3);
-    font-size: 0.8rem;
-  }
-  
-  .action-buttons-container {
-    flex-direction: column;
-    gap: var(--spacing-2);
-    align-items: stretch;
-  }
-  
-  .left-actions,
-  .right-actions {
-    justify-content: center;
-  }
-  
-  .action-btn {
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .filter-buttons-container {
-    gap: var(--spacing-1);
-  }
-  
-  .filter-btn {
-    padding: var(--spacing-1) var(--spacing-2);
-    font-size: 0.75rem;
-  }
-  
-  .filter-btn-icon {
-    margin-right: 0.125rem;
-  }
 }
 
 /* 暗色模式媒体查询适配 */

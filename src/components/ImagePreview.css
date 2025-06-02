@@ -13,6 +13,9 @@
     align-items: center;
     justify-content: center;
     animation: fadeIn 0.2s ease-out;
+    /* 阻止滚动穿透 */
+    overscroll-behavior: contain;
+    touch-action: none;
   }
   
   @keyframes fadeIn {

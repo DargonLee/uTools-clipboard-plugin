@@ -24,22 +24,32 @@ class ImagePreview extends React.Component {
     // 监听键盘事件
     document.addEventListener('keydown', this.handleKeyDown);
     document.addEventListener('keyup', this.handleKeyUp);
+    // 只在预览可见时才禁用页面滚动
+    if (this.props.isVisible) {
+      this.lockBodyScroll();
+    }
   }
 
   componentWillUnmount() {
     // 清理事件监听器
     document.removeEventListener('keydown', this.handleKeyDown);
     document.removeEventListener('keyup', this.handleKeyUp);
+    // 恢复页面滚动
+    this.unlockBodyScroll();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.isVisible && !prevProps.isVisible) {
-      // 显示预览时重置状态
+      // 显示预览时重置状态并禁用滚动
       this.setState({
         isZoomed: false,
         scale: 1,
         imagePosition: { x: 0, y: 0 }
       });
+      this.lockBodyScroll();
+    } else if (!this.props.isVisible && prevProps.isVisible) {
+      // 隐藏预览时恢复滚动
+      this.unlockBodyScroll();
     }
   }
 
@@ -161,6 +171,41 @@ class ImagePreview extends React.Component {
     if (e.target === e.currentTarget) {
       this.props.onClose();
     }
+  }
+
+  // 锁定页面滚动
+  lockBodyScroll = () => {
+    // 避免重复锁定
+    if (this.isScrollLocked) return;
+    
+    // 保存当前滚动位置
+    this.scrollPosition = window.pageYOffset;
+    // 禁用滚动
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${this.scrollPosition}px`;
+    document.body.style.width = '100%';
+    
+    this.isScrollLocked = true;
+  }
+
+  // 恢复页面滚动
+  unlockBodyScroll = () => {
+    // 避免重复解锁
+    if (!this.isScrollLocked) return;
+    
+    // 恢复滚动
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    // 恢复滚动位置
+    if (this.scrollPosition !== undefined) {
+      window.scrollTo(0, this.scrollPosition);
+      this.scrollPosition = undefined;
+    }
+    
+    this.isScrollLocked = false;
   }
 
   render() {

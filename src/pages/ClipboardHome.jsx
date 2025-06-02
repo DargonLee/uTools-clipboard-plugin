@@ -295,76 +295,8 @@ class ClipboardHome extends React.Component {
       );
     }
 
-    // 其他类型保持原来的渲染方式
-    return (
-      <div key={item._id} className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm transition-all">
-        <div className="flex items-start justify-between">
-          {/* 左侧内容 */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center space-x-3 mb-2">
-              {this.getTypeIcon(item.type)}
-              <span className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full capitalize">
-                {item.type === 'files' ? '文件' : 
-                 item.type === 'image' ? '图片' : 
-                 item.type === 'link' ? '链接' : '文本'}
-              </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                {formatTime(item.time)}
-              </span>
-              {item.favorite && (
-                <FaStar className="text-yellow-500 text-xs" title="已收藏" />
-              )}
-            </div>
-            
-            {/* 内容显示 */}
-            <div className="mb-2">
-              {item.type === 'image' ? (
-                <img
-                  src={item.content}
-                  alt="剪贴板图片"
-                  className="max-w-xs max-h-32 rounded border object-cover"
-                />
-              ) : (
-                <div className="text-gray-800 dark:text-gray-200 text-sm leading-relaxed">
-                  {truncateText(item.content, 200)}
-                </div>
-              )}
-            </div>
-            
-            {/* 元信息 */}
-            <div className="text-xs text-gray-400 dark:text-gray-500">
-              {item.content?.length > 0 && `${item.content.length} 字符`}
-            </div>
-          </div>
-
-          {/* 右侧操作按钮 */}
-          <div className="flex flex-col space-y-1 ml-4">
-            <button
-              className="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition-colors"
-              onClick={() => this.handleCopy(item)}
-            >
-              复制
-            </button>
-            <button
-              className={`px-3 py-1 rounded text-xs transition-colors ${
-                item.favorite 
-                  ? 'bg-yellow-400 text-black hover:bg-yellow-500' 
-                  : 'bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-500'
-              }`}
-              onClick={() => this.handleToggleFavorite(item)}
-            >
-              {item.favorite ? '取消收藏' : '收藏'}
-            </button>
-            <button
-              className="px-3 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600 transition-colors"
-              onClick={() => this.handleDelete(item)}
-            >
-              删除
-            </button>
-          </div>
-        </div>
-      </div>
-    );
+    // 未知类型返回 null，不渲染
+    return null;
   }
 
   render() {

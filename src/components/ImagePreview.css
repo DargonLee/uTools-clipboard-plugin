@@ -5,12 +5,13 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(15px) saturate(1.2);
+    -webkit-backdrop-filter: blur(15px) saturate(1.2);
     z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(8px);
     animation: fadeIn 0.2s ease-out;
   }
   
@@ -40,12 +41,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px) saturate(1.5);
+    -webkit-backdrop-filter: blur(15px) saturate(1.5);
     border-radius: 12px;
     padding: 12px 20px;
     z-index: 10000;
     color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .toolbar-left {
@@ -132,13 +135,15 @@
     transform: translateX(-50%);
     display: flex;
     gap: 16px;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px) saturate(1.5);
+    -webkit-backdrop-filter: blur(15px) saturate(1.5);
     border-radius: 8px;
     padding: 8px 16px;
     color: rgba(255, 255, 255, 0.8);
     font-size: 12px;
     z-index: 10000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .preview-shortcuts span {
@@ -183,10 +188,22 @@
   /* 暗色模式适配 */
   @media (prefers-color-scheme: dark) {
     .image-preview-overlay {
-      background-color: rgba(0, 0, 0, 0.95);
+      background: rgba(0, 0, 0, 0.4);
     }
   }
   
   [data-theme="dark"] .image-preview-overlay {
-    background-color: rgba(0, 0, 0, 0.95);
+    background: rgba(0, 0, 0, 0.4);
+  }
+  
+  /* 不支持 backdrop-filter 的浏览器兼容性 */
+  @supports not (backdrop-filter: blur(1px)) {
+    .image-preview-overlay {
+      background: rgba(0, 0, 0, 0.7);
+    }
+    
+    .preview-toolbar,
+    .preview-shortcuts {
+      background: rgba(0, 0, 0, 0.8);
+    }
   }

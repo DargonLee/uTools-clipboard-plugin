@@ -12,6 +12,7 @@ import FilterBar from '../components/FilterBar';
 import ContentState from '../components/ContentState';
 import Setting from './Setting';
 import ImagePreview from '../components/ImagePreview';
+import TextPreview from '../components/TextPreview';
 import './ClipboardHome.css';
 
 class ClipboardHome extends React.Component {
@@ -36,6 +37,8 @@ class ClipboardHome extends React.Component {
     hoveredCardType: null,    // 悬停卡片的类型
     showImagePreview: false,  // 是否显示图片预览
     previewImageData: null,   // 预览的图片数据
+    showTextPreview: false,   // 是否显示文本预览
+    previewTextData: null,    // 预览的文本数据
   }
 
   async componentDidMount() {
@@ -367,10 +370,14 @@ class ClipboardHome extends React.Component {
 
   // 全局键盘事件处理
   handleGlobalKeyDown = (e) => {
-    // 如果当前有悬停的图片卡片，按空格键预览
-    if (e.code === 'Space' && this.state.hoveredCard && this.state.hoveredCardType === 'image') {
+    // 如果当前有悬停的卡片，按空格键预览
+    if (e.code === 'Space' && this.state.hoveredCard && this.state.hoveredCardType) {
       e.preventDefault();
-      this.showImagePreview(this.state.hoveredCard);
+      if (this.state.hoveredCardType === 'image') {
+        this.showImagePreview(this.state.hoveredCard);
+      } else if (this.state.hoveredCardType === 'text') {
+        this.showTextPreview(this.state.hoveredCard);
+      }
     }
   }
 
@@ -407,6 +414,22 @@ class ClipboardHome extends React.Component {
     this.setState({
       showImagePreview: false,
       previewImageData: null
+    });
+  }
+
+  // 显示文本预览
+  showTextPreview = (textItem) => {
+    this.setState({
+      showTextPreview: true,
+      previewTextData: textItem
+    });
+  }
+
+  // 关闭文本预览
+  closeTextPreview = () => {
+    this.setState({
+      showTextPreview: false,
+      previewTextData: null
     });
   }
 
@@ -469,7 +492,19 @@ class ClipboardHome extends React.Component {
 
   render() {
     const { enterAction } = this.props;
-    const { history, searchKeyword, selectedType, isLoading, enableStickyHeader, isHeaderSticky, showSetting, showImagePreview, previewImageData } = this.state;
+    const { 
+      history, 
+      searchKeyword, 
+      selectedType, 
+      isLoading, 
+      enableStickyHeader, 
+      isHeaderSticky, 
+      showSetting, 
+      showImagePreview, 
+      previewImageData,
+      showTextPreview,
+      previewTextData
+    } = this.state;
     
     // 如果显示设置页面，直接返回设置组件
     if (showSetting) {
@@ -537,6 +572,14 @@ class ClipboardHome extends React.Component {
           isVisible={showImagePreview}
           imageData={previewImageData}
           onClose={this.closeImagePreview}
+          onCopy={this.handleCopy}
+        />
+
+        {/* 文本预览组件 */}
+        <TextPreview
+          isVisible={showTextPreview}
+          textData={previewTextData}
+          onClose={this.closeTextPreview}
           onCopy={this.handleCopy}
         />
       </div>

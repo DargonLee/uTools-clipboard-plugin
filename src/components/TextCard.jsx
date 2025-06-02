@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFileAlt } from 'react-icons/fa';
+import { FaFileAlt, FaExpand } from 'react-icons/fa';
 import { truncateText, countCharacters, countLines } from '../utils/TextUtils';
 import CardHeader from './CardHeader';
 import './TextCard.css';
@@ -12,6 +12,8 @@ import './TextCard.css';
  *   - onCopy: 复制回调函数
  *   - onToggleFavorite: 收藏/取消收藏回调函数
  *   - onDelete: 删除回调函数
+ *   - onHover: 鼠标进入回调函数
+ *   - onLeave: 鼠标离开回调函数
  */
 class TextCard extends React.Component {
   // 获取当前主题状态
@@ -19,8 +21,13 @@ class TextCard extends React.Component {
     return document.documentElement.classList.contains('dark');
   }
 
+  // 检查文本是否被截断
+  isTextTruncated = (originalText, truncatedText) => {
+    return originalText.length > truncatedText.length;
+  }
+
   render() {
-    const { item, onCopy, onToggleFavorite, onDelete } = this.props;
+    const { item, onCopy, onToggleFavorite, onDelete, onHover, onLeave } = this.props;
     const isDark = this.getCurrentTheme();
 
     // 如果没有传入 item，显示空状态
@@ -34,8 +41,15 @@ class TextCard extends React.Component {
       );
     }
 
+    const truncatedText = truncateText(item.content, 200);
+    const isTruncated = this.isTextTruncated(item.content, truncatedText);
+
     return (
-      <div className={`text-card ${isDark ? 'dark' : ''}`}>
+      <div 
+        className={`text-card ${isDark ? 'dark' : ''}`}
+        onMouseEnter={onHover}
+        onMouseLeave={onLeave}
+      >
         
         {/* 使用 CardHeader 组件 */}
         <CardHeader
@@ -51,7 +65,7 @@ class TextCard extends React.Component {
         {/* 文本内容 */}
         <div className="text-content">
           <div className={`text-content-body ${isDark ? 'dark' : ''}`}>
-            {truncateText(item.content, 200)}
+            {truncatedText}
           </div>
         </div>
         
@@ -60,6 +74,9 @@ class TextCard extends React.Component {
           <span>{countCharacters(item.content)} 字符</span>
           {item.content && countLines(item.content) > 1 && (
             <span>{countLines(item.content)} 行</span>
+          )}
+          {isTruncated && (
+            <span className="preview-tip">悬停后按空格预览</span>
           )}
         </div>
       </div>

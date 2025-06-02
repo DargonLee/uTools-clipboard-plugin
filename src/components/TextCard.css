@@ -66,6 +66,7 @@
 }
 
 .text-content-body {
+  position: relative;
   color: var(--gray-900);
   font-size: 0.875rem;
   line-height: 1.625;
@@ -94,6 +95,19 @@
   display: inline-block;
 }
 
+/* 预览提示文字 */
+.preview-tip {
+  color: var(--blue-500) !important;
+  font-weight: 500;
+  font-size: 0.7rem;
+  opacity: 0.8;
+  margin-left: auto;
+}
+
+.text-stats.dark .preview-tip {
+  color: var(--blue-400) !important;
+}
+
 /* CardHeader图标调整 */
 .text-card .card-header .type-icon svg {
   width: 1rem;
@@ -108,6 +122,32 @@
   
   .text-stats {
     gap: var(--spacing-3);
+  }
+  
+  .hint-text {
+    font-size: 0.75rem;
+  }
+  
+  .hint-icon {
+    font-size: 1rem;
+  }
+  
+  .preview-tip {
+    margin-left: 0;
+    margin-top: var(--spacing-1);
+  }
+}
+
+/* 小屏幕优化 */
+@media (max-width: 480px) {
+  .text-stats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-1);
+  }
+  
+  .hint-text {
+    font-size: 0.7rem;
   }
 }
 
@@ -133,5 +173,13 @@
   
   .text-stats:not(.dark) {
     color: var(--gray-500);
+  }
+  
+  .text-stats:not(.dark) .preview-tip {
+    color: var(--blue-400) !important;
+  }
+  
+  .text-preview-hint:not(.dark) {
+    background: rgba(37, 99, 235, 0.9);
   }
 } 

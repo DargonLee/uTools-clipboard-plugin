@@ -58,7 +58,7 @@ class ContentState extends React.Component {
 
         {/* 历史记录列表 */}
         {!isLoading && history.length > 0 && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {history.map(item => renderHistoryItem(item))}
           </div>
         )}

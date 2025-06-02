@@ -2,7 +2,7 @@
 // {JSON.stringify(enterAction, undefined, 2)}
 // {"code": "paste", "type": "text", "payload": "Easy剪贴板","from": "main"}
 import React, { useEffect } from 'react';
-import { FaFileAlt, FaLink, FaFile, FaSearch, FaImage, FaStar, FaClock } from 'react-icons/fa';
+import { FaFileAlt, FaLink, FaFile, FaImage } from 'react-icons/fa';
 import TextCard from '../components/TextCard';
 import LinkCard from '../components/LinkCard';
 import ImageCard from '../components/ImageCard';
@@ -10,8 +10,6 @@ import FileCard from '../components/FileCard';
 import SearchBar from '../components/SearchBar';
 import FilterBar from '../components/FilterBar';
 import ContentState from '../components/ContentState';
-import { formatTime } from '../utils/TimeUtils';
-import { truncateText } from '../utils/TextUtils';
 import './ClipboardHome.css';
 
 class ClipboardHome extends React.Component {
@@ -21,7 +19,6 @@ class ClipboardHome extends React.Component {
     searchKeyword: '',
     selectedType: 'all',
     isLoading: false,
-    // 滚动相关状态
     enableStickyHeader: true, // 控制悬停功能的开关
     isHeaderSticky: false,
     lastScrollY: 0,
@@ -317,7 +314,7 @@ class ClipboardHome extends React.Component {
     const shouldShowSticky = enableStickyHeader && isHeaderSticky;
 
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      <div className="min-h-screen bg-gray-50 transition-colors">
         <div className="max-w-4xl mx-auto p-4">
           {/* 悬停头部容器 */}
           <div className={`header-container ${shouldShowSticky ? 'sticky-header' : ''}`}>

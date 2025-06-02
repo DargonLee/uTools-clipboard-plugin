@@ -192,8 +192,8 @@
 }
 
 .action-btn svg {
-  width: 1rem;
-  height: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
   color: var(--gray-500);
   transition: var(--transition-normal);
 }
@@ -267,30 +267,6 @@
 
 .delete-btn.dark:hover .delete-icon {
   color: rgb(248, 113, 113); /* red-400 */
-}
-
-/* 响应式设计 - 移动端优化 */
-@media (max-width: 768px) {
-  .type-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: var(--border-radius); /* 移动端使用较小圆角 */
-  }
-  
-  .type-tag {
-    padding: 0.125rem 0.5rem;
-    font-size: 0.7rem;
-  }
-  
-  .action-btn {
-    width: 1.75rem;
-    height: 1.75rem;
-    border-radius: var(--border-radius);
-  }
-  
-  .action-btn:hover {
-    border-radius: var(--border-radius-lg);
-  }
 }
 
 /* 暗色模式媒体查询适配 */

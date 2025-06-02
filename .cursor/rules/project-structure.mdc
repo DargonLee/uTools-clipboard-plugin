@@ -5,31 +5,157 @@ alwaysApply: false
 ---
 # 项目结构说明
 
-本项目为一款现代化 macOS 剪贴板管理工具，主要功能包括剪贴板历史、分类管理、搜索、收藏、快捷操作等，界面极简高效，详见 [prd/README.md](mdc:prd/README.md)。
+本项目为一款现代化 uTools 剪贴板管理插件，主要功能包括剪贴板历史、分类管理、搜索、收藏、快捷操作等，界面极简高效，采用原生 CSS + React 19 技术栈开发。
 
-## 主要目录与文件
+## 技术架构
 
-- [src/](mdc:src)：前端源码目录，包含主要的 React 组件和页面。
-  - [App.jsx](mdc:src/App.jsx)：应用主入口组件。
-  - [main.jsx](mdc:src/main.jsx)：前端渲染入口。
-  - [components/](mdc:src/components)：通用 UI 组件目录。
-    - [ClipboardCard.jsx](mdc:src/components/ClipboardCard.jsx)：剪贴板内容卡片组件。
-    - [CategoryTabs.jsx](mdc:src/components/CategoryTabs.jsx)：顶部分类 Tab 组件。
-    - [TopBar.jsx](mdc:src/components/TopBar.jsx)：顶部导航栏组件。
-    - [SearchBar.jsx](mdc:src/components/SearchBar.jsx)：搜索栏组件。
-    - [EmptyState.jsx](mdc:src/components/EmptyState.jsx)：空状态展示组件。
-    - [BottomTip.jsx](mdc:src/components/BottomTip.jsx)：底部提示组件。
-    - [index.js](mdc:src/components/index.js)：组件统一导出入口。
-  - [Write/index.jsx](mdc:src/Write/index.jsx)：剪贴板写入相关页面或组件。
-  - [Read/index.jsx](mdc:src/Read/index.jsx)：剪贴板读取相关页面或组件。
-  - [Hello/index.jsx](mdc:src/Hello/index.jsx)：欢迎页或测试页面。
-  - 相关 CSS 文件用于样式定制。
-- [public/](mdc:public)：静态资源目录。
-  - [plugin.json](mdc:public/plugin.json)：插件配置文件。
-  - [logo.png](mdc:public/logo.png)：应用 Logo。
-  - [preload/services.js](mdc:public/preload/services.js)：预加载脚本，可能用于与主进程通信。
-- [prd/README.md](mdc:prd/README.md)：产品原型与功能说明文档。
+- **前端框架**：React 19 + JavaScript (ES6+)
+- **样式系统**：原生 CSS + CSS 变量
+- **构建工具**：Vite 6.0.11
+- **图标库**：react-icons 5.5.0
+- **运行环境**：uTools 插件环境
+- **通信机制**：Electron + uTools API
+
+## 主要目录结构
+
+```
+uTools-clipboard-plugin/
+├── .cursor/                    # Cursor 配置目录
+│   └── rules/                 # 项目规则文档
+│       ├── tech-stack.mdc     # 技术栈说明
+│       ├── project-feature.mdc # 功能特性说明
+│       └── project-structure.mdc # 项目结构说明（本文件）
+├── src/                       # 前端源码目录
+│   ├── main.jsx              # React 应用入口
+│   ├── main.css              # 全局 CSS 变量和基础样式
+│   ├── App.jsx               # 应用主组件
+│   ├── components/           # 通用 UI 组件目录
+│   │   ├── index.js          # 组件统一导出入口
+│   │   ├── Common.css        # 公共组件样式扩展
+│   │   ├── README_CSS.md     # CSS 架构指南
+│   │   ├── CardHeader.jsx/css      # 卡片头部组件
+│   │   ├── FilterBar.jsx/css       # 过滤栏组件
+│   │   ├── SearchBar.jsx/css       # 搜索栏组件
+│   │   ├── TextCard.jsx/css        # 文本卡片组件
+│   │   ├── ImageCard.jsx/css       # 图片卡片组件
+│   │   ├── FileCard.jsx/css        # 文件卡片组件
+│   │   ├── LinkCard.jsx/css        # 链接卡片组件
+│   │   ├── ContentState.jsx        # 内容状态组件
+│   │   └── EmptyState.jsx          # 空状态展示组件
+│   ├── pages/                # 页面组件目录
+│   │   ├── ClipboardHome.jsx/css   # 剪贴板主页
+│   │   ├── Setting.jsx             # 设置页面
+│   │   └── Hello.jsx               # 欢迎页面
+│   └── utils/                # 工具函数目录
+│       ├── TimeUtils.js      # 时间处理工具
+│       └── TextUtils.js      # 文本处理工具
+├── public/                   # 静态资源目录
+│   ├── index.html           # HTML 入口
+│   ├── plugin.json          # uTools 插件配置
+│   ├── logo.png             # 应用 Logo
+│   └── preload/             # 预加载脚本目录
+│       ├── services.js      # 主进程通信服务
+│       └── package.json     # 预加载模块配置
+├── prd/                     # 产品原型和设计文档
+│   ├── README.mdc           # 产品功能说明
+│   ├── claude.html          # Claude 原型设计
+│   ├── index.html           # 主页原型
+│   ├── settings.html        # 设置页原型
+│   ├── favorites.html       # 收藏页原型
+│   └── version*.png         # 版本设计图
+├── package.json             # 项目依赖配置
+├── vite.config.js          # Vite 构建配置
+├── jsconfig.json           # JavaScript 配置
+├── .prettierrc             # 代码格式化配置
+└── README.md               # 项目说明文档
+```
+
+## 核心组件说明
+
+### 页面级组件 (`src/pages/`)
+
+- **`ClipboardHome.jsx`** - 剪贴板主页面，包含搜索、过滤、内容展示等核心功能
+- **`Setting.jsx`** - 设置页面，用于配置插件参数和用户偏好
+- **`Hello.jsx`** - 欢迎页面或测试页面
+
+### UI 组件 (`src/components/`)
+
+#### 布局组件
+- **`CardHeader.jsx`** - 卡片头部组件，包含类型图标、标签、时间、操作按钮
+- **`FilterBar.jsx`** - 过滤栏组件，提供类型过滤和快捷操作
+- **`SearchBar.jsx`** - 搜索栏组件，支持关键词搜索
+
+#### 内容卡片组件
+- **`TextCard.jsx`** - 文本内容卡片，显示文本剪贴板内容
+- **`ImageCard.jsx`** - 图片内容卡片，显示图片预览和信息
+- **`FileCard.jsx`** - 文件内容卡片，显示文件信息和操作
+- **`LinkCard.jsx`** - 链接内容卡片，显示链接预览和元信息
+
+#### 状态组件
+- **`ContentState.jsx`** - 内容状态管理组件
+- **`EmptyState.jsx`** - 空状态展示组件
+
+### 工具模块 (`src/utils/`)
+
+- **`TimeUtils.js`** - 时间格式化和处理工具
+- **`TextUtils.js`** - 文本分析和处理工具
+
+### 样式系统
+
+- **`main.css`** - 全局 CSS 变量、重置样式、通用工具类
+- **`Common.css`** - 公共组件样式扩展和深色模式兼容
+- **组件样式文件** - 每个组件都有对应的 CSS 文件，遵循 BEM 命名规范
+
+## uTools 插件配置
+
+### 插件功能 (`public/plugin.json`)
+
+1. **paste** - 主要剪贴板功能
+   - 关键词：`Easy剪贴板`、`EasyPaste`
+   - 入口：剪贴板历史管理主界面
+
+2. **setting** - 设置功能
+   - 关键词：`设置`
+   - 入口：插件设置和配置页面
+
+3. **write** - 文件保存功能
+   - 类型：`over`、`img`
+   - 功能：将剪贴板内容保存为文件
+
+### 预加载脚本 (`public/preload/services.js`)
+
+- **主进程通信**：提供 React 组件与 uTools 主进程的通信桥梁
+- **剪贴板操作**：封装剪贴板读写操作
+- **文件操作**：文件保存和读取功能
+- **系统集成**：与操作系统的深度集成功能
+
+## 开发工作流
+
+### 开发环境启动
+```bash
+pnpm dev          # 启动 Vite 开发服务器 (localhost:5173)
+```
+
+### 生产构建
+```bash
+npm run build        # 构建用于 uTools 的生产版本
+```
+
+### 代码规范
+- **JavaScript**：使用 Standard 代码风格
+- **CSS**：遵循 BEM 命名规范
+- **组件**：使用 React 类组件和函数组件混合模式
+- **格式化**：使用 Prettier 自动格式化
+
+## 设计原则
+
+1. **模块化架构**：每个组件都有独立的 JSX 和 CSS 文件
+2. **响应式设计**：支持不同尺寸的 uTools 窗口
+3. **主题切换**：支持浅色/深色模式自动切换
+4. **性能优化**：利用 React 19 并发特性和 Vite 构建优化
+5. **用户体验**：极简界面，快捷操作，高效交互
 
 ## 入口说明
 - 前端入口：`src/main.jsx` 加载 `App.jsx`。
 - 产品与交互设计详见 [prd/README.md](mdc:prd/README.md)。
+- UI设计参考 [prd/claude.html]

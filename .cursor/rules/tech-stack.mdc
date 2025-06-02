@@ -52,7 +52,6 @@ src/
 │   ├── CardHeader.jsx/css      # 卡片头部组件
 │   ├── FilterBar.jsx/css       # 过滤栏组件
 │   ├── SearchBar.jsx/css       # 搜索栏组件
-│   ├── CategoryTabs.jsx        # 分类标签组件
 │   ├── ClipboardCard.jsx       # 剪贴板卡片组件
 │   ├── TextCard.jsx/css        # 文本卡片组件
 │   ├── ImageCard.jsx/css       # 图片卡片组件
@@ -60,8 +59,6 @@ src/
 │   ├── LinkCard.jsx/css        # 链接卡片组件
 │   ├── EmptyState.jsx          # 空状态组件
 │   ├── ContentState.jsx        # 内容状态组件
-│   ├── BottomTip.jsx           # 底部提示组件
-│   └── TopBar.jsx              # 顶部栏组件
 ├── pages/              # 页面组件
 ├── utils/              # 工具函数
 ├── main.jsx           # React 应用入口
@@ -102,7 +99,7 @@ public/
 
 ```bash
 # 开发模式 (热更新)
-npm run dev          # 启动 Vite 开发服务器 (localhost:5173)
+pnpm dev          # 启动 Vite 开发服务器 (localhost:5173)
 
 # 生产构建
 npm run build        # 构建用于 uTools 的生产版本

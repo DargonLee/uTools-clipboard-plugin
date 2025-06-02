@@ -79,12 +79,12 @@
 
 .action-button.dark:hover svg.copy-icon {
   color: var(--blue-400);
-}
-
+  }
+  
 .action-button.dark:hover svg.favorite-icon {
   color: var(--warning-color);
-}
-
+  }
+  
 .action-button.dark:hover svg.delete-icon {
   color: var(--danger-color);
 }

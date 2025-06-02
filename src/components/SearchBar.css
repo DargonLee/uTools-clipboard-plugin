@@ -6,9 +6,17 @@
   margin-bottom: var(--spacing-4);
 }
 
+/* 搜索栏布局容器 */
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
 /* 搜索输入容器 */
 .search-input-container {
   position: relative;
+  flex: 1;
 }
 
 /* 搜索图标 */
@@ -175,5 +183,65 @@
   
   .search-hint:not(.dark) {
     color: var(--gray-400);
+  }
+}
+
+/* 设置按钮样式 */
+.setting-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: var(--border-radius-lg);
+  color: white;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  outline: none;
+}
+
+.setting-button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.setting-button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.setting-button:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
+}
+
+.setting-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* 暗色模式设置按钮 */
+.setting-button.dark {
+  background-color: var(--primary-600);
+}
+
+.setting-button.dark:hover {
+  background-color: var(--primary-700);
+}
+
+/* 响应式设计 - 设置按钮 */
+@media (max-width: 640px) {
+  .setting-button {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+  
+  .setting-button svg {
+    width: 0.875rem;
+    height: 0.875rem;
   }
 } 

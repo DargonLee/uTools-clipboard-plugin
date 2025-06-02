@@ -1,13 +1,14 @@
 import React from 'react';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaCog } from 'react-icons/fa';
 import './SearchBar.css';
 
 /**
  * 搜索栏组件
- * 提供搜索输入和清除功能
+ * 提供搜索输入和清除功能，以及设置按钮
  * Props:
  *   - searchKeyword: 当前搜索关键词
  *   - onSearch: 搜索回调函数，参数为搜索关键词
+ *   - onSettingClick: 设置按钮点击回调函数
  *   - placeholder: 输入框占位符，默认为"搜索剪贴板内容..."
  *   - className: 可选的额外样式类名
  */
@@ -60,6 +61,7 @@ class SearchBar extends React.Component {
   render() {
     const { 
       searchKeyword, 
+      onSettingClick,
       placeholder = "搜索剪贴板内容...", 
       className = "" 
     } = this.props;
@@ -68,29 +70,42 @@ class SearchBar extends React.Component {
 
     return (
       <div className={`search-bar ${className}`}>
-        <div className="search-input-container">
-          {/* 搜索图标 */}
-          <FaSearch className={`search-icon ${isDark ? 'dark' : ''}`} />
+        <div className="search-bar-container">
+          <div className="search-input-container">
+            {/* 搜索图标 */}
+            <FaSearch className={`search-icon ${isDark ? 'dark' : ''}`} />
+            
+            {/* 搜索输入框 */}
+            <input
+              ref={this.inputRef}
+              type="text"
+              placeholder={placeholder}
+              className={`search-input ${isDark ? 'dark' : ''}`}
+              value={searchKeyword}
+              onChange={this.handleInputChange}
+              onKeyDown={this.handleKeyDown}
+            />
+            
+            {/* 清除按钮 */}
+            {searchKeyword && (
+              <button
+                className={`clear-button ${isDark ? 'dark' : ''}`}
+                onClick={this.handleClearSearch}
+                title="清除搜索 (Esc)"
+              >
+                <span className="clear-button-text">✕</span>
+              </button>
+            )}
+          </div>
           
-          {/* 搜索输入框 */}
-          <input
-            ref={this.inputRef}
-            type="text"
-            placeholder={placeholder}
-            className={`search-input ${isDark ? 'dark' : ''}`}
-            value={searchKeyword}
-            onChange={this.handleInputChange}
-            onKeyDown={this.handleKeyDown}
-          />
-          
-          {/* 清除按钮 */}
-          {searchKeyword && (
+          {/* 设置按钮 */}
+          {onSettingClick && (
             <button
-              className={`clear-button ${isDark ? 'dark' : ''}`}
-              onClick={this.handleClearSearch}
-              title="清除搜索 (Esc)"
+              className={`setting-button ${isDark ? 'dark' : ''}`}
+              onClick={onSettingClick}
+              title="打开设置"
             >
-              <span className="clear-button-text">✕</span>
+              <FaCog />
             </button>
           )}
         </div>

@@ -2,7 +2,7 @@
 // {JSON.stringify(enterAction, undefined, 2)}
 // {"code": "paste", "type": "text", "payload": "Easy剪贴板","from": "main"}
 import React, { useEffect } from 'react';
-import { FaFileAlt, FaLink, FaFile, FaImage } from 'react-icons/fa';
+import { FaFileAlt, FaLink, FaFile, FaImage, FaCog } from 'react-icons/fa';
 import TextCard from '../components/TextCard';
 import LinkCard from '../components/LinkCard';
 import ImageCard from '../components/ImageCard';
@@ -10,6 +10,7 @@ import FileCard from '../components/FileCard';
 import SearchBar from '../components/SearchBar';
 import FilterBar from '../components/FilterBar';
 import ContentState from '../components/ContentState';
+import Setting from './Setting';
 import './ClipboardHome.css';
 
 class ClipboardHome extends React.Component {
@@ -27,7 +28,8 @@ class ClipboardHome extends React.Component {
     isIgnoringClipboard: false, // 是否忽略剪贴板变化
     lastCopiedContent: null, // 最后一次复制的内容
     lastCopiedType: null, // 最后一次复制的类型
-    ignoreTimer: null // 忽略定时器
+    ignoreTimer: null, // 忽略定时器
+    showSetting: false // 是否显示设置页面
   }
 
   async componentDidMount() {
@@ -304,6 +306,16 @@ class ClipboardHome extends React.Component {
     }
   }
 
+  // 显示设置页面
+  handleShowSetting = () => {
+    this.setState({ showSetting: true });
+  }
+
+  // 返回主页面
+  handleBackToHome = () => {
+    this.setState({ showSetting: false });
+  }
+
   // 渲染单个历史记录项
   renderHistoryItem = (item) => {
     // 如果是文本类型，使用 TextCard 组件
@@ -364,7 +376,12 @@ class ClipboardHome extends React.Component {
 
   render() {
     const { enterAction } = this.props;
-    const { history, searchKeyword, selectedType, isLoading, enableStickyHeader, isHeaderSticky } = this.state;
+    const { history, searchKeyword, selectedType, isLoading, enableStickyHeader, isHeaderSticky, showSetting } = this.state;
+    
+    // 如果显示设置页面，直接返回设置组件
+    if (showSetting) {
+      return <Setting onGoBack={this.handleBackToHome} />;
+    }
     
     // 统计数据
     const stats = {
@@ -405,6 +422,7 @@ class ClipboardHome extends React.Component {
             <SearchBar
               searchKeyword={searchKeyword}
               onSearch={this.handleSearch}
+              onSettingClick={this.handleShowSetting}
             />
 
             {/* 类型过滤和快捷操作组件 */}

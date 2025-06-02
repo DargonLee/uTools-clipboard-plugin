@@ -540,9 +540,202 @@ const clipboardService = {
   },
 };
 
+const settingsService = {
+  SETTINGS_KEY: 'clipboardSettings',
+
+  /**
+   * 获取默认设置
+   * @returns {Object} 默认设置对象
+   */
+  getDefaultSettings() {
+    return {
+      // 基本设置
+      autoListen: true,
+      showOnStartup: false,
+      historyLimit: 500,
+      
+      // 内容过滤
+      recordText: true,
+      recordImages: true,
+      recordFiles: true,
+      filterSensitive: true,
+      minTextLength: 3,
+      
+      // 外观设置
+      themeMode: 'light', // light, dark, auto
+      compactMode: false,
+      showPreview: true,
+      enableStickyHeader: true,
+      
+      // 数据管理
+      maxSaveTime: 30, // 天数
+    };
+  },
+
+  /**
+   * 从 uTools dbStorage 加载设置
+   * @returns {Object} 设置对象，如果没有保存的设置则返回默认设置
+   */
+  loadSettings() {
+    try {
+      if (!window.utools?.dbStorage) {
+        console.warn('utools.dbStorage 不可用，使用默认设置');
+        return this.getDefaultSettings();
+      }
+
+      const savedSettings = window.utools.dbStorage.getItem(this.SETTINGS_KEY);
+      if (savedSettings) {
+        // 合并默认设置和保存的设置，确保新增的设置项有默认值
+        const defaultSettings = this.getDefaultSettings();
+        const mergedSettings = { ...defaultSettings, ...savedSettings };
+        console.log('已加载保存的设置:', mergedSettings);
+        return mergedSettings;
+      } else {
+        console.log('没有找到保存的设置，使用默认设置');
+        return this.getDefaultSettings();
+      }
+    } catch (error) {
+      console.error('加载设置失败:', error);
+      return this.getDefaultSettings();
+    }
+  },
+
+  /**
+   * 保存设置到 uTools dbStorage
+   * @param {Object} settings 要保存的设置对象
+   * @returns {boolean} 保存是否成功
+   */
+  saveSettings(settings) {
+    try {
+      if (!window.utools?.dbStorage) {
+        console.warn('utools.dbStorage 不可用，无法保存设置');
+        return false;
+      }
+
+      window.utools.dbStorage.setItem(this.SETTINGS_KEY, settings);
+      console.log('设置已保存:', settings);
+      return true;
+    } catch (error) {
+      console.error('保存设置失败:', error);
+      return false;
+    }
+  },
+
+  /**
+   * 更新单个设置项
+   * @param {string} key 设置项键名
+   * @param {any} value 设置项值
+   * @returns {boolean} 更新是否成功
+   */
+  updateSetting(key, value) {
+    try {
+      const currentSettings = this.loadSettings();
+      const updatedSettings = { ...currentSettings, [key]: value };
+      return this.saveSettings(updatedSettings);
+    } catch (error) {
+      console.error(`更新设置 ${key} 失败:`, error);
+      return false;
+    }
+  },
+
+  /**
+   * 重置设置为默认值
+   * @returns {boolean} 重置是否成功
+   */
+  resetSettings() {
+    try {
+      const defaultSettings = this.getDefaultSettings();
+      const success = this.saveSettings(defaultSettings);
+      if (success) {
+        console.log('设置已重置为默认值');
+      }
+      return success;
+    } catch (error) {
+      console.error('重置设置失败:', error);
+      return false;
+    }
+  },
+
+  /**
+   * 清除所有设置数据
+   * @returns {boolean} 清除是否成功
+   */
+  clearAllSettings() {
+    try {
+      if (!window.utools?.dbStorage) {
+        console.warn('utools.dbStorage 不可用，无法清除设置');
+        return false;
+      }
+
+      window.utools.dbStorage.removeItem(this.SETTINGS_KEY);
+      console.log('所有设置数据已清除');
+      return true;
+    } catch (error) {
+      console.error('清除设置数据失败:', error);
+      return false;
+    }
+  },
+
+  /**
+   * 导出设置数据为 JSON 字符串
+   * @returns {string|null} JSON 字符串，失败时返回 null
+   */
+  exportSettings() {
+    try {
+      const settings = this.loadSettings();
+      return JSON.stringify(settings, null, 2);
+    } catch (error) {
+      console.error('导出设置数据失败:', error);
+      return null;
+    }
+  },
+
+  /**
+   * 从 JSON 字符串导入设置数据
+   * @param {string} jsonString JSON 字符串
+   * @returns {boolean} 导入是否成功
+   */
+  importSettings(jsonString) {
+    try {
+      const settings = JSON.parse(jsonString);
+      
+      // 验证导入的数据是否包含有效的设置项
+      const defaultSettings = this.getDefaultSettings();
+      const validSettings = {};
+      
+      // 只导入有效的设置项
+      Object.keys(defaultSettings).forEach(key => {
+        if (settings.hasOwnProperty(key)) {
+          validSettings[key] = settings[key];
+        } else {
+          validSettings[key] = defaultSettings[key];
+        }
+      });
+      
+      const success = this.saveSettings(validSettings);
+      if (success) {
+        console.log('设置数据导入成功:', validSettings);
+      }
+      return success;
+    } catch (error) {
+      console.error('导入设置数据失败:', error);
+      return false;
+    }
+  },
+
+  /**
+   * 检查 uTools dbStorage 是否可用
+   * @returns {boolean} 是否可用
+   */
+  isStorageAvailable() {
+    return !!(window.utools?.dbStorage);
+  }
+};
+
 window.AppClipboard = {
   fileService,
   clipboardService,
+  settingsService,
 };
 
 window.AppClipboard.clipboardService._startPolling();

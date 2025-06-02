@@ -30,16 +30,78 @@ class Setting extends React.Component {
     themeMode: 'light', // light, dark, auto
     compactMode: false,
     showPreview: true,
+    enableStickyHeader: true, // 控制头部悬停功能
     
     // 数据管理
     maxSaveTime: 30, // 天数
   };
 
+  componentDidMount() {
+    // 从 settingsService 加载已保存的设置
+    this.loadSettings();
+    
+    // 如果父组件传入了 enableStickyHeader 值，使用它来初始化状态
+    if (this.props.enableStickyHeader !== undefined) {
+      this.setState({ enableStickyHeader: this.props.enableStickyHeader });
+    }
+  }
+
+  // 从 settingsService 加载设置
+  loadSettings = () => {
+    try {
+      const savedSettings = window.AppClipboard?.settingsService?.loadSettings();
+      if (savedSettings) {
+        this.setState(savedSettings);
+        console.log('Setting.jsx 已加载保存的设置:', savedSettings);
+      }
+    } catch (error) {
+      console.error('Setting.jsx 加载设置失败:', error);
+    }
+  }
+
+  // 保存设置到 settingsService
+  saveSettings = () => {
+    try {
+      const settingsToSave = {
+        autoListen: this.state.autoListen,
+        showOnStartup: this.state.showOnStartup,
+        historyLimit: this.state.historyLimit,
+        recordText: this.state.recordText,
+        recordImages: this.state.recordImages,
+        recordFiles: this.state.recordFiles,
+        filterSensitive: this.state.filterSensitive,
+        minTextLength: this.state.minTextLength,
+        themeMode: this.state.themeMode,
+        compactMode: this.state.compactMode,
+        showPreview: this.state.showPreview,
+        enableStickyHeader: this.state.enableStickyHeader,
+        maxSaveTime: this.state.maxSaveTime,
+      };
+      
+      const success = window.AppClipboard?.settingsService?.saveSettings(settingsToSave);
+      if (success) {
+        console.log('Setting.jsx 设置已保存:', settingsToSave);
+      } else {
+        console.warn('Setting.jsx 设置保存失败');
+      }
+    } catch (error) {
+      console.error('Setting.jsx 保存设置失败:', error);
+    }
+  }
+
   // 切换开关状态
   handleToggleSwitch = (settingName) => {
     this.setState(prevState => ({
       [settingName]: !prevState[settingName]
-    }));
+    }), () => {
+      // 状态更新完成后保存设置
+      this.saveSettings();
+    });
+    
+    // 如果是头部悬停设置，通知父组件
+    if (settingName === 'enableStickyHeader' && this.props.onStickyHeaderChange) {
+      this.props.onStickyHeaderChange(!this.state[settingName]);
+    }
     
     // 显示提示
     const settingNames = {
@@ -50,7 +112,8 @@ class Setting extends React.Component {
       recordFiles: '记录文件路径',
       filterSensitive: '过滤敏感信息',
       compactMode: '紧凑模式',
-      showPreview: '显示预览'
+      showPreview: '显示预览',
+      enableStickyHeader: '头部悬停功能'
     };
     
     const name = settingNames[settingName] || settingName;
@@ -60,18 +123,24 @@ class Setting extends React.Component {
 
   // 选择主题
   handleThemeChange = (theme) => {
-    this.setState({ themeMode: theme });
+    this.setState({ themeMode: theme }, () => {
+      this.saveSettings();
+    });
     console.log('主题已切换到:', theme);
   };
 
   // 滑块变化
   handleRangeChange = (settingName, value) => {
-    this.setState({ [settingName]: parseInt(value) });
+    this.setState({ [settingName]: parseInt(value) }, () => {
+      this.saveSettings();
+    });
   };
 
   // 下拉选择变化
   handleSelectChange = (settingName, value) => {
-    this.setState({ [settingName]: value });
+    this.setState({ [settingName]: value }, () => {
+      this.saveSettings();
+    });
   };
 
   // 返回主页
@@ -84,21 +153,27 @@ class Setting extends React.Component {
   // 重置设置
   handleReset = () => {
     if (confirm('确定要重置所有设置为默认值吗？')) {
-      this.setState({
-        autoListen: true,
-        showOnStartup: false,
-        historyLimit: 500,
-        recordText: true,
-        recordImages: true,
-        recordFiles: true,
-        filterSensitive: true,
-        minTextLength: 3,
-        themeMode: 'light',
-        compactMode: false,
-        showPreview: true,
-        maxSaveTime: 30,
-      });
-      console.log('设置已重置为默认值');
+      try {
+        const success = window.AppClipboard?.settingsService?.resetSettings();
+        if (success) {
+          // 重置成功后，重新加载设置到组件状态
+          const defaultSettings = window.AppClipboard?.settingsService?.getDefaultSettings();
+          if (defaultSettings) {
+            this.setState(defaultSettings);
+            console.log('设置已重置为默认值');
+            
+            // 如果重置了头部悬停设置，通知父组件
+            if (this.props.onStickyHeaderChange) {
+              this.props.onStickyHeaderChange(defaultSettings.enableStickyHeader);
+            }
+          }
+        } else {
+          alert('重置设置失败，请重试');
+        }
+      } catch (error) {
+        console.error('重置设置失败:', error);
+        alert('重置设置失败，请重试');
+      }
     }
   };
 
@@ -106,6 +181,103 @@ class Setting extends React.Component {
   handleShowPayment = (type) => {
     console.log(`显示${type === 'alipay' ? '支付宝' : '微信'}打赏码`);
     // 这里可以实现弹窗逻辑
+  };
+
+  // 清除所有设置数据
+  handleClearAllSettings = () => {
+    if (confirm('确定要清除所有保存的设置数据吗？此操作不可恢复！')) {
+      try {
+        const success = window.AppClipboard?.settingsService?.clearAllSettings();
+        if (success) {
+          console.log('所有设置数据已清除');
+          alert('设置数据已清除，请重新配置设置');
+          // 重置为默认值
+          this.handleReset();
+        } else {
+          alert('清除设置数据失败，请重试');
+        }
+      } catch (error) {
+        console.error('清除设置数据失败:', error);
+        alert('清除设置数据失败，请重试');
+      }
+    }
+  };
+
+  // 导出设置数据
+  handleExportSettings = () => {
+    try {
+      const dataStr = window.AppClipboard?.settingsService?.exportSettings();
+      if (dataStr) {
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        
+        // 创建下载链接
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `clipboard-settings-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        console.log('设置数据已导出');
+      } else {
+        alert('没有找到可导出的设置数据');
+      }
+    } catch (error) {
+      console.error('导出设置数据失败:', error);
+      alert('导出设置数据失败，请重试');
+    }
+  };
+
+  // 导入设置数据
+  handleImportSettings = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const success = window.AppClipboard?.settingsService?.importSettings(e.target.result);
+            if (success) {
+              // 导入成功后重新加载设置
+              this.loadSettings();
+              console.log('设置数据导入成功');
+              alert('设置数据导入成功！');
+              
+              // 如果导入的设置包含头部悬停设置，通知父组件
+              if (this.props.onStickyHeaderChange) {
+                this.props.onStickyHeaderChange(this.state.enableStickyHeader);
+              }
+            } else {
+              alert('导入的文件格式错误，请检查文件内容');
+            }
+          } catch (error) {
+            console.error('导入设置数据失败:', error);
+            alert('导入的文件格式错误，请检查文件内容');
+          }
+        };
+        reader.readAsText(file);
+      }
+    };
+    input.click();
+  };
+
+  // 清空剪贴板历史记录
+  handleClearAll = async () => {
+    if (confirm('确定要清空所有剪贴板历史记录吗？此操作不可恢复！')) {
+      try {
+        await window.AppClipboard?.clipboardService?.deleteAllHistory();
+        console.log('剪贴板历史记录已清空');
+        alert('剪贴板历史记录已清空');
+      } catch (error) {
+        console.error('清空剪贴板历史记录失败:', error);
+        alert('清空失败，请重试');
+      }
+    }
   };
 
   // 渲染开关组件
@@ -132,6 +304,7 @@ class Setting extends React.Component {
       themeMode,
       compactMode,
       showPreview,
+      enableStickyHeader,
       maxSaveTime
     } = this.state;
 
@@ -348,6 +521,14 @@ class Setting extends React.Component {
                   </div>
                   {this.renderSwitch('showPreview', showPreview)}
                 </div>
+
+                <div className="setting-item">
+                  <div className="setting-item-info">
+                    <h3 className="setting-item-title">头部悬停</h3>
+                    <p className="setting-item-description">向上滚动时固定搜索栏和过滤栏，便于快速操作</p>
+                  </div>
+                  {this.renderSwitch('enableStickyHeader', enableStickyHeader)}
+                </div>
               </div>
             </div>
 
@@ -388,15 +569,23 @@ class Setting extends React.Component {
 
                 <div className="setting-item">
                   <div className="button-group">
-                    <button className="btn-base btn-primary">导出数据</button>
-                    <button className="btn-base btn-secondary">导入数据</button>
+                    <button className="btn-base btn-primary" onClick={this.handleExportSettings}>
+                      导出设置
+                    </button>
+                    <button className="btn-base btn-secondary" onClick={this.handleImportSettings}>
+                      导入设置
+                    </button>
                   </div>
                 </div>
 
                 <div className="setting-item">
                   <div className="button-group">
-                    <button className="btn-base btn-danger">清空历史记录</button>
-                    <button className="btn-base btn-danger">重置所有设置</button>
+                    <button className="btn-base btn-danger" onClick={this.handleClearAll}>
+                      清空历史记录
+                    </button>
+                    <button className="btn-base btn-danger" onClick={this.handleClearAllSettings}>
+                      清除所有设置
+                    </button>
                   </div>
                 </div>
               </div>
@@ -434,8 +623,8 @@ class Setting extends React.Component {
                       </div>
                     </div>
                     <div className="payment-label">点击查看二维码</div>
-          </div>
-        </div>
+                  </div>
+                </div>
 
                 <div className="support-info">
                   <p className="support-tips">

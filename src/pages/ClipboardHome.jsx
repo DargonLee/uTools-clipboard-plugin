@@ -33,6 +33,9 @@ class ClipboardHome extends React.Component {
   }
 
   async componentDidMount() {
+    // 加载保存的设置
+    this.loadSettings();
+    
     this.setState({ isLoading: true });
     const history = await window.AppClipboard.clipboardService.getAllHistory();
     this.setState({ 
@@ -114,15 +117,6 @@ class ClipboardHome extends React.Component {
       scrollDirection,
       isHeaderSticky: shouldUnstick ? false : shouldStick || this.state.isHeaderSticky
     });
-  }
-
-  // 切换悬停功能的开关
-  toggleStickyHeader = () => {
-    this.setState(prevState => ({
-      enableStickyHeader: !prevState.enableStickyHeader,
-      // 如果禁用悬停功能，同时取消当前的悬停状态
-      isHeaderSticky: !prevState.enableStickyHeader ? false : prevState.isHeaderSticky
-    }));
   }
 
   // 应用当前的过滤器和搜索
@@ -316,6 +310,47 @@ class ClipboardHome extends React.Component {
     this.setState({ showSetting: false });
   }
 
+  // 处理悬停设置变化
+  handleStickyHeaderChange = (enabled) => {
+    this.setState({ 
+      enableStickyHeader: enabled,
+      // 如果禁用悬停功能，同时取消当前的悬停状态
+      isHeaderSticky: enabled ? this.state.isHeaderSticky : false
+    }, () => {
+      // 更新 settingsService 中的设置
+      try {
+        const success = window.AppClipboard?.settingsService?.updateSetting('enableStickyHeader', enabled);
+        if (success) {
+          console.log('头部悬停设置已更新:', enabled);
+        } else {
+          console.warn('头部悬停设置更新失败');
+        }
+      } catch (error) {
+        console.error('更新头部悬停设置失败:', error);
+      }
+    });
+  }
+
+  // 从 settingsService 加载设置
+  loadSettings = () => {
+    try {
+      const savedSettings = window.AppClipboard?.settingsService?.loadSettings();
+      if (savedSettings) {
+        // 只加载与 ClipboardHome 相关的设置
+        this.setState({
+          enableStickyHeader: savedSettings.enableStickyHeader !== undefined 
+            ? savedSettings.enableStickyHeader 
+            : true
+        });
+        console.log('ClipboardHome 已加载设置:', { 
+          enableStickyHeader: savedSettings.enableStickyHeader 
+        });
+      }
+    } catch (error) {
+      console.error('ClipboardHome 加载设置失败:', error);
+    }
+  }
+
   // 渲染单个历史记录项
   renderHistoryItem = (item) => {
     // 如果是文本类型，使用 TextCard 组件
@@ -380,7 +415,13 @@ class ClipboardHome extends React.Component {
     
     // 如果显示设置页面，直接返回设置组件
     if (showSetting) {
-      return <Setting onGoBack={this.handleBackToHome} />;
+      return (
+        <Setting 
+          onGoBack={this.handleBackToHome} 
+          onStickyHeaderChange={this.handleStickyHeaderChange}
+          enableStickyHeader={enableStickyHeader}
+        />
+      );
     }
     
     // 统计数据
@@ -401,23 +442,6 @@ class ClipboardHome extends React.Component {
         <div className="max-w-4xl mx-auto p-4">
           {/* 悬停头部容器 */}
           <div className={`header-container ${shouldShowSticky ? 'sticky-header' : ''}`}>
-            {/* 开发调试：悬停功能切换按钮 */}
-            {process.env.NODE_ENV === 'development' && (
-              <div className="mb-2 flex justify-end">
-                <button
-                  onClick={this.toggleStickyHeader}
-                  className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
-                    enableStickyHeader 
-                      ? 'bg-blue-500 text-white hover:bg-blue-600' 
-                      : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
-                  }`}
-                  title={`${enableStickyHeader ? '禁用' : '启用'}头部悬停`}
-                >
-                  悬停: {enableStickyHeader ? 'ON' : 'OFF'}
-                </button>
-              </div>
-            )}
-            
             {/* 搜索栏组件 */}
             <SearchBar
               searchKeyword={searchKeyword}

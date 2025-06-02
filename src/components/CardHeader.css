@@ -15,7 +15,7 @@
   gap: var(--spacing-3);
 }
 
-/* 类型图标容器 */
+/* 类型图标容器 - 优化圆角 */
 .type-icon {
   flex-shrink: 0;
   display: flex;
@@ -23,81 +23,102 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: var(--radius-lg);
+  border-radius:var(--border-radius-md);
   transition: var(--transition-normal);
+  overflow: hidden; /* 确保内容不会溢出圆角 */
 }
 
 /* 图标主题样式 */
 .type-icon.light {
   background-color: var(--blue-100);
   color: var(--blue-600);
+  border: 1px solid var(--blue-200); /* 添加边框增强视觉效果 */
 }
 
 .type-icon.dark {
   background-color: var(--blue-800);
   color: var(--blue-200);
+  border: 1px solid var(--blue-700);
 }
 
-/* 类型标签基础样式 */
+/* 类型标签基础样式 - 优化圆角 */
 .type-tag {
   display: inline-flex;
   align-items: center;
-  padding: 0.125rem 0.625rem;
-  border-radius: var(--radius-full);
+  padding: 0.25rem 0.75rem; /* 增加内边距 */
+  border-radius: var(--border-radius-full); /* 使用完全圆角 */
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1rem;
+  border: 1px solid transparent; /* 添加透明边框为后续样式做准备 */
+  transition: var(--transition-normal); /* 添加过渡效果 */
 }
 
-/* 类型标签颜色变体 */
+/* 类型标签颜色变体 - 统一圆角处理 */
 .type-tag.blue {
   background-color: var(--blue-100);
   color: var(--blue-800);
+  border-color: var(--blue-200);
 }
 
 .type-tag.blue.dark {
   background-color: var(--blue-900);
   color: var(--blue-200);
+  border-color: var(--blue-800);
 }
 
 .type-tag.green {
-  background-color: rgb(220, 252, 231);
-  color: rgb(22, 101, 52);
+  background-color: #dcfce7;
+  color: #166534;
+  border-color: #bbf7d0;
 }
 
 .type-tag.green.dark {
   background-color: rgb(20, 83, 45);
   color: rgb(187, 247, 208);
+  border-color: rgb(34, 197, 94);
 }
 
 .type-tag.purple {
-  background-color: rgb(243, 232, 255);
-  color: rgb(107, 33, 168);
+  background-color: #f3e8ff;
+  color: #6b21a8;
+  border-color: #e9d5ff;
 }
 
 .type-tag.purple.dark {
   background-color: rgb(88, 28, 135);
   color: rgb(221, 214, 254);
+  border-color: rgb(147, 51, 234);
 }
 
 .type-tag.orange {
-  background-color: rgb(255, 237, 213);
-  color: rgb(154, 52, 18);
+  background-color: #fed7aa;
+  color: #9a3412;
+  border-color: #fdba74;
 }
 
 .type-tag.orange.dark {
   background-color: rgb(124, 45, 18);
   color: rgb(254, 215, 170);
+  border-color: rgb(249, 115, 22);
 }
 
 .type-tag.red {
-  background-color: rgb(254, 226, 226);
-  color: rgb(153, 27, 27);
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
 }
 
 .type-tag.red.dark {
   background-color: rgb(127, 29, 29);
   color: rgb(252, 165, 165);
+  border-color: rgb(239, 68, 68);
+}
+
+/* 类型标签悬停效果 */
+.type-tag:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-sm);
 }
 
 /* 时间信息 */
@@ -105,17 +126,25 @@
   font-size: 0.75rem;
   line-height: 1rem;
   color: var(--gray-500);
+  padding: 0.125rem 0.5rem; /* 添加内边距 */
+  border-radius: var(--border-radius); /* 添加圆角 */
+  background-color: var(--gray-50); /* 添加背景色 */
+  transition: var(--transition-normal);
 }
 
 .time-info.dark {
   color: var(--gray-400);
+  background-color: var(--gray-700);
 }
 
-/* 收藏星标 */
+/* 收藏星标 - 添加圆角容器 */
 .favorite-star {
   color: var(--warning-color);
   width: 0.75rem;
   height: 0.75rem;
+  padding: 0.25rem;
+  border-radius: var(--border-radius);
+  background-color: rgba(245, 158, 11, 0.1); /* 添加半透明背景 */
 }
 
 /* 操作按钮区域 */
@@ -131,7 +160,7 @@
   opacity: 1;
 }
 
-/* 操作按钮基础样式 - 继承通用样式 */
+/* 操作按钮基础样式 - 优化圆角 */
 .action-btn {
   display: flex;
   align-items: center;
@@ -139,24 +168,27 @@
   width: var(--spacing-8);
   height: var(--spacing-8);
   padding: var(--spacing-2);
-  border-radius: var(--radius-lg);
+  border-radius: var(--border-radius-lg); /* 使用较大圆角 */
   border: none;
   cursor: pointer;
   outline: none;
   transition: var(--transition-normal);
   transform-origin: center;
   background-color: transparent;
+  overflow: hidden; /* 确保内容不会溢出圆角 */
 }
 
 .action-btn:hover {
   background-color: var(--gray-100);
-  transform: scale(1.05);
+  transform: scale(1.1); /* 增加悬停缩放效果 */
+  border-radius: var(--border-radius-xl); /* 悬停时使用更大圆角 */
 }
 
 .action-btn:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: var(--shadow-focus);
+  border-radius: var(--border-radius-xl);
 }
 
 .action-btn svg {
@@ -171,13 +203,14 @@
   color: var(--gray-400);
 }
 
-/* 复制按钮 */
+/* 复制按钮 - 优化圆角和悬停效果 */
 .copy-btn {
   background-color: transparent;
 }
 
 .copy-btn:hover {
-  background-color: var(--gray-100);
+  background-color: var(--blue-50);
+  border-radius: var(--border-radius-xl);
 }
 
 .copy-btn:hover .copy-icon {
@@ -185,20 +218,21 @@
 }
 
 .copy-btn.dark:hover {
-  background-color: var(--gray-700);
+  background-color: var(--blue-900);
 }
 
 .copy-btn.dark:hover .copy-icon {
   color: var(--blue-400);
 }
 
-/* 收藏按钮 */
+/* 收藏按钮 - 优化圆角和悬停效果 */
 .favorite-btn {
   background-color: transparent;
 }
 
 .favorite-btn:hover {
-  background-color: var(--gray-100);
+  background-color: #fef3c7;
+  border-radius: var(--border-radius-xl);
 }
 
 .favorite-btn:hover .favorite-icon {
@@ -206,20 +240,21 @@
 }
 
 .favorite-btn.dark:hover {
-  background-color: var(--gray-700);
+  background-color: rgb(120, 53, 15);
 }
 
 .favorite-btn.dark:hover .favorite-icon {
   color: rgb(251, 191, 36); /* yellow-400 */
 }
 
-/* 删除按钮 */
+/* 删除按钮 - 优化圆角和悬停效果 */
 .delete-btn {
   background-color: transparent;
 }
 
 .delete-btn:hover {
-  background-color: var(--gray-100);
+  background-color: #fee2e2;
+  border-radius: var(--border-radius-xl);
 }
 
 .delete-btn:hover .delete-icon {
@@ -227,16 +262,41 @@
 }
 
 .delete-btn.dark:hover {
-  background-color: var(--gray-700);
+  background-color: rgb(127, 29, 29);
 }
 
 .delete-btn.dark:hover .delete-icon {
   color: rgb(248, 113, 113); /* red-400 */
 }
 
+/* 响应式设计 - 移动端优化 */
+@media (max-width: 768px) {
+  .type-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--border-radius); /* 移动端使用较小圆角 */
+  }
+  
+  .type-tag {
+    padding: 0.125rem 0.5rem;
+    font-size: 0.7rem;
+  }
+  
+  .action-btn {
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: var(--border-radius);
+  }
+  
+  .action-btn:hover {
+    border-radius: var(--border-radius-lg);
+  }
+}
+
 /* 暗色模式媒体查询适配 */
 @media (prefers-color-scheme: dark) {
   .time-info:not(.dark) {
     color: var(--gray-400);
+    background-color: var(--gray-700);
   }
 } 

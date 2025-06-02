@@ -21,8 +21,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: var(--spacing-8);
+  height: var(--spacing-8);
   border-radius:var(--border-radius-md);
   transition: var(--transition-normal);
   overflow: hidden; /* 确保内容不会溢出圆角 */

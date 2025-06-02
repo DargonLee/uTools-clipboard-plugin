@@ -7,20 +7,163 @@ alwaysApply: true
 
 本项目基于以下技术栈开发，适用于 uTools 插件的高效前端实现：
 
-- **React + JavaScript**：构建用户界面与组件逻辑，采用函数式与类组件混合模式。
-- **原生 CSS实现**：每个jsx文件都有自己的css文件，公共的样式则在/src/components/Common.css文件中
-- **react-icons**（[官方文档](mdc:https:/react-icons.github.io/react-icons)）：提供丰富的图标库，便于 UI 快速集成高质量 icon。
-- **Vite**（[官方文档](mdc:https:/cn.vitejs.dev/guide)）：极速前端构建工具，支持热更新和现代开发体验。
-- **uTools 插件开发**（[官方文档](mdc:https:/www.u-tools.cn/docs/developer/docs.html)）：遵循 uTools 插件开发规范，支持插件生命周期、主/渲染进程通信等。
-- **electronjs的clipboard接口文档** https://www.electronjs.org/docs/latest/api/clipboard
+### 核心技术栈
+
+- **React 19 + JavaScript (ES6+)**：构建用户界面与组件逻辑，采用函数式与类组件混合模式。
+  - 使用 React Hooks 进行状态管理和副作用处理
+  - 支持最新的 React 并发特性和优化
+  
+- **原生 CSS**：纯 CSS 实现样式，提供响应式设计和深色模式支持
+  - 主题色为 `#368CFF`，支持 CSS 变量进行主题切换
+  - 每个 jsx 文件都有对应的 CSS 文件，公共样式在 `/src/components/Common.css`
+  - 使用 CSS Grid 和 Flexbox 进行布局
+  - 支持 CSS 媒体查询实现响应式设计
+
+- **react-icons 5.5.0**（[官方文档](mdc:https:/react-icons.github.io/react-icons)）：提供丰富的图标库，便于 UI 快速集成高质量 icon。
+
+- **Vite 6.0.11**（[官方文档](mdc:https:/cn.vitejs.dev/guide)）：极速前端构建工具
+  - 支持热模块替换 (HMR) 和快速冷启动
+  - 集成 `@vitejs/plugin-react` 插件
+  - 配置 `base: "./"` 适配 uTools 插件环境
+
+- **uTools 插件开发**（[官方文档](mdc:https:/www.u-tools.cn/docs/developer/docs.html)）：
+  - 遵循 uTools 插件开发规范
+  - 支持插件生命周期管理
+  - 主/渲染进程通信机制
+  - 集成 `utools-api-types` 提供完整的类型支持
+
+- **Electron Clipboard API**（[官方文档](mdc:https:/www.electronjs.org/docs/latest/api/clipboard)）：
+  - 实现跨平台剪贴板功能
+  - 支持文本、图片、文件等多种格式
+
+### 开发工具链
+
+- **Prettier 3.5.3**：代码格式化工具
+- **Standard 17.1.0**：JavaScript 代码风格检查
+- **TypeScript 支持**：通过 `@types/react` 和 `@types/react-dom` 提供类型提示
+
+### 项目结构
+
+```
+src/
+├── components/          # 组件目录
+│   ├── Common.css      # 公共样式文件
+│   ├── index.js        # 组件统一导出
+│   ├── CardHeader.jsx/css      # 卡片头部组件
+│   ├── FilterBar.jsx/css       # 过滤栏组件
+│   ├── SearchBar.jsx/css       # 搜索栏组件
+│   ├── CategoryTabs.jsx        # 分类标签组件
+│   ├── ClipboardCard.jsx       # 剪贴板卡片组件
+│   ├── TextCard.jsx/css        # 文本卡片组件
+│   ├── ImageCard.jsx/css       # 图片卡片组件
+│   ├── FileCard.jsx/css        # 文件卡片组件
+│   ├── LinkCard.jsx/css        # 链接卡片组件
+│   ├── EmptyState.jsx          # 空状态组件
+│   ├── ContentState.jsx        # 内容状态组件
+│   ├── BottomTip.jsx           # 底部提示组件
+│   └── TopBar.jsx              # 顶部栏组件
+├── pages/              # 页面组件
+├── utils/              # 工具函数
+├── main.jsx           # React 应用入口
+├── main.css           # 全局样式
+└── App.jsx            # 根组件
+
+public/
+├── plugin.json        # uTools 插件配置
+└── preload/
+    └── services.js    # 预加载脚本，主进程通信
+```
+
+### CSS 架构设计
+
+- **模块化样式**：每个组件都有独立的 CSS 文件，避免样式冲突
+- **BEM 命名规范**：使用 Block__Element--Modifier 命名约定
+- **CSS 变量**：统一管理主题色、间距、字体等设计 token
+- **响应式布局**：使用媒体查询适配不同屏幕尺寸
+- **深色模式**：通过 CSS 变量和 `data-theme` 属性切换主题
 
 ### 命名规范
-- **组件**：使用 ES6 的 class 定义，组件名首字母大写驼峰（如 `ClipboardCard`）。
-- **普通函数/事件处理函数**：小写开头驼峰命名（如 `handleClick`、`fetchData`）。
 
-### 其他说明
-- 主题色为#368CFF
-- 推荐使用类组件实现主要 UI 结构，便于后续扩展和维护。
-- 充分利用 Tailwind CSS 的主题和响应式特性，适配深浅色模式与多终端。
-- 插件入口、配置与主进程通信详见 `public/plugin.json` 和 `public/preload/services.js`。
-- 对一些React的核心代码用法请特殊说明，方便我学习React框架。
+- **组件**：使用 ES6 的 class 或函数式组件定义，组件名首字母大写驼峰（如 `ClipboardCard`、`FilterBar`）
+- **普通函数/事件处理函数**：小写开头驼峰命名（如 `handleClick`、`fetchData`）
+- **CSS 类名**：使用 BEM 方法论（如 `.card__header--active`）
+- **CSS 变量**：使用 `--` 前缀（如 `--primary-color`、`--spacing-md`）
+- **文件命名**：组件文件使用 PascalCase，工具文件使用 camelCase
+
+### uTools 插件特性
+
+本项目实现了以下 uTools 插件功能：
+
+1. **paste** - 主要剪贴板功能，关键词：`Easy剪贴板`、`EasyPaste`
+2. **setting** - 设置页面，支持自定义快捷键、外观和功能选项
+3. **write** - 文件保存功能，支持文本和图片保存为文件
+
+### 开发流程
+
+```bash
+# 开发模式 (热更新)
+npm run dev          # 启动 Vite 开发服务器 (localhost:5173)
+
+# 生产构建
+npm run build        # 构建用于 uTools 的生产版本
+```
+
+### 开发注意事项
+
+- **主题色配置**：统一使用 `#368CFF` 作为主色调，通过 CSS 变量管理
+- **响应式设计**：使用 CSS 媒体查询适配不同尺寸的 uTools 窗口
+- **暗色模式**：通过 CSS 变量和 `data-theme="dark"` 属性实现主题切换
+- **组件复用**：推荐使用类组件实现主要 UI 结构，便于后续扩展和维护
+- **性能优化**：利用 React 19 的并发特性和 Vite 的构建优化提升性能
+- **类型安全**：虽然使用 JavaScript，但已配置 TypeScript 类型定义，可逐步迁移到 TypeScript
+- **CSS 最佳实践**：避免全局样式污染，优先使用 CSS Grid 和 Flexbox 布局
+
+### CSS 设计规范
+
+1. **CSS 变量定义**：在 `:root` 中定义全局设计 token
+   ```css
+   :root {
+     --primary-color: #368CFF;
+     --text-color: #333;
+     --bg-color: #fff;
+     --border-radius: 8px;
+     --spacing-sm: 8px;
+     --spacing-md: 16px;
+     --spacing-lg: 24px;
+   }
+   ```
+
+2. **深色模式支持**：使用 `data-theme` 属性切换
+   ```css
+   [data-theme="dark"] {
+     --text-color: #fff;
+     --bg-color: #1a1a1a;
+   }
+   ```
+
+3. **响应式断点**：
+   - 移动端：`max-width: 768px`
+   - 平板：`768px - 1024px`
+   - 桌面：`min-width: 1024px`
+
+### React 核心概念说明
+
+为便于学习 React 框架，以下是项目中常用的核心概念：
+
+1. **JSX**：JavaScript XML，允许在 JS 中编写类似 HTML 的语法
+2. **组件**：可复用的 UI 单元，可以是函数式组件或类组件
+3. **Props**：组件间传递数据的机制，只读属性
+4. **State**：组件内部可变状态，使用 `useState` Hook 管理
+5. **生命周期**：组件的创建、更新、销毁过程，使用 `useEffect` Hook 处理副作用
+6. **事件处理**：通过 `onClick`、`onChange` 等属性绑定事件处理函数
+7. **条件渲染**：使用 `&&` 或三元运算符实现条件显示内容
+8. **列表渲染**：使用 `map` 方法渲染动态列表，需要提供 `key` 属性
+
+### 相关文档链接
+
+- [React 官方文档](mdc:https:/react.dev)
+- [CSS MDN 文档](mdc:https:/developer.mozilla.org/zh-CN/docs/Web/CSS)
+- [Vite 官方文档](mdc:https:/cn.vitejs.dev)
+- [uTools 插件开发文档](mdc:https:/www.u-tools.cn/docs/developer/docs.html)
+- [Electron Clipboard API](mdc:https:/www.electronjs.org/docs/latest/api/clipboard)
+- [react-icons 图标库](mdc:https:/react-icons.github.io/react-icons)

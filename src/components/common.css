@@ -1,86 +1,9 @@
-/* 公共样式文件 - 所有组件共用样式 */
+/* 组件公共样式文件 - 特定组件样式扩展 */
 
-/* ========== CSS 变量定义 ========== */
-:root {
-  /* 主题色 */
-  --primary-color: #368CFF;
-  --primary-hover: rgb(37, 99, 235);
-  
-  /* 功能色彩 */
-  --success-color: rgb(34, 197, 94);
-  --success-hover: rgb(22, 163, 74);
-  --warning-color: rgb(245, 158, 11);
-  --warning-hover: rgb(217, 119, 6);
-  --danger-color: rgb(239, 68, 68);
-  --danger-hover: rgb(220, 38, 38);
-  
-  /* 中性色彩 - 浅色模式 */
-  --gray-50: rgb(249, 250, 251);
-  --gray-100: rgb(243, 244, 246);
-  --gray-200: rgb(229, 231, 235);
-  --gray-300: rgb(209, 213, 219);
-  --gray-400: rgb(156, 163, 175);
-  --gray-500: rgb(107, 114, 128);
-  --gray-600: rgb(75, 85, 99);
-  --gray-700: rgb(55, 65, 81);
-  --gray-800: rgb(31, 41, 55);
-  --gray-900: rgb(17, 24, 39);
-  
-  /* 蓝色系 */
-  --blue-100: rgb(219, 234, 254);
-  --blue-200: rgb(191, 219, 254);
-  --blue-300: rgb(147, 197, 253);
-  --blue-400: rgb(96, 165, 250);
-  --blue-500: rgb(59, 130, 246);
-  --blue-600: rgb(37, 99, 235);
-  --blue-700: rgb(29, 78, 216);
-  --blue-800: rgb(30, 64, 175);
-  --blue-900: rgb(30, 58, 138);
-  
-  /* 标准间距 */
-  --spacing-1: 0.25rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-5: 1.25rem;
-  --spacing-6: 1.5rem;
-  --spacing-8: 2rem;
-  --spacing-12: 3rem;
-  
-  /* 圆角 */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-full: 9999px;
-  
-  /* 阴影 */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-focus: 0 0 0 2px rgba(59, 130, 246, 0.5), 0 0 0 4px rgba(59, 130, 246, 0.1);
-  
-  /* 过渡动画 */
-  --transition-fast: all 0.15s ease;
-  --transition-normal: all 0.2s ease;
-  --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* 注意：基础 CSS 变量和通用样式已在 main.css 中定义 */
 
-/* ========== 卡片基础样式 ========== */
-.base-card {
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-4);
-  border: 1px solid var(--gray-200);
-  transition: var(--transition-normal);
-  transform-origin: center;
-  background-color: white;
-}
-
-.base-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--blue-300);
-  box-shadow: var(--shadow-md);
-}
-
+/* ========== 深色模式兼容类 ========== */
+/* 为了向后兼容，保留 .dark 类名的支持 */
 .base-card.dark {
   background-color: var(--gray-800);
   border-color: var(--gray-600);
@@ -91,141 +14,8 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-/* ========== 空状态样式 ========== */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-12) 0;
-  color: var(--gray-400);
-}
-
 .empty-state.dark {
   color: var(--gray-500);
-}
-
-.empty-state-icon {
-  font-size: 3.75rem;
-  line-height: 1;
-  margin-bottom: var(--spacing-4);
-}
-
-.empty-state-title {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  font-weight: 500;
-}
-
-.empty-state-subtitle {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  margin-top: var(--spacing-2);
-}
-
-/* ========== 按钮基础样式 ========== */
-.btn-base {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-md);
-  font-weight: 500;
-  transition: var(--transition-normal);
-  border: none;
-  cursor: pointer;
-  outline: none;
-  transform-origin: center;
-}
-
-.btn-base:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  box-shadow: var(--shadow-focus);
-}
-
-.btn-base:hover {
-  transform: scale(1.05);
-}
-
-.btn-base:active {
-  transform: translateY(1px);
-}
-
-/* 按钮尺寸变体 */
-.btn-sm {
-  padding: var(--spacing-1) var(--spacing-3);
-  font-size: 0.75rem;
-  gap: var(--spacing-1);
-}
-
-.btn-md {
-  padding: var(--spacing-2) var(--spacing-4);
-  font-size: 0.875rem;
-  gap: var(--spacing-2);
-}
-
-.btn-lg {
-  padding: var(--spacing-3) var(--spacing-6);
-  font-size: 1rem;
-  gap: var(--spacing-3);
-}
-
-/* 图标按钮 */
-.btn-icon {
-  width: var(--spacing-8);
-  height: var(--spacing-8);
-  padding: 0;
-}
-
-.btn-icon svg {
-  width: 0.75rem;
-  height: 0.75rem;
-}
-
-/* 按钮颜色变体 */
-.btn-primary {
-  background-color: var(--primary-color);
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: var(--primary-hover);
-}
-
-.btn-success {
-  background-color: var(--success-color);
-  color: white;
-}
-
-.btn-success:hover {
-  background-color: var(--success-hover);
-}
-
-.btn-warning {
-  background-color: var(--warning-color);
-  color: white;
-}
-
-.btn-warning:hover {
-  background-color: var(--warning-hover);
-}
-
-.btn-danger {
-  background-color: var(--danger-color);
-  color: white;
-}
-
-.btn-danger:hover {
-  background-color: var(--danger-hover);
-}
-
-.btn-secondary {
-  background-color: var(--gray-200);
-  color: var(--gray-700);
-}
-
-.btn-secondary:hover {
-  background-color: var(--gray-300);
 }
 
 .btn-secondary.dark {
@@ -235,27 +25,6 @@
 
 .btn-secondary.dark:hover {
   background-color: var(--gray-500);
-}
-
-/* ========== 输入框基础样式 ========== */
-.input-base {
-  width: 100%;
-  border: 1px solid var(--gray-300);
-  background-color: white;
-  color: var(--gray-900);
-  border-radius: var(--radius-lg);
-  outline: none;
-  transition: var(--transition-normal);
-  font-size: 0.875rem;
-}
-
-.input-base:focus {
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-  border-color: var(--blue-500);
-}
-
-.input-base::placeholder {
-  color: var(--gray-400);
 }
 
 .input-base.dark {
@@ -268,30 +37,9 @@
   color: var(--gray-500);
 }
 
-/* ========== 标签样式 ========== */
-.tag-base {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.125rem 0.625rem;
-  border-radius: var(--radius-full);
-  font-size: 0.75rem;
-  font-weight: 500;
-  line-height: 1rem;
-}
-
-.tag-blue {
-  background-color: var(--blue-100);
-  color: var(--blue-800);
-}
-
 .tag-blue.dark {
   background-color: var(--blue-900);
   color: var(--blue-200);
-}
-
-.tag-green {
-  background-color: rgb(220, 252, 231);
-  color: rgb(22, 101, 52);
 }
 
 .tag-green.dark {
@@ -299,19 +47,9 @@
   color: rgb(187, 247, 208);
 }
 
-.tag-yellow {
-  background-color: rgb(254, 249, 195);
-  color: rgb(133, 77, 14);
-}
-
 .tag-yellow.dark {
   background-color: rgb(120, 53, 15);
   color: rgb(253, 230, 138);
-}
-
-.tag-red {
-  background-color: rgb(254, 226, 226);
-  color: rgb(153, 27, 27);
 }
 
 .tag-red.dark {
@@ -319,85 +57,40 @@
   color: rgb(252, 165, 165);
 }
 
-/* ========== 文本样式 ========== */
-.text-primary {
-  color: var(--gray-900);
-}
-
 .text-primary.dark {
   color: var(--gray-100);
-}
-
-.text-secondary {
-  color: var(--gray-600);
 }
 
 .text-secondary.dark {
   color: var(--gray-400);
 }
 
-.text-muted {
-  color: var(--gray-500);
-}
-
 .text-muted.dark {
   color: var(--gray-400);
 }
 
-.text-xs {
-  font-size: 0.75rem;
-  line-height: 1rem;
+.action-button.dark:hover {
+  background-color: var(--gray-600);
 }
 
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+.action-button.dark svg {
+  color: var(--gray-400);
 }
 
-.text-base {
-  font-size: 1rem;
-  line-height: 1.5rem;
+.action-button.dark:hover svg.copy-icon {
+  color: var(--blue-400);
 }
 
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+.action-button.dark:hover svg.favorite-icon {
+  color: var(--warning-color);
 }
 
-/* ========== 响应式断点 ========== */
-@media (max-width: 640px) {
-  .base-card {
-    padding: var(--spacing-3);
-  }
-  
-  .btn-md {
-    padding: var(--spacing-2) var(--spacing-3);
-    font-size: 0.8rem;
-  }
-  
-  .btn-icon {
-    width: 1.75rem;
-    height: 1.75rem;
-  }
-  
-  .btn-icon svg {
-    width: 0.625rem;
-    height: 0.625rem;
-  }
+.action-button.dark:hover svg.delete-icon {
+  color: var(--danger-color);
 }
 
-@media (max-width: 480px) {
-  .btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.7rem;
-  }
-  
-  .input-base {
-    font-size: 0.875rem;
-  }
-}
-
-/* ========== 暗色模式媒体查询适配 ========== */
+/* ========== 媒体查询暗色模式适配 ========== */
+/* 当用户系统设置为暗色模式时，自动应用暗色样式 */
 @media (prefers-color-scheme: dark) {
   .base-card:not(.dark) {
     background-color: var(--gray-800);
@@ -448,79 +141,4 @@
     background-color: var(--blue-900);
     color: var(--blue-200);
   }
-}
-
-/* ========== 操作按钮样式 ========== */
-.action-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--spacing-8);
-  height: var(--spacing-8);
-  padding: var(--spacing-2);
-  border-radius: var(--radius-lg);
-  border: none;
-  cursor: pointer;
-  outline: none;
-  transition: var(--transition-normal);
-  transform-origin: center;
-  background-color: transparent;
-}
-
-.action-button:hover {
-  background-color: var(--gray-100);
-  transform: scale(1.05);
-}
-
-.action-button.dark:hover {
-  background-color: var(--gray-700);
-}
-
-.action-button:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  box-shadow: var(--shadow-focus);
-}
-
-.action-button svg {
-  width: 1rem;
-  height: 1rem;
-  color: var(--gray-500);
-  transition: var(--transition-normal);
-}
-
-.action-button.dark svg {
-  color: var(--gray-400);
-}
-
-/* 操作按钮颜色变体 */
-.action-button:hover svg.copy-icon {
-  color: var(--blue-600);
-}
-
-.action-button.dark:hover svg.copy-icon {
-  color: var(--blue-400);
-}
-
-.action-button:hover svg.favorite-icon {
-  color: var(--warning-color);
-}
-
-.action-button.dark:hover svg.favorite-icon {
-  color: rgb(251, 191, 36); /* yellow-400 */
-}
-
-.action-button:hover svg.delete-icon {
-  color: var(--danger-color);
-}
-
-.action-button.dark:hover svg.delete-icon {
-  color: rgb(248, 113, 113); /* red-400 */
-}
-
-/* 操作按钮容器 */
-.actions-group {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-2);
 } 

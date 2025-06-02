@@ -32,7 +32,7 @@
 /* 过滤按钮基础样式 */
 .filter-btn {
   padding: var(--spacing-2) var(--spacing-4);
-  border-radius: var(--radius-lg);
+  border-radius: var(--border-radius-md);
   font-size: 0.875rem;
   font-weight: 500;
   transition: var(--transition-normal);

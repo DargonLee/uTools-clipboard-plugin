@@ -1,7 +1,6 @@
 /* FilterBar 组件样式 */
-@import './Common.css';
 
-/* 过滤按钮容器 */
+/* 过滤器按钮容器 */
 .filter-buttons-container {
   margin-bottom: var(--spacing-6);
   display: flex;

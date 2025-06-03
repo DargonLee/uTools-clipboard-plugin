@@ -1,7 +1,6 @@
 /* FileCard 组件样式 */
-@import './Common.css';
 
-/* 文件卡片主容器 - 继承基础卡片样式 */
+/* 文件卡片主容器 */
 .file-card {
   /* 继承 base-card 的所有样式 */
   border-radius: var(--radius-lg);

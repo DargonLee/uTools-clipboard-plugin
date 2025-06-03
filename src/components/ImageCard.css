@@ -1,7 +1,6 @@
 /* ImageCard 组件样式 */
-@import './Common.css';
 
-/* 图片卡片主容器 - 继承基础卡片样式 */
+/* 图片卡片主容器 */
 .image-card {
   /* 继承 base-card 的所有样式 */
   border-radius: var(--border-radius-md);

@@ -1,7 +1,6 @@
 /* Setting 页面样式 */
-@import '../components/Common.css';
 
-/* 设置页面容器 */
+/* 设置页面主容器 */
 .setting-page {
   min-height: 100vh;
   background-color: var(--bg-secondary);

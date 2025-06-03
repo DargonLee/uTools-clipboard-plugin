@@ -1,5 +1,4 @@
 /* CardHeader 组件样式 */
-@import './Common.css';
 
 .card-header {
   display: flex;
@@ -180,7 +179,7 @@
 
 .action-btn:hover {
   background-color: var(--gray-100);
-  transform: scale(1.1); /* 增加悬停缩放效果 */
+  transform: scale(1.2); /* 增加悬停缩放效果 */
   border-radius: var(--border-radius-md); /* 悬停时使用更大圆角 */
 }
 

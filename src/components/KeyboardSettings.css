@@ -1,0 +1,49 @@
+.shortcut-keys {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.key-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 28px;
+  padding: 4px 8px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.modify-shortcut-btn {
+  padding: 6px 12px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modify-shortcut-btn:hover {
+  background: var(--primary-color-hover);
+  transform: translateY(-1px);
+}
+
+.modify-shortcut-btn:active {
+  transform: translateY(0);
+}
+
+/* 深色模式 */
+[data-theme="dark"] .key-badge {
+  background: var(--bg-tertiary);
+  border-color: var(--border-color-dark);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+} 

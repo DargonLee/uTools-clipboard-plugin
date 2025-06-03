@@ -1,18 +1,18 @@
 import React from 'react';
-import { 
-  FaArrowLeft, 
-  FaCog, 
-  FaFilter, 
-  FaKeyboard, 
-  FaPalette, 
-  FaDatabase, 
-  FaCrown,
-  FaLock,
-  FaCloud,
-  FaSearch,
-  FaTags,
-  FaUsers
-} from 'react-icons/fa';
+import {
+  SettingHeader,
+  SubscriptionStatus,
+  BasicSettings,
+  SmartCategorization,
+  ContentFilter,
+  SecuritySettings,
+  KeyboardSettings,
+  AppearanceSettings,
+  AdvancedSettings,
+  DataManagement,
+  SubscriptionPlans,
+  SettingFooter
+} from '../components';
 import './Setting.css';
 
 class Setting extends React.Component {
@@ -224,541 +224,6 @@ class Setting extends React.Component {
     // 这里会调用支付接口
   };
 
-  // 渲染开关组件
-  renderSwitch = (settingName, isActive, isPremium = false) => {
-    const available = isPremium ? this.isFeatureAvailable(settingName) : true;
-    
-    return (
-      <div className="setting-switch-container">
-        <button
-          className={`switch ${isActive ? 'active' : ''} ${!available ? 'disabled' : ''}`}
-          onClick={() => isPremium ? this.handlePremiumFeatureClick(settingName) : this.handleToggleSwitch(settingName)}
-          disabled={!available}
-          aria-label={isActive ? '关闭' : '开启'}
-        />
-        {isPremium && !available && (
-          <FaCrown className="premium-icon" title="专业版功能" />
-        )}
-      </div>
-    );
-  };
-
-  // 渲染内容过滤选项
-  renderContentFilterOptions = () => {
-    const { contentFilter } = this.state;
-    const options = [
-      { value: 'off', label: '关闭', desc: '记录所有内容' },
-      { value: 'basic', label: '基础', desc: '过滤明显敏感内容' },
-      { value: 'smart', label: '智能', desc: 'AI智能识别敏感内容' },
-      { value: 'advanced', label: '高级', desc: '严格过滤，可能误判' }
-    ];
-
-    return (
-      <div className="filter-options">
-        {options.map(option => (
-          <label key={option.value} className={`filter-option ${contentFilter === option.value ? 'active' : ''}`}>
-            <input
-              type="radio"
-              name="contentFilter"
-              value={option.value}
-              checked={contentFilter === option.value}
-              onChange={(e) => this.handleSelectChange('contentFilter', e.target.value)}
-            />
-            <div className="option-content">
-              <div className="option-label">{option.label}</div>
-              <div className="option-desc">{option.desc}</div>
-            </div>
-          </label>
-        ))}
-      </div>
-    );
-  };
-
-  render() {
-    const {
-      autoListen,
-      showOnStartup,
-      historyLimit,
-      smartCategorization,
-      autoTagging,
-      contentFilter,
-      filterSensitive,
-      minTextLength,
-      encryptSensitiveData,
-      biometricLock,
-      autoLock,
-      themeMode,
-      compactMode,
-      showPreview,
-      enableStickyHeader,
-      cloudSync,
-      teamSharing,
-      deviceSync,
-      smartSearch,
-      regexSearch,
-      maxSaveTime,
-      subscriptionPlan,
-      isTrialActive
-    } = this.state;
-
-    return (
-      <div className="setting-page">
-        <div className="setting-container">
-          
-          {/* 设置页标题栏 */}
-          <div className="setting-header">
-            <div className="setting-header-left">
-              <button className="back-btn" onClick={this.handleGoBack}>
-                <FaArrowLeft className="text-gray-500" />
-              </button>
-              <h1 className="setting-title">设置</h1>
-            </div>
-            <div className="setting-header-right">
-              {subscriptionPlan === 'free' && (
-                <button className="trial-btn" onClick={this.handleStartTrial}>
-                  <FaCrown /> 免费试用专业版
-                </button>
-              )}
-              <button className="reset-btn" onClick={this.handleReset}>
-                重置默认
-              </button>
-            </div>
-          </div>
-
-          {/* 订阅状态 */}
-          {subscriptionPlan !== 'free' && (
-            <div className="subscription-status">
-              <div className="subscription-info">
-                <FaCrown className="crown-icon" />
-                <span>
-                  {subscriptionPlan === 'pro' ? '专业版' : '团队版'} 
-                  {isTrialActive ? ' (试用中)' : ''}
-                </span>
-              </div>
-              {!isTrialActive && (
-                <div className="subscription-expiry">
-                  到期时间: {this.state.subscriptionExpiry?.toLocaleDateString() || '永久'}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* 设置分组 */}
-          <div className="setting-sections">
-            
-            {/* 基本设置 */}
-            <div className="setting-section">
-              <div className="setting-section-header">
-                <FaCog className="setting-section-icon" />
-                <h2 className="setting-section-title">基本设置</h2>
-              </div>
-              
-              <div className="setting-items">
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">自动监听剪贴板</h3>
-                    <p className="setting-item-description">实时监听系统剪贴板变化并记录</p>
-                  </div>
-                  {this.renderSwitch('autoListen', autoListen)}
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">启动时显示</h3>
-                    <p className="setting-item-description">程序启动时自动显示主界面</p>
-                  </div>
-                  {this.renderSwitch('showOnStartup', showOnStartup)}
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">历史记录数量限制</h3>
-                    <p className="setting-item-description">最多保存的剪贴板记录数量</p>
-                  </div>
-                  <select 
-                    className="setting-select"
-                    value={historyLimit}
-                    onChange={(e) => this.handleSelectChange('historyLimit', parseInt(e.target.value))}
-                  >
-                    <option value={100}>100 条</option>
-                    <option value={500}>500 条</option>
-                    <option value={1000}>1000 条</option>
-                    <option value={5000}>5000 条 {subscriptionPlan === 'free' && '(专业版)'}</option>
-                    <option value={-1}>无限制 {subscriptionPlan === 'free' && '(专业版)'}</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            {/* 智能分类与标签 */}
-            <div className="setting-section">
-              <div className="setting-section-header">
-                <FaTags className="setting-section-icon" />
-                <h2 className="setting-section-title">智能分类</h2>
-              </div>
-              
-              <div className="setting-items">
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">AI智能分类</h3>
-                    <p className="setting-item-description">自动识别并分类不同类型的内容</p>
-                  </div>
-                  {this.renderSwitch('smartCategorization', smartCategorization)}
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">自动标签</h3>
-                    <p className="setting-item-description">基于内容自动添加相关标签</p>
-                  </div>
-                  {this.renderSwitch('autoTagging', autoTagging)}
-                </div>
-              </div>
-            </div>
-
-            {/* 内容过滤 */}
-            <div className="setting-section">
-              <div className="setting-section-header">
-                <FaFilter className="setting-section-icon" />
-                <h2 className="setting-section-title">内容过滤</h2>
-              </div>
-              
-              <div className="setting-items">
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">过滤级别</h3>
-                    <p className="setting-item-description">选择内容过滤的严格程度</p>
-                  </div>
-                </div>
-                
-                <div className="setting-item-full">
-                  {this.renderContentFilterOptions()}
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">最小文本长度</h3>
-                    <p className="setting-item-description">忽略少于指定字符数的文本</p>
-                    <input
-                      type="range"
-                      min="1"
-                      max="50"
-                      value={minTextLength}
-                      className="setting-range"
-                      onChange={(e) => this.handleRangeChange('minTextLength', e.target.value)}
-                    />
-                    <div className="range-labels">
-                      <span className="range-label">1 字符</span>
-                      <span className="range-current">当前: {minTextLength} 字符</span>
-                      <span className="range-label">50 字符</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 安全与隐私 */}
-            <div className="setting-section">
-              <div className="setting-section-header">
-                <FaLock className="setting-section-icon" />
-                <h2 className="setting-section-title">安全与隐私</h2>
-              </div>
-              
-              <div className="setting-items">
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">数据加密</h3>
-                    <p className="setting-item-description">使用AES-256加密存储敏感数据</p>
-                  </div>
-                  {this.renderSwitch('encryptSensitiveData', encryptSensitiveData, true)}
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">生物识别锁定</h3>
-                    <p className="setting-item-description">使用Face ID或Touch ID保护应用</p>
-                  </div>
-                  {this.renderSwitch('biometricLock', biometricLock, true)}
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">自动锁定时间</h3>
-                    <p className="setting-item-description">无操作后自动锁定应用的时间</p>
-                  </div>
-                  <select 
-                    className="setting-select"
-                    value={autoLock}
-                    onChange={(e) => this.handleSelectChange('autoLock', parseInt(e.target.value))}
-                  >
-                    <option value={60}>1 分钟</option>
-                    <option value={300}>5 分钟</option>
-                    <option value={900}>15 分钟</option>
-                    <option value={1800}>30 分钟</option>
-                    <option value={-1}>从不</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            {/* 快捷键设置 */}
-            <div className="setting-section">
-              <div className="setting-section-header">
-                <FaKeyboard className="setting-section-icon" />
-                <h2 className="setting-section-title">快捷键</h2>
-              </div>
-              
-              <div className="setting-items">
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">打开主界面</h3>
-                    <p className="setting-item-description">快速调用剪贴板管理界面</p>
-                  </div>
-                  <div className="shortcut-keys">
-                    <span className="key-badge">⌘</span>
-                    <span className="key-badge">⇧</span>
-                    <span className="key-badge">V</span>
-                    <button className="modify-shortcut-btn">修改</button>
-                  </div>
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">快速粘贴历史</h3>
-                    <p className="setting-item-description">显示历史记录快速选择菜单</p>
-                  </div>
-                  <div className="shortcut-keys">
-                    <span className="key-badge">⌘</span>
-                    <span className="key-badge">⇧</span>
-                    <span className="key-badge">H</span>
-                    <button className="modify-shortcut-btn">修改</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 外观设置 */}
-            <div className="setting-section">
-              <div className="setting-section-header">
-                <FaPalette className="setting-section-icon" />
-                <h2 className="setting-section-title">外观</h2>
-              </div>
-              
-              <div className="setting-items">
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">主题模式</h3>
-                    <div className="theme-selector">
-                      <div 
-                        className={`theme-option ${themeMode === 'light' ? 'active' : ''}`}
-                        onClick={() => this.handleThemeChange('light')}
-                      >
-                        <div className="theme-preview light"></div>
-                        <span className="theme-label">浅色</span>
-                      </div>
-                      <div 
-                        className={`theme-option ${themeMode === 'dark' ? 'active' : ''}`}
-                        onClick={() => this.handleThemeChange('dark')}
-                      >
-                        <div className="theme-preview dark"></div>
-                        <span className="theme-label">深色</span>
-                      </div>
-                      <div 
-                        className={`theme-option ${themeMode === 'auto' ? 'active' : ''}`}
-                        onClick={() => this.handleThemeChange('auto')}
-                      >
-                        <div className="theme-preview auto"></div>
-                        <span className="theme-label">自动</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">紧凑模式</h3>
-                    <p className="setting-item-description">减少界面元素间距，显示更多内容</p>
-                  </div>
-                  {this.renderSwitch('compactMode', compactMode)}
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">显示预览</h3>
-                    <p className="setting-item-description">在列表中显示内容预览</p>
-                  </div>
-                  {this.renderSwitch('showPreview', showPreview)}
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">头部悬停</h3>
-                    <p className="setting-item-description">向上滚动时固定搜索栏和过滤栏</p>
-                  </div>
-                  {this.renderSwitch('enableStickyHeader', enableStickyHeader)}
-                </div>
-              </div>
-            </div>
-
-            {/* 高级功能 */}
-            <div className="setting-section">
-              <div className="setting-section-header">
-                <FaCloud className="setting-section-icon" />
-                <h2 className="setting-section-title">高级功能</h2>
-              </div>
-              
-              <div className="setting-items">
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">云同步</h3>
-                    <p className="setting-item-description">将剪贴板历史同步到云端</p>
-                  </div>
-                  {this.renderSwitch('cloudSync', cloudSync, true)}
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">多设备同步</h3>
-                    <p className="setting-item-description">在多个设备间同步剪贴板</p>
-                  </div>
-                  {this.renderSwitch('deviceSync', deviceSync, true)}
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">团队共享</h3>
-                    <p className="setting-item-description">与团队成员共享剪贴板内容</p>
-                  </div>
-                  {this.renderSwitch('teamSharing', teamSharing, true)}
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">智能搜索</h3>
-                    <p className="setting-item-description">支持模糊搜索和内容理解</p>
-                  </div>
-                  {this.renderSwitch('smartSearch', smartSearch)}
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">正则表达式搜索</h3>
-                    <p className="setting-item-description">使用正则表达式进行高级搜索</p>
-                  </div>
-                  {this.renderSwitch('regexSearch', regexSearch, true)}
-                </div>
-              </div>
-            </div>
-
-            {/* 数据管理 */}
-            <div className="setting-section">
-              <div className="setting-section-header">
-                <FaDatabase className="setting-section-icon" />
-                <h2 className="setting-section-title">数据管理</h2>
-              </div>
-              
-              <div className="setting-items">
-                <div className="setting-item">
-                  <div className="setting-item-info">
-                    <h3 className="setting-item-title">最长保存时间</h3>
-                    <p className="setting-item-description">超过指定时间的历史记录将自动清理</p>
-                  </div>
-                  <select 
-                    className="setting-select"
-                    value={maxSaveTime}
-                    onChange={(e) => this.handleSelectChange('maxSaveTime', parseInt(e.target.value))}
-                  >
-                    <option value={7}>7 天</option>
-                    <option value={30}>30 天</option>
-                    <option value={90}>90 天</option>
-                    <option value={180}>6 个月</option>
-                    <option value={365}>1 年</option>
-                    <option value={-1}>永久保存 {subscriptionPlan === 'free' && '(专业版)'}</option>
-                  </select>
-                </div>
-
-                <div className="setting-item">
-                  <div className="button-group">
-                    <button className="btn-base btn-primary" onClick={this.handleExportSettings}>
-                      导出设置
-                    </button>
-                    <button className="btn-base btn-secondary" onClick={this.handleImportSettings}>
-                      导入设置
-                    </button>
-                  </div>
-                </div>
-
-                <div className="setting-item">
-                  <div className="button-group">
-                    <button className="btn-base btn-danger" onClick={this.handleClearAll}>
-                      清空历史记录
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 订阅管理 */}
-            {subscriptionPlan === 'free' && (
-              <div className="setting-section subscription-section">
-                <div className="setting-section-header">
-                  <FaCrown className="setting-section-icon crown" />
-                  <h2 className="setting-section-title">升级专业版</h2>
-                </div>
-                
-                <div className="subscription-plans">
-                  <div className="plan-card pro">
-                    <h3>专业版</h3>
-                    <div className="price">¥19/月</div>
-                    <ul className="features">
-                      <li>数据加密保护</li>
-                      <li>生物识别锁定</li>
-                      <li>云同步</li>
-                      <li>多设备同步</li>
-                      <li>无限历史记录</li>
-                      <li>正则表达式搜索</li>
-                    </ul>
-                    <button className="btn-base btn-primary" onClick={() => this.handleUpgrade('pro')}>
-                      立即升级
-                    </button>
-                  </div>
-                  
-                  <div className="plan-card team">
-                    <h3>团队版</h3>
-                    <div className="price">¥99/月</div>
-                    <ul className="features">
-                      <li>包含专业版所有功能</li>
-                      <li>团队共享</li>
-                      <li>团队管理</li>
-                      <li>高级分析</li>
-                      <li>优先技术支持</li>
-                    </ul>
-                    <button className="btn-base btn-primary" onClick={() => this.handleUpgrade('team')}>
-                      联系销售
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-          </div>
-
-          {/* 设置页底部 */}
-          <div className="setting-footer">
-            <div className="version-info">
-              版本 1.0.0 • 最后更新: 2024-01-15
-            </div>
-            <div className="footer-links">
-              <a href="#" className="footer-link">帮助文档</a>
-              <a href="#" className="footer-link">反馈建议</a>
-              <a href="#" className="footer-link">隐私政策</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   handleExportSettings = () => {
     try {
       const dataStr = window.AppClipboard?.settingsService?.exportSettings();
@@ -829,6 +294,154 @@ class Setting extends React.Component {
       }
     }
   };
+
+  render() {
+    const {
+      autoListen,
+      showOnStartup,
+      historyLimit,
+      smartCategorization,
+      autoTagging,
+      contentFilter,
+      filterSensitive,
+      minTextLength,
+      encryptSensitiveData,
+      biometricLock,
+      autoLock,
+      themeMode,
+      compactMode,
+      showPreview,
+      enableStickyHeader,
+      cloudSync,
+      teamSharing,
+      deviceSync,
+      smartSearch,
+      regexSearch,
+      maxSaveTime,
+      subscriptionPlan,
+      isTrialActive
+    } = this.state;
+
+    return (
+      <div className="setting-page">
+        <div className="setting-container">
+          
+          {/* 设置页标题栏 */}
+          <SettingHeader
+            subscriptionPlan={subscriptionPlan}
+            onGoBack={this.handleGoBack}
+            onStartTrial={this.handleStartTrial}
+            onReset={this.handleReset}
+          />
+
+          {/* 订阅状态 */}
+          {subscriptionPlan !== 'free' && (
+            <SubscriptionStatus
+              subscriptionPlan={subscriptionPlan}
+              isTrialActive={isTrialActive}
+              subscriptionExpiry={this.state.subscriptionExpiry}
+            />
+          )}
+
+          {/* 设置分组 */}
+          <div className="setting-sections">
+            
+            {/* 基本设置 */}
+            <BasicSettings
+              autoListen={autoListen}
+              showOnStartup={showOnStartup}
+              historyLimit={historyLimit}
+              subscriptionPlan={subscriptionPlan}
+              onToggleSwitch={this.handleToggleSwitch}
+              onSelectChange={this.handleSelectChange}
+              isFeatureAvailable={this.isFeatureAvailable}
+              onPremiumFeatureClick={this.handlePremiumFeatureClick}
+            />
+
+            {/* 智能分类与标签 */}
+            <SmartCategorization
+              smartCategorization={smartCategorization}
+              autoTagging={autoTagging}
+              onToggleSwitch={this.handleToggleSwitch}
+              isFeatureAvailable={this.isFeatureAvailable}
+              onPremiumFeatureClick={this.handlePremiumFeatureClick}
+            />
+
+            {/* 内容过滤 */}
+            <ContentFilter
+              contentFilter={contentFilter}
+              filterSensitive={filterSensitive}
+              minTextLength={minTextLength}
+              onToggleSwitch={this.handleToggleSwitch}
+              onSelectChange={this.handleSelectChange}
+              onRangeChange={this.handleRangeChange}
+              isFeatureAvailable={this.isFeatureAvailable}
+              onPremiumFeatureClick={this.handlePremiumFeatureClick}
+            />
+
+            {/* 安全与隐私 */}
+            <SecuritySettings
+              encryptSensitiveData={encryptSensitiveData}
+              biometricLock={biometricLock}
+              autoLock={autoLock}
+              onToggleSwitch={this.handleToggleSwitch}
+              onSelectChange={this.handleSelectChange}
+              isFeatureAvailable={this.isFeatureAvailable}
+              onPremiumFeatureClick={this.handlePremiumFeatureClick}
+            />
+
+            {/* 快捷键设置 */}
+            <KeyboardSettings />
+
+            {/* 外观设置 */}
+            <AppearanceSettings
+              themeMode={themeMode}
+              compactMode={compactMode}
+              showPreview={showPreview}
+              enableStickyHeader={enableStickyHeader}
+              onThemeChange={this.handleThemeChange}
+              onToggleSwitch={this.handleToggleSwitch}
+              isFeatureAvailable={this.isFeatureAvailable}
+              onPremiumFeatureClick={this.handlePremiumFeatureClick}
+            />
+
+            {/* 高级功能 */}
+            <AdvancedSettings
+              cloudSync={cloudSync}
+              deviceSync={deviceSync}
+              teamSharing={teamSharing}
+              smartSearch={smartSearch}
+              regexSearch={regexSearch}
+              onToggleSwitch={this.handleToggleSwitch}
+              isFeatureAvailable={this.isFeatureAvailable}
+              onPremiumFeatureClick={this.handlePremiumFeatureClick}
+            />
+
+            {/* 数据管理 */}
+            <DataManagement
+              maxSaveTime={maxSaveTime}
+              subscriptionPlan={subscriptionPlan}
+              onSelectChange={this.handleSelectChange}
+              onExportSettings={this.handleExportSettings}
+              onImportSettings={this.handleImportSettings}
+              onClearAll={this.handleClearAll}
+            />
+
+            {/* 订阅管理 */}
+            {subscriptionPlan === 'free' && (
+              <SubscriptionPlans
+                onUpgrade={this.handleUpgrade}
+              />
+            )}
+
+          </div>
+
+          {/* 设置页底部 */}
+          <SettingFooter />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default Setting;

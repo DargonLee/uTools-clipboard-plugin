@@ -66,6 +66,9 @@
 
 /* 链接标题 */
 .link-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
   color: var(--gray-900);
   font-size: 0.875rem;
   font-weight: 500;
@@ -75,6 +78,25 @@
 
 .link-title.dark {
   color: var(--gray-100);
+}
+
+/* 链接标题图标 */
+.link-title-icon {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--purple-500);
+  flex-shrink: 0;
+  opacity: 0.8;
+  transition: var(--transition-normal);
+}
+
+.link-title:hover .link-title-icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.link-card.dark .link-title-icon {
+  color: var(--purple-400);
 }
 
 /* 域名显示 */
@@ -116,15 +138,77 @@
 }
 
 .link-stats span {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
 }
 
 .link-stats .valid-link {
   color: var(--success-color);
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--border-radius);
+  background-color: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
 }
 
 .link-stats .invalid-link {
   color: var(--danger-color);
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--border-radius);
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* 状态图标 */
+.status-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+}
+
+.status-icon.error {
+  opacity: 0.7;
+}
+
+/* 访问链接按钮样式 */
+.open-link-btn {
+  background-color: var(--purple-50);
+  border: 1px solid var(--purple-200);
+}
+
+.open-link-btn:hover {
+  background-color: var(--purple-100);
+  border-color: var(--purple-300);
+  transform: scale(1.1);
+}
+
+.open-link-btn svg {
+  color: var(--purple-600);
+  width: 1rem;
+  height: 1rem;
+}
+
+.open-link-btn:hover svg {
+  color: var(--purple-700);
+}
+
+/* 暗色模式下的访问链接按钮 */
+.link-card.dark .open-link-btn {
+  background-color: var(--purple-900);
+  border-color: var(--purple-700);
+}
+
+.link-card.dark .open-link-btn:hover {
+  background-color: var(--purple-800);
+  border-color: var(--purple-600);
+}
+
+.link-card.dark .open-link-btn svg {
+  color: var(--purple-300);
+}
+
+.link-card.dark .open-link-btn:hover svg {
+  color: var(--purple-200);
 }
 
 /* CardHeader图标调整 */
@@ -141,6 +225,15 @@
   
   .link-stats {
     gap: var(--spacing-3);
+  }
+  
+  .link-title {
+    font-size: 0.8rem;
+  }
+  
+  .link-title-icon {
+    width: 0.8rem;
+    height: 0.8rem;
   }
 }
 
@@ -174,5 +267,27 @@
   
   .link-stats:not(.dark) {
     color: var(--gray-500);
+  }
+  
+  .open-link-btn:not(.dark) {
+    background-color: var(--purple-900);
+    border-color: var(--purple-700);
+  }
+  
+  .open-link-btn:not(.dark):hover {
+    background-color: var(--purple-800);
+    border-color: var(--purple-600);
+  }
+  
+  .open-link-btn:not(.dark) svg {
+    color: var(--purple-300);
+  }
+  
+  .open-link-btn:not(.dark):hover svg {
+    color: var(--purple-200);
+  }
+  
+  .link-card:not(.dark) .link-title-icon {
+    color: var(--purple-400);
   }
 } 

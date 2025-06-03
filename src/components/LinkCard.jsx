@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaLink, FaCopy, FaStar, FaRegStar, FaTrashAlt, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaLink, FaCopy, FaStar, FaRegStar, FaTrashAlt, FaExternalLinkAlt, FaGlobe } from 'react-icons/fa';
 import { formatTime } from '../utils/TimeUtils';
 import { truncateText, isLink } from '../utils/TextUtils';
 import CardHeader from './CardHeader';
@@ -79,9 +79,10 @@ class LinkCard extends React.Component {
     const extraActions = [];
     if (isValidLink) {
       extraActions.push({
-        icon: <FaExternalLinkAlt className="w-3 h-3" />,
+        icon: <FaExternalLinkAlt />,
         onClick: this.handleOpenLink,
         title: "访问链接",
+        className: "action-btn open-link-btn",
       });
     }
 
@@ -91,7 +92,7 @@ class LinkCard extends React.Component {
         {/* 使用 CardHeader 组件 */}
         <CardHeader
           item={item}
-          icon={<FaLink />}
+          icon={<FaGlobe />}
           typeName="链接"
           typeColor="purple"
           onCopy={onCopy}
@@ -102,8 +103,9 @@ class LinkCard extends React.Component {
         
         {/* 链接内容 */}
         <div className="link-info">
-          {/* 链接标题 */}
+          {/* 链接标题与图标 */}
           <div className={`link-title ${isDark ? 'dark' : ''}`}>
+            <FaLink className="link-title-icon" />
             {title}
           </div>
           
@@ -121,8 +123,18 @@ class LinkCard extends React.Component {
         {/* 链接统计信息 */}
         <div className={`link-stats ${isDark ? 'dark' : ''}`}>
           <span>{item.content.length} 字符</span>
-          {isValidLink && <span className="valid-link">✓ 有效链接</span>}
-          {!isValidLink && <span className="invalid-link">⚠ 无效链接</span>}
+          {isValidLink && (
+            <span className="valid-link">
+              <FaGlobe className="status-icon" />
+              有效链接
+            </span>
+          )}
+          {!isValidLink && (
+            <span className="invalid-link">
+              <FaLink className="status-icon error" />
+              无效链接
+            </span>
+          )}
         </div>
       </div>
     );

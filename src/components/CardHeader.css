@@ -54,7 +54,7 @@
   transition: var(--transition-normal); /* 添加过渡效果 */
 }
 
-/* 类型标签颜色变体 - 统一圆角处理 */
+/* 类型标签颜色变体 - 统一使用 CSS 变量 */
 .type-tag.blue {
   background-color: var(--blue-100);
   color: var(--blue-800);
@@ -68,51 +68,51 @@
 }
 
 .type-tag.green {
-  background-color: #dcfce7;
-  color: #166534;
-  border-color: #bbf7d0;
+  background-color: var(--green-100);
+  color: var(--green-800);
+  border-color: var(--green-200);
 }
 
 .type-tag.green.dark {
-  background-color: rgb(20, 83, 45);
-  color: rgb(187, 247, 208);
-  border-color: rgb(34, 197, 94);
+  background-color: var(--green-dark-bg);
+  color: var(--green-dark-text);
+  border-color: var(--green-dark-border);
 }
 
 .type-tag.purple {
-  background-color: #f3e8ff;
-  color: #6b21a8;
-  border-color: #e9d5ff;
+  background-color: var(--purple-100);
+  color: var(--purple-800);
+  border-color: var(--purple-200);
 }
 
 .type-tag.purple.dark {
-  background-color: rgb(88, 28, 135);
-  color: rgb(221, 214, 254);
-  border-color: rgb(147, 51, 234);
+  background-color: var(--purple-dark-bg);
+  color: var(--purple-dark-text);
+  border-color: var(--purple-dark-border);
 }
 
 .type-tag.orange {
-  background-color: #fed7aa;
-  color: #9a3412;
-  border-color: #fdba74;
+  background-color: var(--orange-100);
+  color: var(--orange-800);
+  border-color: var(--orange-200);
 }
 
 .type-tag.orange.dark {
-  background-color: rgb(124, 45, 18);
-  color: rgb(254, 215, 170);
-  border-color: rgb(249, 115, 22);
+  background-color: var(--orange-dark-bg);
+  color: var(--orange-dark-text);
+  border-color: var(--orange-dark-border);
 }
 
 .type-tag.red {
-  background-color: #fee2e2;
-  color: #991b1b;
-  border-color: #fecaca;
+  background-color: var(--red-100);
+  color: var(--red-800);
+  border-color: var(--red-200);
 }
 
 .type-tag.red.dark {
-  background-color: rgb(127, 29, 29);
-  color: rgb(252, 165, 165);
-  border-color: rgb(239, 68, 68);
+  background-color: var(--red-dark-bg);
+  color: var(--red-dark-text);
+  border-color: var(--red-dark-border);
 }
 
 /* 类型标签悬停效果 */
@@ -181,14 +181,14 @@
 .action-btn:hover {
   background-color: var(--gray-100);
   transform: scale(1.1); /* 增加悬停缩放效果 */
-  border-radius: var(--border-radius-xl); /* 悬停时使用更大圆角 */
+  border-radius: var(--border-radius-md); /* 悬停时使用更大圆角 */
 }
 
 .action-btn:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: var(--shadow-focus);
-  border-radius: var(--border-radius-xl);
+  border-radius: var(--border-radius-md);
 }
 
 .action-btn svg {
@@ -203,13 +203,13 @@
   color: var(--gray-400);
 }
 
-/* 复制按钮 - 优化圆角和悬停效果 */
+/* 复制按钮 - 统一 hover 效果样式 */
 .copy-btn {
   background-color: transparent;
 }
 
 .copy-btn:hover {
-  background-color: var(--blue-50);
+  background-color: var(--blue-100);
   border-radius: var(--border-radius-md);
 }
 
@@ -225,13 +225,13 @@
   color: var(--blue-400);
 }
 
-/* 收藏按钮 - 优化圆角和悬停效果 */
+/* 收藏按钮 - 与复制按钮保持一致的 hover 效果 */
 .favorite-btn {
   background-color: transparent;
 }
 
 .favorite-btn:hover {
-  background-color: #fef3c7;
+  background-color: var(--yellow-100);
   border-radius: var(--border-radius-md);
 }
 
@@ -240,20 +240,20 @@
 }
 
 .favorite-btn.dark:hover {
-  background-color: rgb(120, 53, 15);
+  background-color: var(--yellow-dark-bg);
 }
 
 .favorite-btn.dark:hover .favorite-icon {
-  color: rgb(251, 191, 36); /* yellow-400 */
+  color: var(--yellow-400);
 }
 
-/* 删除按钮 - 优化圆角和悬停效果 */
+/* 删除按钮 - 与复制按钮保持一致的 hover 效果 */
 .delete-btn {
   background-color: transparent;
 }
 
 .delete-btn:hover {
-  background-color: #fee2e2;
+  background-color: var(--red-100);
   border-radius: var(--border-radius-md);
 }
 
@@ -262,11 +262,11 @@
 }
 
 .delete-btn.dark:hover {
-  background-color: rgb(127, 29, 29);
+  background-color: var(--red-dark-bg);
 }
 
 .delete-btn.dark:hover .delete-icon {
-  color: rgb(248, 113, 113); /* red-400 */
+  color: var(--red-400);
 }
 
 /* 暗色模式媒体查询适配 */

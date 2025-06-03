@@ -46,6 +46,62 @@
   --blue-800: #1e40af;
   --blue-900: #1e3a8a;
   
+  /* 绿色系 */
+  --green-100: #dcfce7;
+  --green-200: #bbf7d0;
+  --green-300: #86efac;
+  --green-400: #4ade80;
+  --green-500: #22c55e;
+  --green-600: #16a34a;
+  --green-700: #15803d;
+  --green-800: #166534;
+  --green-900: #14532d;
+  
+  /* 黄色系 */
+  --yellow-100: #fef3c7;
+  --yellow-200: #fde68a;
+  --yellow-300: #fcd34d;
+  --yellow-400: #fbbf24;
+  --yellow-500: #f59e0b;
+  --yellow-600: #d97706;
+  --yellow-700: #b45309;
+  --yellow-800: #92400e;
+  --yellow-900: #78350f;
+  
+  /* 橙色系 */
+  --orange-100: #fed7aa;
+  --orange-200: #fdba74;
+  --orange-300: #fb923c;
+  --orange-400: #f97316;
+  --orange-500: #ea580c;
+  --orange-600: #dc2626;
+  --orange-700: #c2410c;
+  --orange-800: #9a3412;
+  --orange-900: #7c2d12;
+  
+  /* 红色系 */
+  --red-100: #fee2e2;
+  --red-200: #fecaca;
+  --red-300: #fca5a5;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+  --red-800: #991b1b;
+  --red-900: #7f1d1d;
+  
+  /* 紫色系 */
+  --purple-50: #faf5ff;
+  --purple-100: #f3e8ff;
+  --purple-200: #e9d5ff;
+  --purple-300: #d8b4fe;
+  --purple-400: #c084fc;
+  --purple-500: #a855f7;
+  --purple-600: #9333ea;
+  --purple-700: #7c3aed;
+  --purple-800: #6b21a8;
+  --purple-900: #581c87;
+  
   /* 边框 */
   --border-color: #e5e7eb;
   --border-light: #f3f4f6;
@@ -115,6 +171,27 @@
   
   /* 主题色调整 */
   --primary-light: #1e3a8a;
+  
+  /* 深色模式下的特殊颜色变量 */
+  --green-dark-bg: #14532d;
+  --green-dark-text: #bbf7d0;
+  --green-dark-border: #22c55e;
+  
+  --yellow-dark-bg: #78350f;
+  --yellow-dark-text: #fde68a;
+  --yellow-dark-border: #f59e0b;
+  
+  --orange-dark-bg: #7c2d12;
+  --orange-dark-text: #fed7aa;
+  --orange-dark-border: #f97316;
+  
+  --red-dark-bg: #7f1d1d;
+  --red-dark-text: #fca5a5;
+  --red-dark-border: #ef4444;
+  
+  --purple-dark-bg: #581c87;
+  --purple-dark-text: #e9d5ff;
+  --purple-dark-border: #a855f7;
 }
 
 /* 全局重置样式 */

@@ -239,7 +239,7 @@
 }
 
 .favorite-btn.dark:hover {
-  background-color: var(--yellow-dark-bg);
+  background-color: #78350f;
 }
 
 .favorite-btn.dark:hover .favorite-icon {

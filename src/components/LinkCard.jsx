@@ -82,7 +82,6 @@ class LinkCard extends React.Component {
         icon: <FaExternalLinkAlt className="w-3 h-3" />,
         onClick: this.handleOpenLink,
         title: "访问链接",
-        className: "flex items-center justify-center w-8 h-8 bg-green-500 hover:bg-green-600 text-white rounded-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-1"
       });
     }
 

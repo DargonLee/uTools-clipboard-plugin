@@ -3,9 +3,9 @@
 
 /* 链接卡片主容器 - 继承基础卡片样式 */
 .link-card {
-  border-radius: var(--radius-lg);
+  border-radius: var(--border-radius-md);
   padding: var(--spacing-4);
-  border: 1px solid var(--gray-200);
+  border: 2px solid var(--gray-200);
   transition: var(--transition-normal);
   transform-origin: center;
   background-color: white;

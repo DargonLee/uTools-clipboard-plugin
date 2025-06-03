@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaTimes, FaCopy, FaDownload, FaSearch, FaFont } from 'react-icons/fa';
-import { countCharacters, countLines, countWords } from '../utils/TextUtils';
+import { countCharacters, countLines, countWords } from '../../utils/TextUtils';
 import './TextPreview.css';
 
 /**

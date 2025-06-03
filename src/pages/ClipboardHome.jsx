@@ -3,16 +3,18 @@
 // {"code": "paste", "type": "text", "payload": "Easy剪贴板","from": "main"}
 import React, { useEffect } from 'react';
 import { FaFileAlt, FaLink, FaFile, FaImage, FaCog } from 'react-icons/fa';
-import TextCard from '../components/TextCard';
-import LinkCard from '../components/LinkCard';
-import ImageCard from '../components/ImageCard';
-import FileCard from '../components/FileCard';
-import SearchBar from '../components/SearchBar';
-import FilterBar from '../components/FilterBar';
-import ContentState from '../components/ContentState';
+import {
+  TextCard,
+  LinkCard,
+  ImageCard,
+  FileCard,
+  SearchBar,
+  FilterBar,
+  ContentState,
+  ImagePreview,
+  TextPreview
+} from '../components';
 import Setting from './Setting';
-import ImagePreview from '../components/ImagePreview';
-import TextPreview from '../components/TextPreview';
 import './ClipboardHome.css';
 
 class ClipboardHome extends React.Component {

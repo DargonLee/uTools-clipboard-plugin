@@ -1,7 +1,6 @@
 import React from 'react';
-import { FaLink, FaCopy, FaStar, FaRegStar, FaTrashAlt, FaExternalLinkAlt, FaGlobe } from 'react-icons/fa';
-import { formatTime } from '../utils/TimeUtils';
-import { truncateText, isLink } from '../utils/TextUtils';
+import { FaLink, FaExternalLinkAlt, FaGlobe } from 'react-icons/fa';
+import { truncateText, isLink } from '../../utils/TextUtils';
 import CardHeader from './CardHeader';
 import './LinkCard.css';
 

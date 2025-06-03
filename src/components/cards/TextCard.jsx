@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaFileAlt, FaExpand } from 'react-icons/fa';
-import { truncateText, countCharacters, countLines } from '../utils/TextUtils';
+import { truncateText, countCharacters, countLines } from '../../utils/TextUtils';
 import CardHeader from './CardHeader';
 import './TextCard.css';
 

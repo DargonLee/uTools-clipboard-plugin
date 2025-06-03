@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaCopy, FaStar, FaRegStar, FaTrashAlt } from 'react-icons/fa';
-import { formatTime } from '../utils/TimeUtils';
+import { formatTime } from '../../utils/TimeUtils';
 import './CardHeader.css';
 
 /**

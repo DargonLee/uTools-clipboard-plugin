@@ -140,8 +140,8 @@
 /* 收藏星标 - 添加圆角容器 */
 .favorite-star {
   color: var(--warning-color);
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 16px;
+  height: 16px;
   padding: 0.25rem;
   border-radius: var(--border-radius);
   background-color: rgba(245, 158, 11, 0.1); /* 添加半透明背景 */

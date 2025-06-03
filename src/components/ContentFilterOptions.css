@@ -1,0 +1,64 @@
+/* 内容过滤选项 */
+.filter-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-3);
+}
+
+.filter-option {
+  display: flex;
+  align-items: flex-start;
+  padding: var(--spacing-3);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.filter-option:hover {
+  border-color: var(--primary-300);
+  background-color: var(--primary-400);
+}
+
+[data-theme="dark"] .filter-option:hover {
+  border-color: var(--primary-500);
+  background-color: var(--primary-800);
+}
+
+.filter-option.active {
+  border-color: var(--primary-color);
+  background-color: var(--primary-500);
+}
+
+[data-theme="dark"] .filter-option.active {
+  border-color: var(--primary-500);
+  background-color: var(--gray-300);
+}
+
+.filter-option input[type="radio"] {
+  margin-right: var(--spacing-3);
+  accent-color: var(--primary-color);
+}
+
+.option-content {
+  flex: 1;
+}
+
+.option-label {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-1);
+}
+
+.option-desc {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .filter-options {
+    grid-template-columns: 1fr;
+  }
+} 

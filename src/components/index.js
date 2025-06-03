@@ -6,3 +6,14 @@ export { default as ImagePreview } from './ImagePreview';
 export { default as LinkCard } from './LinkCard';
 export { default as TextCard } from './TextCard';
 export { default as TextPreview } from './TextPreview';
+
+// 设置页面组件
+export { default as SettingHeader } from './SettingHeader';
+export { default as SubscriptionStatus } from './SubscriptionStatus';
+export { default as SettingSwitch } from './SettingSwitch';
+export { default as SettingSection } from './SettingSection';
+export { default as BasicSettings } from './BasicSettings';
+export { default as ContentFilterOptions } from './ContentFilterOptions';
+export { default as ThemeSelector } from './ThemeSelector';
+export { default as SubscriptionPlans } from './SubscriptionPlans';
+export { default as SettingFooter } from './SettingFooter';

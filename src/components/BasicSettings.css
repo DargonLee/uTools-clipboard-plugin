@@ -1,0 +1,113 @@
+/* 设置分组卡片 */
+.setting-section {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-6);
+}
+
+[data-theme="dark"] .setting-section {
+  background: rgba(31, 41, 55, 0.9);
+  border-color: rgba(75, 85, 99, 0.3);
+}
+
+.setting-section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.setting-section-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: var(--spacing-2);
+  color: var(--primary-color);
+}
+
+.setting-section-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* 设置项列表 */
+.setting-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* 单个设置项 */
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-lg);
+  transition: var(--transition-normal);
+}
+
+.setting-item:hover {
+  background: rgba(54, 140, 255, 0.05);
+}
+
+.setting-item-info {
+  flex: 1;
+}
+
+.setting-item-title {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-1);
+}
+
+.setting-item-description {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.25rem;
+  margin: 0;
+}
+
+/* 选择框样式 */
+.setting-select {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  transition: var(--transition-normal);
+  outline: none;
+}
+
+[data-theme="dark"] .setting-select {
+  background-color: var(--gray-800);
+  border-color: var(--gray-600);
+  color: var(--gray-100);
+}
+
+.setting-select:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
+  border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .setting-select:focus {
+  border-color: var(--primary-500);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .setting-section {
+    padding: var(--spacing-md);
+  }
+  
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-3);
+  }
+} 

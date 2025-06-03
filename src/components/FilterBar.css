@@ -145,7 +145,7 @@
 /* 操作按钮基础样式 */
 .action-btn {
   padding: var(--spacing-1) var(--spacing-3);
-  border-radius: var(--radius-sm);
+  border-radius: var(--border-radius-sm);
   font-size: 0.875rem;
   transition: var(--transition-normal);
   border: none;

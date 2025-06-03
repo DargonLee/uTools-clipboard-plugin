@@ -13,17 +13,25 @@
   --danger-color: #ef4444;
   --danger-hover: #dc2626;
   
+  /* uTools 标准颜色 */
+  --utools-bg-light: #FFFFFF;
+  --utools-bg-dark: #F4F4F4;
+  --utools-text-primary-light: #1f2937;
+  --utools-text-primary-dark: #111827;
+  --utools-text-secondary-light: #6b7280;
+  --utools-text-secondary-dark: #374151;
+  
   /* 文本颜色 */
-  --text-primary: #1f2937;
-  --text-secondary: #6b7280;
+  --text-primary: var(--utools-text-primary-light);
+  --text-secondary: var(--utools-text-secondary-light);
   --text-muted: #9ca3af;
   
   /* 背景色 */
-  --bg-primary: #ffffff;
+  --bg-primary: var(--utools-bg-light);
   --bg-secondary: #f9fafb;
   --bg-tertiary: #f3f4f6;
   
-  /* 中性色彩 */
+  /* 中性色彩 - 优化对比度 */
   --gray-50: #f9fafb;
   --gray-100: #f3f4f6;
   --gray-200: #e5e7eb;
@@ -35,18 +43,18 @@
   --gray-800: #1f2937;
   --gray-900: #111827;
   
-  /* 蓝色系 */
-  --blue-100: #dbeafe;
-  --blue-200: #bfdbfe;
-  --blue-300: #93c5fd;
-  --blue-400: #60a5fa;
-  --blue-500: #3b82f6;
-  --blue-600: #2563eb;
-  --blue-700: #1d4ed8;
-  --blue-800: #1e40af;
-  --blue-900: #1e3a8a;
+  /* 蓝色系 - 更现代的色调 */
+  --blue-100: #e0f2fe;
+  --blue-200: #bae6fd;
+  --blue-300: #7dd3fc;
+  --blue-400: #38bdf8;
+  --blue-500: #0ea5e9;
+  --blue-600: #0284c7;
+  --blue-700: #0369a1;
+  --blue-800: #075985;
+  --blue-900: #0c4a6e;
   
-  /* 绿色系 */
+  /* 绿色系 - 优化饱和度 */
   --green-100: #dcfce7;
   --green-200: #bbf7d0;
   --green-300: #86efac;
@@ -57,7 +65,7 @@
   --green-800: #166534;
   --green-900: #14532d;
   
-  /* 黄色系 */
+  /* 黄色系 - 提升可读性 */
   --yellow-100: #fef3c7;
   --yellow-200: #fde68a;
   --yellow-300: #fcd34d;
@@ -106,21 +114,23 @@
   --border-color: #e5e7eb;
   --border-light: #f3f4f6;
   
-  /* 阴影 */
+  /* 阴影系统 - 更细腻的层次 */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
   --shadow-focus: 0 0 0 2px rgb(59 130 246 / 0.5), 0 0 0 4px rgb(59 130 246 / 0.1);
   
-  /* 圆角 */
+  /* 圆角系统 - 更统一的设计语言 */
   --border-radius-sm: 4px;
-  --border-radius-md: 6px;
+  --border-radius-md: 8px;
   --border-radius: 8px;
   --border-radius-lg: 12px;
   --border-radius-xl: 16px;
+  --border-radius-2xl: 20px;
   --border-radius-full: 9999px;
   
-  /* 间距 */
+  /* 间距系统 */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
@@ -146,38 +156,38 @@
   --text-xl: 1.25rem;
   --text-2xl: 1.5rem;
   
-  /* 过渡 */
+  /* 过渡系统 - 更流畅的动画 */
   --transition: all 0.2s ease-in-out;
   --transition-fast: all 0.15s ease;
   --transition-normal: all 0.2s ease;
   --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 深色模式 */
+/* 深色模式 - 符合 uTools F4F4F4 标准 */
 [data-theme="dark"] {
-  /* 文本颜色 */
-  --text-primary: #f9fafb;
-  --text-secondary: #d1d5db;
-  --text-muted: #9ca3af;
+  /* uTools 深色模式颜色 */
+  --text-primary: var(--utools-text-primary-dark);
+  --text-secondary: var(--utools-text-secondary-dark);
+  --text-muted: #6b7280;
   
-  /* 背景色 */
-  --bg-primary: #111827;
-  --bg-secondary: #1f2937;
-  --bg-tertiary: #374151;
+  /* 背景色调整为 uTools 标准 */
+  --bg-primary: var(--utools-bg-dark);
+  --bg-secondary: #e5e7eb;
+  --bg-tertiary: #d1d5db;
   
   /* 边框 */
-  --border-color: #374151;
-  --border-light: #4b5563;
+  --border-color: #d1d5db;
+  --border-light: #e5e7eb;
   
   /* 主题色调整 */
-  --primary-light: #1e3a8a;
+  --primary-light: #e0f2fe;
   
   /* 深色模式下的特殊颜色变量 */
   --green-dark-bg: #14532d;
   --green-dark-text: #bbf7d0;
   --green-dark-border: #22c55e;
   
-  --yellow-dark-bg: #78350f;
+  --yellow-dark-bg: #854d0e;
   --yellow-dark-text: #fde68a;
   --yellow-dark-border: #f59e0b;
   

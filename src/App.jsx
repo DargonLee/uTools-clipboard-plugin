@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import ClipboardHome from './pages/ClipboardHome'
+import Setting from './pages/Setting'
 
 export default function App () {
   const [enterAction, setEnterAction] = useState({})

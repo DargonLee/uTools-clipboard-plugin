@@ -2,14 +2,14 @@
 
 /* 搜索栏主容器 */
 .search-bar {
-  margin-bottom: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
 }
 
 /* 搜索栏布局容器 */
 .search-bar-container {
   display: flex;
   align-items: center;
-  gap: var(--spacing-3);
+  gap: var(--spacing-4);
 }
 
 /* 搜索输入容器 */
@@ -21,168 +21,119 @@
 /* 搜索图标 */
 .search-icon {
   position: absolute;
-  left: var(--spacing-3);
+  left: var(--spacing-4);
   top: 50%;
   transform: translateY(-50%);
-  color: var(--gray-400);
+  color: var(--text-muted);
   pointer-events: none;
+  transition: var(--transition-normal);
+  z-index: 1;
+}
+
+.search-input:focus + .search-icon {
+  color: var(--primary-color);
 }
 
 .search-icon.dark {
-  color: var(--gray-500);
+  color: var(--text-muted);
 }
 
 /* 搜索输入框 */
 .search-input {
   width: 100%;
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
-  padding-top: var(--spacing-3);
-  padding-bottom: var(--spacing-3);
-  border: 1px solid var(--gray-300);
-  background-color: white;
-  color: var(--gray-900);
-  border-radius: var(--radius-lg);
+  padding: var(--spacing-4) var(--spacing-12) var(--spacing-4) var(--spacing-12);
+  border: 2px solid var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border-radius: var(--border-radius-2xl);
   outline: none;
   transition: var(--transition-normal);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
 }
 
 .search-input:focus {
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-  border-color: var(--blue-500);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(54, 140, 255, 0.1), var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .search-input::placeholder {
-  color: var(--gray-400);
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
 /* 暗色模式输入框 */
 .search-input.dark {
-  border-color: var(--gray-600);
-  background-color: var(--gray-800);
-  color: var(--gray-100);
+  border-color: var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.search-input.dark:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(54, 140, 255, 0.15), var(--shadow-md);
 }
 
 .search-input.dark::placeholder {
-  color: var(--gray-500);
+  color: var(--text-muted);
 }
 
 /* 清除按钮 */
 .clear-button {
   position: absolute;
-  right: var(--spacing-3);
+  right: var(--spacing-4);
   top: 50%;
   transform: translateY(-50%);
-  color: var(--gray-400);
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: var(--border-radius-full);
   transition: var(--transition-normal);
   border: none;
-  background: none;
+  background-color: var(--gray-200);
   cursor: pointer;
   outline: none;
+  z-index: 1;
 }
 
 .clear-button:hover {
-  color: var(--gray-600);
-  background-color: var(--gray-100);
+  background-color: var(--gray-300);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .clear-button.dark {
-  color: var(--gray-500);
+  background-color: var(--gray-600);
 }
 
 .clear-button.dark:hover {
-  color: var(--gray-300);
-  background-color: var(--gray-700);
+  background-color: var(--gray-500);
 }
 
 .clear-button-text {
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
   line-height: 1;
 }
 
 /* 搜索提示信息 */
 .search-hint {
-  margin-top: var(--spacing-2);
-  font-size: 0.75rem;
+  margin-top: var(--spacing-3);
+  font-size: var(--text-xs);
   line-height: 1rem;
-  color: var(--gray-500);
+  color: var(--text-secondary);
+  text-align: center;
+  opacity: 0.8;
 }
 
 .search-hint.dark {
-  color: var(--gray-400);
-}
-
-/* 响应式设计 */
-@media (max-width: 640px) {
-  .search-input {
-    padding-top: 0.625rem;
-    padding-bottom: 0.625rem;
-    font-size: 0.875rem;
-  }
-  
-  .search-icon {
-    left: 0.625rem;
-  }
-  
-  .clear-button {
-    right: 0.625rem;
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-  
-  .clear-button-text {
-    font-size: 0.75rem;
-  }
-}
-
-/* 键盘焦点增强 */
-.search-input:focus-visible {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  box-shadow: var(--shadow-focus);
-}
-
-.clear-button:focus-visible {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-}
-
-/* 暗色模式媒体查询适配 */
-@media (prefers-color-scheme: dark) {
-  .search-icon:not(.dark) {
-    color: var(--gray-500);
-  }
-  
-  .search-input:not(.dark) {
-    border-color: var(--gray-600);
-    background-color: var(--gray-800);
-    color: var(--gray-100);
-  }
-  
-  .search-input:not(.dark)::placeholder {
-    color: var(--gray-500);
-  }
-  
-  .clear-button:not(.dark) {
-    color: var(--gray-500);
-  }
-  
-  .clear-button:not(.dark):hover {
-    color: var(--gray-300);
-    background-color: var(--gray-700);
-  }
-  
-  .search-hint:not(.dark) {
-    color: var(--gray-400);
-  }
+  color: var(--text-secondary);
 }
 
 /* 设置按钮样式 */
@@ -190,57 +141,186 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: var(--primary-color);
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
   border: none;
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--border-radius-2xl);
   color: white;
   cursor: pointer;
   transition: var(--transition-normal);
   outline: none;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.setting-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+  opacity: 0;
+  transition: var(--transition-normal);
 }
 
 .setting-button:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: var(--shadow-xl);
+}
+
+.setting-button:hover::before {
+  opacity: 1;
 }
 
 .setting-button:active {
-  transform: translateY(0);
-  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px) scale(1.02);
 }
 
 .setting-button:focus-visible {
   outline: 2px solid transparent;
   outline-offset: 2px;
-  box-shadow: var(--shadow-focus);
+  box-shadow: 0 0 0 4px rgba(54, 140, 255, 0.3), var(--shadow-xl);
 }
 
 .setting-button svg {
-  width: 1rem;
-  height: 1rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  z-index: 1;
+  position: relative;
 }
 
 /* 暗色模式设置按钮 */
 .setting-button.dark {
-  background-color: var(--primary-600);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
 }
 
 .setting-button.dark:hover {
-  background-color: var(--primary-700);
+  box-shadow: var(--shadow-xl);
 }
 
-/* 响应式设计 - 设置按钮 */
+/* 输入焦点状态增强 */
+.search-input-container:focus-within .search-icon {
+  color: var(--primary-color);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* 响应式设计 */
 @media (max-width: 640px) {
+  .search-bar {
+    margin-bottom: var(--spacing-4);
+  }
+  
+  .search-bar-container {
+    gap: var(--spacing-3);
+  }
+  
+  .search-input {
+    padding: var(--spacing-3) var(--spacing-10) var(--spacing-3) var(--spacing-10);
+    font-size: var(--text-xs);
+    border-radius: var(--border-radius-xl);
+  }
+  
+  .search-icon {
+    left: var(--spacing-3);
+  }
+  
+  .clear-button {
+    right: var(--spacing-3);
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .clear-button-text {
+    font-size: 0.7rem;
+  }
+  
   .setting-button {
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--border-radius-xl);
   }
   
   .setting-button svg {
-    width: 0.875rem;
-    height: 0.875rem;
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* 小屏幕优化 */
+@media (max-width: 480px) {
+  .search-input {
+    padding: var(--spacing-2) var(--spacing-8) var(--spacing-2) var(--spacing-8);
+  }
+  
+  .search-icon {
+    left: var(--spacing-2);
+  }
+  
+  .clear-button {
+    right: var(--spacing-2);
+  }
+}
+
+/* 键盘焦点增强 */
+.search-input:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.clear-button:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(54, 140, 255, 0.3);
+}
+
+/* 动画效果 */
+@keyframes searchPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.search-input:placeholder-shown + .search-icon {
+  animation: searchPulse 2s ease-in-out infinite;
+}
+
+/* 暗色模式媒体查询适配 */
+@media (prefers-color-scheme: dark) {
+  .search-icon:not(.dark) {
+    color: var(--text-muted);
+  }
+  
+  .search-input:not(.dark) {
+    border-color: var(--border-color);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+  
+  .search-input:not(.dark):focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(54, 140, 255, 0.15), var(--shadow-md);
+  }
+  
+  .search-input:not(.dark)::placeholder {
+    color: var(--text-muted);
+  }
+  
+  .clear-button:not(.dark) {
+    background-color: var(--gray-600);
+  }
+  
+  .clear-button:not(.dark):hover {
+    background-color: var(--gray-500);
+  }
+  
+  .search-hint:not(.dark) {
+    color: var(--text-secondary);
   }
 } 

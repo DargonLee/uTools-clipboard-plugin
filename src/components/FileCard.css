@@ -3,7 +3,7 @@
 /* 文件卡片主容器 */
 .file-card {
   /* 继承 base-card 的所有样式 */
-  border-radius: var(--radius-lg);
+  border-radius: var(--border-radius-lg);
   padding: var(--spacing-4);
   border: 1px solid var(--gray-200);
   transition: var(--transition-normal);
@@ -33,7 +33,7 @@
 }
 
 .file-preview {
-  border-radius: var(--radius-md);
+  border-radius: var(--border-radius-md);
   padding: var(--spacing-3);
   background-color: var(--gray-50);
   border: 1px solid var(--gray-200);
@@ -59,7 +59,7 @@
   justify-content: center;
   width: 3rem;
   height: 3rem;
-  border-radius: var(--radius-md);
+  border-radius: var(--border-radius-md);
   background-color: white;
   border: 1px solid var(--gray-200);
   box-shadow: var(--shadow-sm);

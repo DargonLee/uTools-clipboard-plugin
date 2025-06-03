@@ -1,29 +1,48 @@
 /* LinkCard 组件样式 */
 
-/* 链接卡片主容器 - 继承基础卡片样式 */
+/* 链接卡片主容器 */
 .link-card {
-  border-radius: var(--border-radius-md);
-  padding: var(--spacing-4);
-  border: 2px solid var(--gray-200);
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-6);
+  border: 1px solid var(--border-color);
   transition: var(--transition-normal);
   transform-origin: center;
-  background-color: white;
+  background-color: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.link-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple-500), var(--purple-600));
+  opacity: 0;
+  transition: var(--transition-normal);
 }
 
 .link-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--blue-300);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+  border-color: var(--purple-300);
+  box-shadow: var(--shadow-xl);
+}
+
+.link-card:hover::before {
+  opacity: 1;
 }
 
 .link-card.dark {
-  background-color: var(--gray-800);
-  border-color: var(--gray-600);
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
 }
 
 .link-card.dark:hover {
-  border-color: var(--blue-500);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-color: var(--purple-400);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 /* 空状态容器 */
@@ -32,35 +51,45 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem 0;
-  color: rgb(156, 163, 175);
+  padding: var(--spacing-2xl) 0;
+  color: var(--text-muted);
+  background: linear-gradient(135deg, var(--purple-50), var(--purple-100));
+  border-radius: var(--border-radius-xl);
 }
 
 .empty-state.dark {
-  color: rgb(107, 114, 128);
+  color: var(--text-muted);
+  background: linear-gradient(135deg, var(--purple-900), var(--purple-800));
 }
 
 .empty-state-icon {
   font-size: 3.75rem;
   line-height: 1;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0.6;
 }
 
 .empty-state-title {
-  font-size: 1.125rem;
+  font-size: var(--text-xl);
   line-height: 1.75rem;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
 }
 
 .empty-state-subtitle {
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   line-height: 1.25rem;
-  margin-top: 0.5rem;
+  color: var(--text-secondary);
 }
 
 /* 链接信息区域 */
 .link-info {
-  margin-bottom: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+  padding: var(--spacing-4);
+  background-color: var(--bg-secondary);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-light);
 }
 
 /* 链接标题 */
@@ -68,21 +97,21 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
-  color: var(--gray-900);
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-bottom: var(--spacing-1);
+  color: var(--text-primary);
+  font-size: var(--text-base);
+  font-weight: 600;
+  margin-bottom: var(--spacing-3);
   word-break: break-words;
 }
 
 .link-title.dark {
-  color: var(--gray-100);
+  color: var(--text-primary);
 }
 
 /* 链接标题图标 */
 .link-title-icon {
-  width: 0.875rem;
-  height: 0.875rem;
+  width: 1.125rem;
+  height: 1.125rem;
   color: var(--purple-500);
   flex-shrink: 0;
   opacity: 0.8;
@@ -100,68 +129,96 @@
 
 /* 域名显示 */
 .link-domain {
-  color: var(--blue-600);
-  font-size: 0.75rem;
+  color: var(--purple-600);
+  font-size: var(--text-sm);
+  font-weight: 500;
   margin-bottom: var(--spacing-2);
   word-break: break-all;
+  padding: var(--spacing-1) var(--spacing-3);
+  background-color: var(--purple-100);
+  border-radius: var(--border-radius-full);
+  display: inline-block;
 }
 
 .link-domain.dark {
-  color: var(--blue-400);
+  color: var(--purple-300);
+  background-color: var(--purple-900);
 }
 
 /* 完整链接 */
 .link-url {
-  color: var(--gray-600);
-  font-size: 0.75rem;
-  line-height: 1.625;
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  line-height: 1.5;
   word-break: break-all;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  background-color: var(--bg-tertiary);
+  padding: var(--spacing-2);
+  border-radius: var(--border-radius);
+  border: 1px dashed var(--border-color);
+  margin-top: var(--spacing-2);
 }
 
 .link-url.dark {
-  color: var(--gray-400);
+  color: var(--text-secondary);
+  background-color: var(--bg-tertiary);
+  border-color: var(--border-color);
 }
 
 /* 链接统计信息 */
 .link-stats {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--spacing-4);
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   line-height: 1rem;
-  color: var(--gray-400);
+  color: var(--text-secondary);
+  padding: var(--spacing-2) 0;
 }
 
 .link-stats.dark {
-  color: var(--gray-500);
+  color: var(--text-secondary);
 }
 
 .link-stats span {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-2);
+  background-color: var(--bg-tertiary);
+  border-radius: var(--border-radius-full);
+  font-weight: 500;
 }
 
 .link-stats .valid-link {
   color: var(--success-color);
-  padding: 0.125rem 0.5rem;
-  border-radius: var(--border-radius);
-  background-color: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.2);
+  background-color: var(--green-100);
+  border: 1px solid var(--green-200);
+  font-weight: 600;
 }
 
 .link-stats .invalid-link {
   color: var(--danger-color);
-  padding: 0.125rem 0.5rem;
-  border-radius: var(--border-radius);
-  background-color: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  background-color: var(--red-100);
+  border: 1px solid var(--red-200);
+  font-weight: 600;
+}
+
+.link-stats.dark .valid-link {
+  background-color: var(--green-900);
+  border-color: var(--green-700);
+}
+
+.link-stats.dark .invalid-link {
+  background-color: var(--red-900);
+  border-color: var(--red-700);
 }
 
 /* 状态图标 */
 .status-icon {
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 0.875rem;
+  height: 0.875rem;
   flex-shrink: 0;
 }
 
@@ -171,14 +228,16 @@
 
 /* 访问链接按钮样式 */
 .open-link-btn {
-  background-color: var(--purple-50);
+  background-color: var(--purple-100);
   border: 1px solid var(--purple-200);
+  transition: var(--transition-normal);
 }
 
 .open-link-btn:hover {
-  background-color: var(--purple-100);
+  background-color: var(--purple-200);
   border-color: var(--purple-300);
   transform: scale(1.1);
+  box-shadow: var(--shadow-md);
 }
 
 .open-link-btn svg {
@@ -212,60 +271,101 @@
 
 /* CardHeader图标调整 */
 .link-card .card-header .type-icon svg {
-  width: 1rem;
-  height: 1rem;
+  width: 1.125rem;
+  height: 1.125rem;
 }
 
 /* 响应式设计 */
 @media (max-width: 640px) {
   .link-card {
+    padding: var(--spacing-4);
+    border-radius: var(--border-radius-lg);
+  }
+  
+  .link-info {
     padding: var(--spacing-3);
   }
   
   .link-stats {
-    gap: var(--spacing-3);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
   }
   
   .link-title {
-    font-size: 0.8rem;
+    font-size: var(--text-sm);
   }
   
   .link-title-icon {
-    width: 0.8rem;
-    height: 0.8rem;
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* 小屏幕优化 */
+@media (max-width: 480px) {
+  .link-url {
+    font-size: 0.7rem;
+    padding: var(--spacing-1);
+  }
+  
+  .link-domain {
+    font-size: 0.75rem;
+  }
+  
+  .empty-state-icon {
+    font-size: 3rem;
+  }
+  
+  .empty-state-title {
+    font-size: var(--text-lg);
   }
 }
 
 /* 暗色模式媒体查询适配 */
 @media (prefers-color-scheme: dark) {
   .link-card:not(.dark) {
-    background-color: var(--gray-800);
-    border-color: var(--gray-600);
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
   }
   
   .link-card:not(.dark):hover {
-    border-color: var(--blue-500);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-color: var(--purple-400);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
   
   .empty-state:not(.dark) {
-    color: rgb(107, 114, 128);
+    color: var(--text-muted);
+    background: linear-gradient(135deg, var(--purple-900), var(--purple-800));
   }
   
   .link-title:not(.dark) {
-    color: var(--gray-100);
+    color: var(--text-primary);
   }
   
   .link-domain:not(.dark) {
-    color: var(--blue-400);
+    color: var(--purple-300);
+    background-color: var(--purple-900);
   }
   
   .link-url:not(.dark) {
-    color: var(--gray-400);
+    color: var(--text-secondary);
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
   }
   
   .link-stats:not(.dark) {
-    color: var(--gray-500);
+    color: var(--text-secondary);
+  }
+  
+  .link-stats:not(.dark) .valid-link {
+    background-color: var(--green-900);
+    border-color: var(--green-700);
+  }
+  
+  .link-stats:not(.dark) .invalid-link {
+    background-color: var(--red-900);
+    border-color: var(--red-700);
   }
   
   .open-link-btn:not(.dark) {

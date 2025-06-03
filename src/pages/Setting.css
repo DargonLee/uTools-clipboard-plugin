@@ -316,7 +316,7 @@
 
 .filter-option:hover {
   border-color: var(--primary-300);
-  background-color: var(--primary-100);
+  background-color: var(--primary-400);
 }
 
 [data-theme="dark"] .filter-option:hover {
@@ -326,7 +326,7 @@
 
 .filter-option.active {
   border-color: var(--primary-color);
-  background-color: var(--primary-100);
+  background-color: var(--primary-500);
 }
 
 [data-theme="dark"] .filter-option.active {

@@ -1,3 +1,61 @@
+/* 清空数据部分样式 */
+.clear-data-section {
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.clear-data-info {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.clear-data-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 140px;
+  box-shadow: 0 2px 4px rgba(255, 71, 87, 0.2);
+}
+
+.clear-data-button:hover {
+  background: #ff3742;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 71, 87, 0.3);
+}
+
+.clear-data-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(255, 71, 87, 0.2);
+}
+
+.clear-data-icon {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .clear-data-section {
+  border-top-color: var(--border-color-dark);
+}
+
+[data-theme="dark"] .clear-data-button {
+  box-shadow: 0 2px 4px rgba(255, 71, 87, 0.3);
+}
+
+[data-theme="dark"] .clear-data-button:hover {
+  box-shadow: 0 4px 8px rgba(255, 71, 87, 0.4);
+}
+
+/* 保留原有的通用按钮样式（以防其他地方使用） */
 .button-group {
   display: flex;
   gap: 12px;

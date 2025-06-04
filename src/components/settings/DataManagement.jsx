@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaDatabase } from 'react-icons/fa';
+import { FaDatabase, FaTrashAlt } from 'react-icons/fa';
 import SettingSection from './SettingSection';
 import './DataManagement.css';
 
@@ -33,12 +33,15 @@ class DataManagement extends React.Component {
           </select>
         </div>
 
-        <div className="setting-item">
-          <div className="button-group">
-            <button className="btn-base btn-danger" onClick={onClearAll}>
-              清空历史记录
-            </button>
+        <div className="setting-item clear-data-section">
+          <div className="clear-data-info">
+            <h3 className="setting-item-title">清空数据</h3>
+            <p className="setting-item-description">永久删除所有剪贴板历史记录</p>
           </div>
+          <button className="clear-data-button" onClick={onClearAll}>
+            <FaTrashAlt className="clear-data-icon" />
+            <span>清空历史记录</span>
+          </button>
         </div>
       </SettingSection>
     );

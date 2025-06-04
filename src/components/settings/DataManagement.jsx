@@ -9,8 +9,6 @@ class DataManagement extends React.Component {
       maxSaveTime,
       subscriptionPlan,
       onSelectChange,
-      onExportSettings,
-      onImportSettings,
       onClearAll
     } = this.props;
 
@@ -33,17 +31,6 @@ class DataManagement extends React.Component {
             <option value={365}>1 年</option>
             <option value={-1}>永久保存 {subscriptionPlan === 'free' && '(专业版)'}</option>
           </select>
-        </div>
-
-        <div className="setting-item">
-          <div className="button-group">
-            <button className="btn-base btn-primary" onClick={onExportSettings}>
-              导出设置
-            </button>
-            <button className="btn-base btn-secondary" onClick={onImportSettings}>
-              导入设置
-            </button>
-          </div>
         </div>
 
         <div className="setting-item">

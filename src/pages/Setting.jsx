@@ -224,64 +224,6 @@ class Setting extends React.Component {
     // 这里会调用支付接口
   };
 
-  handleExportSettings = () => {
-    try {
-      const dataStr = window.AppClipboard?.settingsService?.exportSettings();
-      if (dataStr) {
-        const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        
-        const url = URL.createObjectURL(dataBlob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `clipboard-settings-${new Date().toISOString().split('T')[0]}.json`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-        
-        console.log('设置数据已导出');
-      } else {
-        alert('没有找到可导出的设置数据');
-      }
-    } catch (error) {
-      console.error('导出设置数据失败:', error);
-      alert('导出设置数据失败，请重试');
-    }
-  };
-
-  handleImportSettings = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          try {
-            const success = window.AppClipboard?.settingsService?.importSettings(e.target.result);
-            if (success) {
-              this.loadSettings();
-              console.log('设置数据导入成功');
-              alert('设置数据导入成功！');
-              
-              if (this.props.onStickyHeaderChange) {
-                this.props.onStickyHeaderChange(this.state.enableStickyHeader);
-              }
-            } else {
-              alert('导入的文件格式错误，请检查文件内容');
-            }
-          } catch (error) {
-            console.error('导入设置数据失败:', error);
-            alert('导入的文件格式错误，请检查文件内容');
-          }
-        };
-        reader.readAsText(file);
-      }
-    };
-    input.click();
-  };
-
   handleClearAll = async () => {
     if (confirm('确定要清空所有剪贴板历史记录吗？此操作不可恢复！')) {
       try {
@@ -422,8 +364,6 @@ class Setting extends React.Component {
               maxSaveTime={maxSaveTime}
               subscriptionPlan={subscriptionPlan}
               onSelectChange={this.handleSelectChange}
-              onExportSettings={this.handleExportSettings}
-              onImportSettings={this.handleImportSettings}
               onClearAll={this.handleClearAll}
             />
 

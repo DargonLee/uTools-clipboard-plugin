@@ -47,18 +47,31 @@
 
 /* 选中状态样式 */
 .text-card.selected {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(54, 140, 255, 0.2), var(--shadow-xl);
-  transform: translateY(-2px);
+  border-left: 4px solid var(--primary-color);
+  background: linear-gradient(135deg, rgba(54, 140, 255, 0.03), rgba(54, 140, 255, 0.08));
+  box-shadow: 0 2px 8px rgba(54, 140, 255, 0.15), inset 4px 0 0 var(--primary-color);
+  transform: none; /* 不使用transform，避免与hover冲突 */
 }
 
 .text-card.selected::before {
   opacity: 1;
+  background: linear-gradient(90deg, var(--primary-color), rgba(54, 140, 255, 0.8));
 }
 
 .text-card.dark.selected {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(54, 140, 255, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  background: linear-gradient(135deg, rgba(54, 140, 255, 0.05), rgba(54, 140, 255, 0.12));
+  box-shadow: 0 2px 8px rgba(54, 140, 255, 0.25), inset 4px 0 0 var(--primary-color);
+}
+
+/* 选中状态下的内容区域样式调整 */
+.text-card.selected .text-content-body {
+  border-color: rgba(54, 140, 255, 0.2);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.text-card.dark.selected .text-content-body {
+  border-color: rgba(54, 140, 255, 0.3);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 /* 空状态容器 */

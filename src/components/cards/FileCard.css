@@ -11,6 +11,18 @@
   background-color: white;
 }
 
+/* 选中状态样式 */
+.file-card.selected {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(54, 140, 255, 0.2), var(--shadow-xl);
+  transform: translateY(-2px);
+}
+
+.file-card.dark.selected {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(54, 140, 255, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
 .file-card:hover {
   transform: translateY(-2px);
   border-color: var(--blue-300);

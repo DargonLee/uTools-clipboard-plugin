@@ -9,6 +9,7 @@ import './TextCard.css';
  * 展示文本信息，包含复制、收藏、删除等操作
  * Props:
  *   - item: 文本数据对象 { _id, content, time, favorite, type }
+ *   - selected: 是否选中状态
  *   - onCopy: 复制回调函数
  *   - onToggleFavorite: 收藏/取消收藏回调函数
  *   - onDelete: 删除回调函数
@@ -27,7 +28,7 @@ class TextCard extends React.Component {
   }
 
   render() {
-    const { item, onCopy, onToggleFavorite, onDelete, onHover, onLeave } = this.props;
+    const { item, selected, onCopy, onToggleFavorite, onDelete, onHover, onLeave } = this.props;
     const isDark = this.getCurrentTheme();
 
     // 如果没有传入 item，显示空状态
@@ -46,7 +47,7 @@ class TextCard extends React.Component {
 
     return (
       <div 
-        className={`text-card ${isDark ? 'dark' : ''}`}
+        className={`text-card ${isDark ? 'dark' : ''} ${selected ? 'selected' : ''}`}
         onMouseEnter={onHover}
         onMouseLeave={onLeave}
       >

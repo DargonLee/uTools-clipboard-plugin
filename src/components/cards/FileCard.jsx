@@ -8,6 +8,7 @@ import './FileCard.css';
  * 展示文件信息，包含复制、收藏、删除等操作
  * Props:
  *   - item: 文件数据对象 { _id, content, time, favorite, type, fileName, fileSize, filePath }
+ *   - selected: 是否选中状态
  *   - onCopy: 复制回调函数
  *   - onToggleFavorite: 收藏/取消收藏回调函数
  *   - onDelete: 删除回调函数
@@ -156,7 +157,7 @@ class FileCard extends React.Component {
   }
 
   render() {
-    const { item, onCopy, onToggleFavorite, onDelete } = this.props;
+    const { item, selected, onCopy, onToggleFavorite, onDelete } = this.props;
     const isDark = this.getCurrentTheme();
 
     // 如果没有传入 item，显示空状态
@@ -176,7 +177,7 @@ class FileCard extends React.Component {
     const filePath = item.filePath || item.content;
 
     return (
-      <div className={`file-card ${isDark ? 'dark' : ''}`}>
+      <div className={`file-card ${isDark ? 'dark' : ''} ${selected ? 'selected' : ''}`}>
         
         {/* 使用 CardHeader 组件 */}
         <CardHeader

@@ -41,6 +41,8 @@ class ClipboardHome extends React.Component {
     previewImageData: null,   // 预览的图片数据
     showTextPreview: false,   // 是否显示文本预览
     previewTextData: null,    // 预览的文本数据
+    // 键盘导航相关状态
+    selectedCardIndex: -1,    // 当前选中的card索引，-1表示未选中
   }
 
   async componentDidMount() {
@@ -161,7 +163,10 @@ class ClipboardHome extends React.Component {
       );
     }
 
-    this.setState({ history: filtered });
+    this.setState({ 
+      history: filtered,
+      selectedCardIndex: -1 // 重置选中状态
+    });
   }
 
   // 搜索功能
@@ -183,7 +188,8 @@ class ClipboardHome extends React.Component {
     this.setState({
       searchKeyword: '',
       selectedType: 'all',
-      history: this.state.originalHistory
+      history: this.state.originalHistory,
+      selectedCardIndex: -1 // 重置选中状态
     });
   }
 
@@ -292,7 +298,8 @@ class ClipboardHome extends React.Component {
         await window.AppClipboard.clipboardService.deleteHistoryItem(item._id);
         const newHistory = await window.AppClipboard.clipboardService.getAllHistory();
         this.setState({ 
-          originalHistory: newHistory 
+          originalHistory: newHistory,
+          selectedCardIndex: -1 // 重置选中状态
         });
         this.applyCurrentFilters(newHistory);
       } catch (error) {
@@ -311,7 +318,8 @@ class ClipboardHome extends React.Component {
           history: newHistory, 
           originalHistory: newHistory,
           searchKeyword: '',
-          selectedType: 'all'
+          selectedType: 'all',
+          selectedCardIndex: -1 // 重置选中状态
         });
       } catch (error) {
         console.error('清空历史记录失败:', error);
@@ -372,6 +380,11 @@ class ClipboardHome extends React.Component {
 
   // 全局键盘事件处理
   handleGlobalKeyDown = (e) => {
+    // 如果设置页面已打开，不处理键盘导航
+    if (this.state.showSetting) {
+      return;
+    }
+
     // 如果当前有悬停的卡片，按空格键预览
     if (e.code === 'Space' && this.state.hoveredCard && this.state.hoveredCardType) {
       e.preventDefault();
@@ -380,6 +393,46 @@ class ClipboardHome extends React.Component {
       } else if (this.state.hoveredCardType === 'text') {
         this.showTextPreview(this.state.hoveredCard);
       }
+    }
+
+    // 键盘导航功能
+    const { selectedCardIndex, history } = this.state;
+    
+    // 向下箭头键 - 选中下一个card
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const nextIndex = selectedCardIndex + 1;
+      if (nextIndex < history.length) {
+        this.setState({ selectedCardIndex: nextIndex });
+        this.scrollToCard(nextIndex);
+      }
+    }
+    
+    // 向上箭头键 - 选中上一个card
+    else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prevIndex = selectedCardIndex - 1;
+      if (prevIndex >= 0) {
+        this.setState({ selectedCardIndex: prevIndex });
+        this.scrollToCard(prevIndex);
+      } else if (selectedCardIndex === -1 && history.length > 0) {
+        // 如果当前没有选中任何card，选中最后一个
+        this.setState({ selectedCardIndex: history.length - 1 });
+        this.scrollToCard(history.length - 1);
+      }
+    }
+    
+    // Enter键 - 复制当前选中的card
+    else if (e.key === 'Enter' && selectedCardIndex >= 0 && selectedCardIndex < history.length) {
+      e.preventDefault();
+      const selectedItem = history[selectedCardIndex];
+      this.handleCopy(selectedItem);
+    }
+    
+    // Escape键 - 取消选中
+    else if (e.key === 'Escape') {
+      e.preventDefault();
+      this.setState({ selectedCardIndex: -1 });
     }
   }
 
@@ -435,9 +488,27 @@ class ClipboardHome extends React.Component {
     });
   }
 
+  // 滚动到指定的card
+  scrollToCard = (index) => {
+    // 使用setTimeout确保DOM已更新
+    setTimeout(() => {
+      const cardElements = document.querySelectorAll('.text-card, .image-card, .file-card, .link-card');
+      if (cardElements[index]) {
+        cardElements[index].scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+    }, 10);
+  }
+
   // 修改渲染单个历史记录项的方法
-  renderHistoryItem = (item) => {
+  renderHistoryItem = (item, index) => {
+    const { selectedCardIndex } = this.state;
+    const isSelected = selectedCardIndex === index;
+    
     const commonProps = {
+      selected: isSelected,
       onCopy: this.handleCopy,
       onToggleFavorite: this.handleToggleFavorite,
       onDelete: this.handleDelete,

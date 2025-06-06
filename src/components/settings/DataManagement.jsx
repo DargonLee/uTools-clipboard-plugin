@@ -41,7 +41,7 @@ class DataManagement extends React.Component {
           <button className="clear-data-button" onClick={onClearAll}>
             <FaTrashAlt className="clear-data-icon" />
             <span>清空历史记录</span>
-          </button>
+            </button>
         </div>
       </SettingSection>
     );

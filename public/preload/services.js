@@ -675,54 +675,6 @@ const settingsService = {
       return false;
     }
   },
-
-  /**
-   * 导出设置数据为 JSON 字符串
-   * @returns {string|null} JSON 字符串，失败时返回 null
-   */
-  exportSettings() {
-    try {
-      const settings = this.loadSettings();
-      return JSON.stringify(settings, null, 2);
-    } catch (error) {
-      console.error('导出设置数据失败:', error);
-      return null;
-    }
-  },
-
-  /**
-   * 从 JSON 字符串导入设置数据
-   * @param {string} jsonString JSON 字符串
-   * @returns {boolean} 导入是否成功
-   */
-  importSettings(jsonString) {
-    try {
-      const settings = JSON.parse(jsonString);
-      
-      // 验证导入的数据是否包含有效的设置项
-      const defaultSettings = this.getDefaultSettings();
-      const validSettings = {};
-      
-      // 只导入有效的设置项
-      Object.keys(defaultSettings).forEach(key => {
-        if (settings.hasOwnProperty(key)) {
-          validSettings[key] = settings[key];
-        } else {
-          validSettings[key] = defaultSettings[key];
-        }
-      });
-      
-      const success = this.saveSettings(validSettings);
-      if (success) {
-        console.log('设置数据导入成功:', validSettings);
-      }
-      return success;
-    } catch (error) {
-      console.error('导入设置数据失败:', error);
-      return false;
-    }
-  },
-
   /**
    * 检查 uTools dbStorage 是否可用
    * @returns {boolean} 是否可用

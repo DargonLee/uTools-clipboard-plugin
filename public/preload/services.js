@@ -308,12 +308,20 @@ const clipboardService = {
    */
   async deleteAllHistory() {
     if (!window.utools) return;
-    const docs = await window.utools.db.promises.allDocs(CLIPBOARD_DB_PREFIX);
-    for (const doc of docs) {
-      const result = await window.utools.db.promises.remove(doc._id);
-      if (!result.ok && result.error) {
-        console.log(result.message);
-      }
+    try {
+      const docs = await window.utools.db.promises.allDocs(CLIPBOARD_DB_PREFIX);
+      if (docs.length === 0) return;
+
+      const docsToDelete = docs.map(doc => ({
+        _id: doc._id,
+        _rev: doc._rev,
+        _deleted: true
+      }));
+
+      await window.utools.db.promises.bulkDocs(docsToDelete);
+      console.log(`已通过批量操作删除所有 ${docs.length} 条历史记录`);
+    } catch (error) {
+      console.error('批量删除所有历史记录失败:', error);
     }
   },
 
@@ -539,6 +547,37 @@ const clipboardService = {
       return [];
     }
   },
+
+  /**
+   * 确保历史记录数量不超过限制，删除多余的旧记录
+   * @param {number} limit 历史记录数量上限
+   * @returns {Promise<void>}
+   */
+  async enforceHistoryLimit(limit) {
+    if (!window.utools || limit <= 0) return;
+
+    try {
+      const allHistory = await this.getAllHistory(); // Sorted newest to oldest
+      if (allHistory.length > limit) {
+        const itemsToDeleteCount = allHistory.length - limit;
+        // The oldest items are at the end of the array
+        const itemsToDelete = allHistory.slice(itemsToDeleteCount * -1);
+        
+        const docsToDelete = itemsToDelete.map(item => ({
+          _id: item._id,
+          _rev: item._rev,
+          _deleted: true
+        }));
+
+        if (docsToDelete.length > 0) {
+          await window.utools.db.promises.bulkDocs(docsToDelete);
+          console.log(`已通过批量操作删除 ${docsToDelete.length} 条最旧的历史记录以满足数量限制 ${limit}`);
+        }
+      }
+    } catch (error) {
+      console.error('执行历史记录数量限制失败:', error);
+    }
+  },
 };
 
 const settingsService = {
@@ -613,8 +652,18 @@ const settingsService = {
         return false;
       }
 
+      // 获取旧设置以供比较
+      const oldSettings = this.loadSettings();
+
       window.utools.dbStorage.setItem(this.SETTINGS_KEY, settings);
       console.log('设置已保存:', settings);
+
+      // 检查 historyLimit 是否发生变化，如果变化则执行清理
+      if (oldSettings.historyLimit !== settings.historyLimit) {
+        console.log(`History limit changed from ${oldSettings.historyLimit} to ${settings.historyLimit}. Enforcing...`);
+        window.AppClipboard.clipboardService.enforceHistoryLimit(parseInt(settings.historyLimit, 10));
+      }
+
       return true;
     } catch (error) {
       console.error('保存设置失败:', error);
@@ -629,9 +678,11 @@ const settingsService = {
    * @returns {boolean} 更新是否成功
    */
   updateSetting(key, value) {
+    console.log("updateSetting", key, value);
     try {
       const currentSettings = this.loadSettings();
       const updatedSettings = { ...currentSettings, [key]: value };
+      // 现在 saveSettings 会处理 historyLimit 的副作用
       return this.saveSettings(updatedSettings);
     } catch (error) {
       console.error(`更新设置 ${key} 失败:`, error);

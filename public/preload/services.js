@@ -9,9 +9,9 @@ function simpleHash(str) {
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
     hash = ((hash << 5) - hash) + char;
-    hash = hash & hash;
+    hash = hash | 0;
   }
-  return Math.abs(hash).toString(36);
+  return (hash >>> 0).toString(36);
 }
 
 /**
@@ -252,6 +252,7 @@ const clipboardService = {
       const currentHash = simpleHash(currentContent);
       
       if (this._lastHash && this._lastHash === currentHash) {
+        console.log("内容未变化，跳过存储");
         return;
       }
       this._lastHash = currentHash;

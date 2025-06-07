@@ -207,9 +207,11 @@
 }
 
 .setting-item:hover {
-  /* background: rgba(54, 140, 255, 0.05); */
-  /* background: #4A4B4D; */
-  background: #505153;
+  background: rgba(54, 140, 255, 0.05);
+}
+
+[data-theme="dark"] .setting-item:hover {
+  background: var(--gray-700);
 }
 
 .setting-item-full {
@@ -865,4 +867,4 @@
     background: rgba(31, 41, 55, 0.9);
     border-color: rgba(75, 85, 99, 0.3);
   }
-} 
+}

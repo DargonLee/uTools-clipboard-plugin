@@ -807,7 +807,8 @@
   }
   
   .setting-section:not([data-theme="light"]) {
-    background: rgba(31, 41, 55, 0.9);
+    /* background: rgba(31, 41, 55, 0.9); */
+    background: var(--bg-primary);
     border-color: rgba(75, 85, 99, 0.3);
   }
   

@@ -633,7 +633,8 @@ body {
     --text-muted: #9ca3af;
     /* --bg-primary: #111827; */
     --bg-primary: #414244;
-    --bg-secondary: #1f2937;
+    /* --bg-secondary: #1f2937; */
+    --bg-secondary: #303133;
     --bg-tertiary: #374151;
     --border-color: #374151;
     --border-light: #4b5563;

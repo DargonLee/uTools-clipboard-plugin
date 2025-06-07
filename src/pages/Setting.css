@@ -207,7 +207,9 @@
 }
 
 .setting-item:hover {
-  background: rgba(54, 140, 255, 0.05);
+  /* background: rgba(54, 140, 255, 0.05); */
+  /* background: #4A4B4D; */
+  background: #505153;
 }
 
 .setting-item-full {

@@ -6,7 +6,6 @@ import {
   SmartCategorization,
   ContentFilter,
   SecuritySettings,
-  KeyboardSettings,
   AppearanceSettings,
   AdvancedSettings,
   DataManagement,
@@ -331,9 +330,6 @@ class Setting extends React.Component {
               isFeatureAvailable={this.isFeatureAvailable}
               onPremiumFeatureClick={this.handlePremiumFeatureClick}
             />
-
-            {/* 快捷键设置 */}
-            <KeyboardSettings />
 
             {/* 外观设置 */}
             <AppearanceSettings

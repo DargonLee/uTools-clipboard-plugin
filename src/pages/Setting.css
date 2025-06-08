@@ -283,7 +283,7 @@
 }
 
 .switch::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 2px;
   left: 2px;
@@ -291,7 +291,9 @@
   height: 20px;
   background: white;
   border-radius: 50%;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -523,13 +525,6 @@
   font-weight: 500;
 }
 
-/* 快捷键显示 */
-.shortcut-keys {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-2);
-}
-
 .key-badge {
   padding: var(--spacing-1) var(--spacing-2);
   background: var(--gray-100);
@@ -592,7 +587,7 @@
 }
 
 .plan-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -653,7 +648,7 @@
 }
 
 .features li::before {
-  content: '✓';
+  content: "✓";
   position: absolute;
   left: 0;
   color: var(--green-500);
@@ -717,49 +712,49 @@
   .setting-container {
     padding: var(--spacing-3);
   }
-  
+
   .setting-header {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-3);
   }
-  
+
   .setting-header-right {
     width: 100%;
     justify-content: space-between;
   }
-  
+
   .setting-section {
     padding: var(--spacing-md);
   }
-  
+
   .setting-item {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-3);
   }
-  
+
   .setting-switch-container {
     align-self: flex-end;
   }
-  
+
   .theme-selector {
     grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-2);
   }
-  
+
   .filter-options {
     grid-template-columns: 1fr;
   }
-  
+
   .subscription-plans {
     grid-template-columns: 1fr;
   }
-  
+
   .button-group {
     flex-direction: column;
   }
-  
+
   .setting-footer {
     flex-direction: column;
     gap: var(--spacing-3);
@@ -772,17 +767,17 @@
     font-size: var(--text-xs);
     padding: var(--spacing-1) var(--spacing-3);
   }
-  
+
   .subscription-status {
     flex-direction: column;
     gap: var(--spacing-2);
     text-align: center;
   }
-  
+
   .shortcut-keys {
     flex-wrap: wrap;
   }
-  
+
   .range-labels {
     flex-direction: column;
     gap: var(--spacing-1);
@@ -792,7 +787,8 @@
 
 /* 高级功能提示动画 */
 @keyframes premiumPulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -809,60 +805,60 @@
   .setting-page:not([data-theme="light"]) {
     background-color: var(--gray-900);
   }
-  
+
   .setting-section:not([data-theme="light"]) {
     /* background: rgba(31, 41, 55, 0.9); */
     background: var(--bg-primary);
     border-color: rgba(75, 85, 99, 0.3);
   }
-  
+
   .switch:not([data-theme="light"]) {
     background: var(--gray-500);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
-  
+
   .switch.active:not([data-theme="light"]) {
     background: var(--primary-700);
     box-shadow: 0 2px 4px rgba(29, 78, 216, 0.4);
   }
-  
+
   .setting-select:not([data-theme="light"]) {
     background-color: var(--gray-800);
     border-color: var(--gray-600);
     color: var(--gray-100);
   }
-  
+
   .setting-select:not([data-theme="light"]):focus {
     border-color: var(--primary-500);
   }
-  
+
   .setting-range:not([data-theme="light"]) {
     background: var(--gray-700);
   }
-  
+
   .theme-option:not([data-theme="light"]) {
     background: var(--gray-800);
     border-color: var(--gray-600);
   }
-  
+
   .theme-option:not([data-theme="light"]):hover {
     border-color: var(--primary-500);
   }
-  
+
   .theme-option.active:not([data-theme="light"]) {
     border-color: var(--primary-500);
     background: var(--primary-900);
   }
-  
+
   .plan-card:not([data-theme="light"]) {
     background: var(--gray-800);
     border-color: var(--gray-600);
   }
-  
+
   .plan-card:not([data-theme="light"]):hover {
     border-color: var(--primary-600);
   }
-  
+
   .setting-footer:not([data-theme="light"]) {
     background: rgba(31, 41, 55, 0.9);
     border-color: rgba(75, 85, 99, 0.3);

@@ -1,23 +1,27 @@
-/* Setting 页面样式 */
+/* ==========================================================================
+   Setting.css - 主设置页面样式
+   ========================================================================== */
 
-/* 设置页面主容器 */
+/* ========== 1. 页面基础与布局 ========== */
+
 .setting-page {
   min-height: 100vh;
   background-color: var(--bg-secondary);
   transition: var(--transition-colors);
 }
 
-[data-theme="dark"] .setting-page {
-  background-color: var(--gray-900);
-}
-
 .setting-container {
-  max-width: 56rem; /* max-w-4xl */
+  max-width: 56rem; /* 900px */
   margin: 0 auto;
   padding: var(--spacing-md);
 }
 
-/* 设置页标题栏 */
+[data-theme="dark"] .setting-page {
+  background-color: var(--gray-900);
+}
+
+/* ========== 2. 头部区域 ========== */
+
 .setting-header {
   display: flex;
   align-items: center;
@@ -26,12 +30,7 @@
   margin-bottom: var(--spacing-md);
 }
 
-.setting-header-left {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-3);
-}
-
+.setting-header-left,
 .setting-header-right {
   display: flex;
   align-items: center;
@@ -106,7 +105,8 @@
   background-color: var(--primary-900);
 }
 
-/* 订阅状态 */
+/* ========== 3. 订阅状态 ========== */
+
 .subscription-status {
   display: flex;
   align-items: center;
@@ -144,7 +144,8 @@
   color: var(--text-secondary);
 }
 
-/* 设置分组容器 */
+/* ========== 4. 设置分组与设置项 ========== */
+
 .setting-sections {
   display: flex;
   flex-direction: column;
@@ -176,10 +177,6 @@
   height: 1.25rem;
   margin-right: var(--spacing-2);
   color: var(--primary-color);
-}
-
-.setting-section-icon.crown {
-  color: var(--yellow-500);
 }
 
 .setting-section-title {
@@ -235,7 +232,9 @@
   margin: 0;
 }
 
-/* 开关容器 */
+/* ========== 5. 表单控件 (开关, 选择器, 滑块) ========== */
+
+/* --- 开关 Switch --- */
 .setting-switch-container {
   position: relative;
   display: flex;
@@ -248,7 +247,6 @@
   font-size: var(--text-sm);
 }
 
-/* 开关样式 */
 .switch {
   position: relative;
   width: 44px;
@@ -298,15 +296,10 @@
 }
 
 .switch.active::after {
-  transform: translateX(100%);
-  background-color: var(--primary-color);
+  transform: translateX(20px);
 }
 
-.switch.active:not([data-theme="light"])::after {
-  background-color: var(--primary-color);
-}
-
-/* 选择框样式 */
+/* --- 选择器 Select --- */
 .setting-select {
   flex: 1;
   padding: var(--spacing-2) var(--spacing-3);
@@ -336,7 +329,7 @@
   border-color: var(--primary-500);
 }
 
-/* 范围滑块样式 */
+/* --- 滑块 Range --- */
 .setting-range {
   width: 100%;
   height: 8px;
@@ -348,7 +341,7 @@
 }
 
 [data-theme="dark"] .setting-range {
-  background: var(--gray-700);
+  background: var(--gray-800);
 }
 
 .setting-range::-webkit-slider-thumb {
@@ -391,7 +384,9 @@
   color: var(--text-primary);
 }
 
-/* 主题选择器 */
+/* ========== 6. 特定组件样式 ========== */
+
+/* --- 主题选择器 --- */
 .theme-selector {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -459,7 +454,7 @@
   color: var(--text-primary);
 }
 
-/* 按钮组样式 */
+/* --- 按钮与徽章 --- */
 .button-group {
   display: flex;
   gap: var(--spacing-3);
@@ -506,7 +501,7 @@
   background-color: var(--primary-900);
 }
 
-/* 订阅计划卡片 */
+/* --- 订阅计划卡片 --- */
 .subscription-section {
   border: 2px solid var(--yellow-200);
   background: linear-gradient(135deg, var(--yellow-50), var(--orange-50));
@@ -607,7 +602,8 @@
   justify-content: center;
 }
 
-/* 底部信息 */
+/* ========== 7. 底部区域 ========== */
+
 .setting-footer {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
@@ -654,7 +650,24 @@
   background-color: var(--primary-900);
 }
 
-/* 响应式设计 */
+/* ========== 8. 动画效果 ========== */
+
+@keyframes premiumPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.switch.disabled .premium-icon {
+  animation: premiumPulse 2s infinite;
+}
+
+/* ========== 9. 响应式设计 ========== */
+
 @media (max-width: 768px) {
   .setting-container {
     padding: var(--spacing-3);
@@ -688,10 +701,6 @@
   .theme-selector {
     grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-2);
-  }
-
-  .filter-options {
-    grid-template-columns: 1fr;
   }
 
   .subscription-plans {
@@ -732,41 +741,29 @@
   }
 }
 
-/* 高级功能提示动画 */
-@keyframes premiumPulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.6;
-  }
-}
-
-.switch.disabled .premium-icon {
-  animation: premiumPulse 2s infinite;
-}
-
-/* 媒体查询自动暗色模式适配 */
+/* ========== 10. OS 偏好设置 (自动暗黑模式) ========== */
+/*
+  说明:
+  这里的 :not([data-theme="light"]) 选择器用于处理 "自动" 主题模式。
+  当用户操作系统为暗黑模式，且用户未手动选择 "亮色" 主题时，
+  此处的样式会生效。
+*/
 @media (prefers-color-scheme: dark) {
   .setting-page:not([data-theme="light"]) {
     background-color: var(--gray-900);
   }
 
   .setting-section:not([data-theme="light"]) {
-    /* background: rgba(31, 41, 55, 0.9); */
     background: var(--bg-primary);
     border-color: rgba(75, 85, 99, 0.3);
   }
 
   .switch:not([data-theme="light"]) {
     background: var(--gray-500);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   .switch.active:not([data-theme="light"]) {
     background: var(--primary-700);
-    box-shadow: 0 2px 4px rgba(29, 78, 216, 0.4);
   }
 
   .setting-select:not([data-theme="light"]) {
@@ -780,7 +777,7 @@
   }
 
   .setting-range:not([data-theme="light"]) {
-    background: var(--gray-700);
+    background: var(--gray-800);
   }
 
   .theme-option:not([data-theme="light"]) {

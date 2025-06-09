@@ -49,6 +49,11 @@
   box-shadow: var(--shadow-focus);
 }
 
+.filter-btn:hover {
+  background-color: var(--primary-100);
+  color: var(--primary-color);
+}
+
 /* 过滤按钮 - 未选中状态 */
 .filter-btn.inactive {
   background-color: var(--gray-100);
@@ -70,7 +75,10 @@
 
 /* 过滤按钮 - 选中状态 */
 .filter-btn.active {
+  background-color: var(--primary-color);
   color: white;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
 }
 
 /* 全部按钮选中状态 */
@@ -195,4 +203,19 @@
   .reset-btn:not(.dark):hover {
     background-color: var(--gray-500);
   }
+}
+
+[data-theme="dark"] .filter-btn {
+  background-color: var(--gray-700);
+  color: var(--gray-200);
+}
+
+[data-theme="dark"] .filter-btn:hover {
+  background-color: var(--primary-800);
+  color: var(--primary-300);
+}
+
+[data-theme="dark"] .filter-btn.active {
+  background-color: var(--primary-600);
+  color: white;
 } 

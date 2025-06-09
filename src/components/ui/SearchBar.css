@@ -62,7 +62,11 @@
 
 .search-input::placeholder {
   color: var(--text-muted);
-  font-weight: 400;
+  font-size: var(--text-sm);
+}
+
+[data-theme="dark"] .search-input::placeholder {
+  color: var(--gray-400);
 }
 
 /* 暗色模式输入框 */
@@ -87,39 +91,31 @@
   right: var(--spacing-4);
   top: 50%;
   transform: translateY(-50%);
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--border-radius-full);
   transition: var(--transition-normal);
   border: none;
-  background-color: var(--gray-200);
+  background: var(--gray-200);
   cursor: pointer;
   outline: none;
   z-index: 1;
+  color: var(--text-secondary);
 }
 
 .clear-button:hover {
   background-color: var(--gray-300);
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: var(--shadow-sm);
 }
 
-.clear-button.dark {
+[data-theme="dark"] .clear-button {
+  background-color: var(--gray-700);
+}
+
+[data-theme="dark"] .clear-button:hover {
   background-color: var(--gray-600);
-}
-
-.clear-button.dark:hover {
-  background-color: var(--gray-500);
-}
-
-.clear-button-text {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  line-height: 1;
 }
 
 /* 搜索提示信息 */
@@ -141,65 +137,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+  padding: var(--spacing-2);
+  border-radius: var(--border-radius-lg);
+  background: transparent;
   border: none;
-  border-radius: var(--border-radius-2xl);
-  color: white;
   cursor: pointer;
   transition: var(--transition-normal);
-  outline: none;
-  box-shadow: var(--shadow-md);
-  position: relative;
-  overflow: hidden;
-}
-
-.setting-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-  opacity: 0;
-  transition: var(--transition-normal);
+  color: var(--text-secondary);
 }
 
 .setting-button:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: var(--shadow-xl);
+  background-color: var(--primary-100);
+  color: var(--primary-color);
 }
 
-.setting-button:hover::before {
-  opacity: 1;
-}
-
-.setting-button:active {
-  transform: translateY(-1px) scale(1.02);
-}
-
-.setting-button:focus-visible {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(54, 140, 255, 0.3), var(--shadow-xl);
-}
-
-.setting-button svg {
-  width: 1.125rem;
-  height: 1.125rem;
-  z-index: 1;
-  position: relative;
-}
-
-/* 暗色模式设置按钮 */
-.setting-button.dark {
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
-}
-
-.setting-button.dark:hover {
-  box-shadow: var(--shadow-xl);
+[data-theme="dark"] .setting-button:hover {
+  background-color: var(--primary-800);
+  color: var(--primary-300);
 }
 
 /* 输入焦点状态增强 */
@@ -232,10 +186,6 @@
     right: var(--spacing-3);
     width: 1.5rem;
     height: 1.5rem;
-  }
-  
-  .clear-button-text {
-    font-size: 0.7rem;
   }
   
   .setting-button {

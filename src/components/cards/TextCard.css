@@ -74,44 +74,6 @@
   background: rgba(0, 0, 0, 0.1);
 }
 
-/* 空状态容器 */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-2xl) 0;
-  color: var(--text-muted);
-  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
-  border-radius: var(--border-radius-xl);
-}
-
-.empty-state.dark {
-  color: var(--text-muted);
-  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
-}
-
-.empty-state-icon {
-  font-size: 3.75rem;
-  line-height: 1;
-  margin-bottom: var(--spacing-lg);
-  opacity: 0.6;
-}
-
-.empty-state-title {
-  font-size: var(--text-xl);
-  line-height: 1.75rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-sm);
-}
-
-.empty-state-subtitle {
-  font-size: var(--text-sm);
-  line-height: 1.25rem;
-  color: var(--text-secondary);
-}
-
 /* 文本内容区域 */
 .text-content {
   margin-bottom: var(--spacing-4);
@@ -138,50 +100,30 @@
 
 /* 文本统计信息 */
 .text-stats {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  margin-top: var(--spacing-3);
+}
+
+[data-theme="dark"] .text-stats {
+  color: var(--gray-400);
+}
+
+.preview-tip {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-4);
-  font-size: var(--text-xs);
-  line-height: 1rem;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-3);
+  padding: var(--spacing-2) var(--spacing-3);
+  background-color: var(--gray-100);
+  border-radius: var(--border-radius-md);
   color: var(--text-secondary);
-  padding: var(--spacing-2) 0;
-}
-
-.text-stats.dark {
-  color: var(--text-secondary);
-}
-
-.text-stats span {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-1);
-  padding: var(--spacing-1) var(--spacing-2);
-  background-color: var(--bg-tertiary);
-  border-radius: var(--border-radius-full);
-  font-weight: 500;
-}
-
-/* 预览提示文字 */
-.preview-tip {
-  color: var(--primary-color) !important;
-  font-weight: 600;
   font-size: var(--text-xs);
-  opacity: 0.8;
-  background-color: var(--blue-100);
-  padding: var(--spacing-1) var(--spacing-3);
-  border-radius: var(--border-radius-full);
-  transition: var(--transition-fast);
 }
 
-.preview-tip:hover {
-  opacity: 1;
-  transform: scale(1.05);
-}
-
-.text-stats.dark .preview-tip {
-  color: var(--blue-400) !important;
-  background-color: var(--blue-900);
+[data-theme="dark"] .preview-tip {
+  background-color: var(--gray-700);
+  color: var(--gray-300);
 }
 
 /* CardHeader图标调整 */

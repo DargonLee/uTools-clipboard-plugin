@@ -118,9 +118,9 @@
 }
 
 .file-type {
-  font-size: 0.75rem;
-  line-height: 1rem;
-  color: var(--gray-500);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  text-transform: uppercase;
 }
 
 .file-type.dark {
@@ -129,45 +129,23 @@
 
 /* 文件路径 */
 .file-path {
-  border-top: 1px solid var(--gray-200);
-  padding-top: var(--spacing-2);
-  font-size: 0.75rem;
-  line-height: 1rem;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  word-break: break-all;
+  margin-top: var(--spacing-1);
 }
 
 .file-path.dark {
   border-top-color: var(--gray-600);
 }
 
-.path-label {
-  color: var(--gray-500);
-  margin-right: var(--spacing-2);
-  font-weight: 500;
-}
-
-.path-label.dark {
-  color: var(--gray-400);
-}
-
-.path-text {
-  color: var(--gray-700);
-  word-break: break-all;
-  font-family: 'Courier New', monospace;
-  font-size: 0.6875rem;
-}
-
-.path-text.dark {
-  color: var(--gray-300);
-}
-
 /* 文件统计信息 */
 .file-stats {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  margin-top: var(--spacing-3);
   display: flex;
-  align-items: center;
-  gap: var(--spacing-4);
-  font-size: 0.75rem;
-  line-height: 1rem;
-  color: var(--gray-400);
+  justify-content: space-between;
 }
 
 .file-stats.dark {
@@ -300,14 +278,6 @@
   
   .file-path:not(.dark) {
     border-top-color: var(--gray-600);
-  }
-  
-  .path-label:not(.dark) {
-    color: var(--gray-400);
-  }
-  
-  .path-text:not(.dark) {
-    color: var(--gray-300);
   }
   
   .file-stats:not(.dark) {

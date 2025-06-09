@@ -189,14 +189,11 @@
 
 /* 链接统计信息 */
 .link-stats {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-4);
   font-size: var(--text-xs);
-  line-height: 1rem;
   color: var(--text-secondary);
-  padding: var(--spacing-2) 0;
+  margin-top: var(--spacing-3);
+  display: flex;
+  justify-content: space-between;
 }
 
 .link-stats.dark {
@@ -411,4 +408,14 @@
   .link-card:not(.dark) .link-title-icon {
     color: var(--purple-400);
   }
+}
+
+[data-theme="dark"] .link-title {
+  color: var(--gray-100);
+}
+
+[data-theme="dark"] .link-url,
+[data-theme="dark"] .link-domain,
+[data-theme="dark"] .link-stats {
+  color: var(--gray-400);
 } 

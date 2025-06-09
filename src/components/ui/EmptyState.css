@@ -1,5 +1,6 @@
 /* ========== 空状态欢迎页 ========== */
 
+/* 基础容器样式 */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -12,11 +13,13 @@
   border: 2px dashed var(--border-light);
 }
 
+/* 暗黑模式适配 */
 [data-theme="dark"] .empty-state {
   background-color: var(--gray-800);
   border-color: var(--gray-700);
 }
 
+/* 欢迎页内容样式 */
 .empty-state-icon {
   font-size: 3rem;
   color: var(--primary-color);
@@ -38,8 +41,9 @@
   line-height: 1.6;
 }
 
-/* ========== 快捷键提示 ========== */
+/* ========== 快捷键提示区域 ========== */
 
+/* 快捷键提示容器 */
 .hotkey-tips {
   margin-top: var(--spacing-xl);
   display: flex;
@@ -48,6 +52,7 @@
   gap: var(--spacing-md);
 }
 
+/* 单个快捷键提示 */
 .hotkey-tip {
   display: flex;
   align-items: center;
@@ -59,11 +64,13 @@
   border: 1px solid var(--border-color);
 }
 
+/* 快捷键提示暗黑模式 */
 [data-theme="dark"] .hotkey-tip {
   background-color: var(--gray-700);
   border-color: var(--gray-600);
 }
 
+/* 快捷键按键样式 */
 .hotkey-key {
   font-family: monospace;
   background-color: var(--gray-200);
@@ -74,16 +81,48 @@
   transition: all 0.2s ease-in-out;
 }
 
+/* 快捷键按键暗黑模式 */
 [data-theme="dark"] .hotkey-key {
   background-color: var(--gray-500);
   color: var(--primary-300);
 }
 
+/* 快捷键描述文本 */
 .hotkey-desc {
   font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 
+/* 快捷键描述暗黑模式 */
 [data-theme="dark"] .hotkey-desc {
   color: var(--gray-300);
+}
+
+/* ========== 系统暗黑模式适配 ========== */
+@media (prefers-color-scheme: dark) {
+  /* 仅在未明确设置浅色模式时应用 */
+  :root:not([data-theme="light"]) {
+    /* 空状态容器 */
+    & .empty-state {
+      background-color: var(--gray-800);
+      border-color: var(--gray-700);
+    }
+
+    /* 快捷键提示 */
+    & .hotkey-tip {
+      background-color: var(--gray-700);
+      border-color: var(--gray-600);
+    }
+
+    /* 快捷键按键 */
+    & .hotkey-key {
+      background-color: var(--gray-500);
+      color: var(--primary-300);
+    }
+
+    /* 快捷键描述 */
+    & .hotkey-desc {
+      color: var(--gray-300);
+    }
+  }
 } 

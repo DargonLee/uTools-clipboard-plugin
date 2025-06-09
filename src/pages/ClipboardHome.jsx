@@ -37,6 +37,7 @@ class ClipboardHome extends React.Component {
     // 新增预览相关状态
     hoveredCard: null,        // 当前悬停的卡片
     hoveredCardType: null,    // 悬停卡片的类型
+    isHoveredCardTruncated: false, // 悬停的卡片内容是否被截断
     showImagePreview: false,  // 是否显示图片预览
     previewImageData: null,   // 预览的图片数据
     showTextPreview: false,   // 是否显示文本预览
@@ -387,11 +388,14 @@ class ClipboardHome extends React.Component {
 
     // 如果当前有悬停的卡片，按空格键预览
     if (e.code === 'Space' && this.state.hoveredCard && this.state.hoveredCardType) {
-      e.preventDefault();
-      if (this.state.hoveredCardType === 'image') {
-        this.showImagePreview(this.state.hoveredCard);
-      } else if (this.state.hoveredCardType === 'text') {
-        this.showTextPreview(this.state.hoveredCard);
+      // 只有当内容被截断时才触发预览功能
+      if (this.state.isHoveredCardTruncated || this.state.hoveredCardType === 'image') {
+        e.preventDefault();
+        if (this.state.hoveredCardType === 'image') {
+          this.showImagePreview(this.state.hoveredCard);
+        } else if (this.state.hoveredCardType === 'text') {
+          this.showTextPreview(this.state.hoveredCard);
+        }
       }
     }
 
@@ -441,10 +445,11 @@ class ClipboardHome extends React.Component {
   }
 
   // 处理卡片悬停
-  handleCardHover = (item, cardType) => {
+  handleCardHover = (item, cardType, isTruncated = false) => {
     this.setState({
       hoveredCard: item,
-      hoveredCardType: cardType
+      hoveredCardType: cardType,
+      isHoveredCardTruncated: isTruncated
     });
   }
 
@@ -452,7 +457,8 @@ class ClipboardHome extends React.Component {
   handleCardLeave = () => {
     this.setState({
       hoveredCard: null,
-      hoveredCardType: null
+      hoveredCardType: null,
+      isHoveredCardTruncated: false
     });
   }
 
@@ -512,7 +518,7 @@ class ClipboardHome extends React.Component {
       onCopy: this.handleCopy,
       onToggleFavorite: this.handleToggleFavorite,
       onDelete: this.handleDelete,
-      onHover: () => this.handleCardHover(item, item.type),
+      onHover: this.handleCardHover,
       onLeave: this.handleCardLeave
     };
 

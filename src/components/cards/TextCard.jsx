@@ -48,7 +48,7 @@ class TextCard extends React.Component {
     return (
       <div 
         className={`text-card ${isDark ? 'dark' : ''} ${selected ? 'selected' : ''}`}
-        onMouseEnter={onHover}
+        onMouseEnter={() => onHover(item, item.type, isTruncated)}
         onMouseLeave={onLeave}
       >
         

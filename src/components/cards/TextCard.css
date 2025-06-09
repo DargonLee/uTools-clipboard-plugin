@@ -104,10 +104,6 @@
   margin-top: var(--spacing-3);
 }
 
-[data-theme="dark"] .text-stats {
-  color: var(--gray-400);
-}
-
 /* === 5. 预览提示区 === */
 .preview-tip {
   display: flex;
@@ -119,11 +115,6 @@
   border-radius: var(--border-radius-md);
   color: var(--text-secondary);
   font-size: var(--text-xs);
-}
-
-[data-theme="dark"] .preview-tip {
-  background-color: var(--gray-700);
-  color: var(--gray-300);
 }
 
 /* === 6. CardHeader 图标调整 === */
@@ -150,8 +141,8 @@
   .text-stats:not(.dark) {
     color: var(--text-secondary);
   }
-  .text-stats:not(.dark) .preview-tip {
-    color: var(--blue-400) !important;
-    background-color: var(--blue-900);
+  .text-stats:not(.light) .preview-tip {
+    background-color: var(--gray-700);
+    color: var(--gray-300);
   }
 } 

@@ -16,10 +16,6 @@
   padding: var(--spacing-md);
 }
 
-[data-theme="dark"] .setting-page {
-  background-color: var(--gray-900);
-}
-
 /* ========== 2. 头部区域 ========== */
 
 .setting-header {
@@ -51,10 +47,6 @@
 
 .back-btn:hover {
   background-color: var(--gray-100);
-}
-
-[data-theme="dark"] .back-btn:hover {
-  background-color: var(--gray-700);
 }
 
 .setting-title {
@@ -101,10 +93,6 @@
   background-color: var(--primary-50);
 }
 
-[data-theme="dark"] .reset-btn:hover {
-  background-color: var(--primary-900);
-}
-
 /* ========== 3. 订阅状态 ========== */
 
 .subscription-status {
@@ -118,21 +106,12 @@
   margin-bottom: var(--spacing-6);
 }
 
-[data-theme="dark"] .subscription-status {
-  background: linear-gradient(135deg, var(--primary-900), var(--primary-800));
-  border-color: var(--primary-700);
-}
-
 .subscription-info {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
   font-weight: 500;
   color: var(--primary-700);
-}
-
-[data-theme="dark"] .subscription-info {
-  color: var(--primary-300);
 }
 
 .crown-icon {
@@ -159,11 +138,6 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--border-radius-xl);
   padding: var(--spacing-6);
-}
-
-[data-theme="dark"] .setting-section {
-  background: rgba(31, 41, 55, 0.9);
-  border-color: rgba(75, 85, 99, 0.3);
 }
 
 .setting-section-header {
@@ -205,10 +179,6 @@
 
 .setting-item:hover {
   background: rgba(54, 140, 255, 0.05);
-}
-
-[data-theme="dark"] .setting-item:hover {
-  background: var(--gray-700);
 }
 
 .setting-item-full {
@@ -304,10 +274,6 @@
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .setting-select:focus {
-  border-color: var(--primary-500);
-}
-
 /* --- 滑块 Range --- */
 .setting-range {
   width: 100%;
@@ -317,10 +283,6 @@
   appearance: none;
   cursor: pointer;
   outline: none;
-}
-
-[data-theme="dark"] .setting-range {
-  background: var(--gray-800);
 }
 
 .setting-range::-webkit-slider-thumb {
@@ -394,11 +356,6 @@
   background: var(--primary-light);
 }
 
-[data-theme="dark"] .theme-option.active {
-  border-color: var(--primary-500);
-  background: var(--primary-900);
-}
-
 .theme-preview {
   width: 2rem;
   height: 2rem;
@@ -446,10 +403,6 @@
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .key-badge {
-  background: var(--gray-700);
-}
-
 .modify-shortcut-btn {
   font-size: var(--text-xs);
   color: var(--primary-color);
@@ -467,19 +420,10 @@
   background-color: var(--primary-50);
 }
 
-[data-theme="dark"] .modify-shortcut-btn:hover {
-  background-color: var(--primary-900);
-}
-
 /* --- 订阅计划卡片 --- */
 .subscription-section {
   border: 2px solid var(--yellow-200);
   background: linear-gradient(135deg, var(--yellow-50), var(--orange-50));
-}
-
-[data-theme="dark"] .subscription-section {
-  border-color: var(--yellow-800);
-  background: linear-gradient(135deg, var(--yellow-900), var(--orange-900));
 }
 
 .subscription-plans {
@@ -520,15 +464,6 @@
   transform: translateY(-4px);
   box-shadow: var(--shadow-xl);
   border-color: var(--primary-300);
-}
-
-[data-theme="dark"] .plan-card {
-  background: var(--gray-800);
-  border-color: var(--gray-600);
-}
-
-[data-theme="dark"] .plan-card:hover {
-  border-color: var(--primary-600);
 }
 
 .plan-card h3 {
@@ -586,11 +521,6 @@
   margin-top: var(--spacing-6);
 }
 
-[data-theme="dark"] .setting-footer {
-  background: rgba(31, 41, 55, 0.9);
-  border-color: rgba(75, 85, 99, 0.3);
-}
-
 .version-info {
   font-size: var(--text-sm);
   color: var(--text-secondary);
@@ -616,10 +546,6 @@
   background-color: var(--primary-50);
 }
 
-[data-theme="dark"] .footer-link:hover {
-  background-color: var(--primary-900);
-}
-
 /* ========== 8. 动画效果 ========== */
 
 @keyframes premiumPulse {
@@ -636,141 +562,57 @@
   animation: premiumPulse 2s infinite;
 }
 
-/* ========== 9. 响应式设计 ========== */
-
-@media (max-width: 768px) {
-  .setting-container {
-    padding: var(--spacing-3);
-  }
-
-  .setting-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-3);
-  }
-
-  .setting-header-right {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .setting-section {
-    padding: var(--spacing-md);
-  }
-
-  .setting-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-3);
-  }
-
-  .setting-switch-container {
-    align-self: flex-end;
-  }
-
-  .theme-selector {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-2);
-  }
-
-  .subscription-plans {
-    grid-template-columns: 1fr;
-  }
-
-  .button-group {
-    flex-direction: column;
-  }
-
-  .setting-footer {
-    flex-direction: column;
-    gap: var(--spacing-3);
-    text-align: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .trial-btn {
-    font-size: var(--text-xs);
-    padding: var(--spacing-1) var(--spacing-3);
-  }
-
-  .subscription-status {
-    flex-direction: column;
-    gap: var(--spacing-2);
-    text-align: center;
-  }
-
-  .range-labels {
-    flex-direction: column;
-    gap: var(--spacing-1);
-    text-align: center;
-  }
-}
-
-/* ========== 10. OS 偏好设置 (自动暗黑模式) ========== */
-/*
-  说明:
-  这里的 :not([data-theme="light"]) 选择器用于处理 "自动" 主题模式。
-  当用户操作系统为暗黑模式，且用户未手动选择 "亮色" 主题时，
-  此处的样式会生效。
-*/
+/* ========== 9. 暗黑模式适配 ========== */
 @media (prefers-color-scheme: dark) {
-  .setting-page:not([data-theme="light"]) {
+  .setting-page {
     background-color: var(--gray-900);
   }
-
-  .setting-section:not([data-theme="light"]) {
+  .setting-section {
     background: var(--bg-primary);
     border-color: rgba(75, 85, 99, 0.3);
   }
-
-  .switch:not([data-theme="light"]) {
+  .switch {
     background: var(--gray-500);
   }
-
-  .switch.active:not([data-theme="light"]) {
+  .switch.active {
     background: var(--primary-700);
   }
-
-  .setting-select:not([data-theme="light"]) {
+  .setting-select {
     background-color: var(--gray-800);
     border-color: var(--gray-600);
     color: var(--gray-100);
   }
-
-  .setting-select:not([data-theme="light"]):focus {
+  .setting-select:focus {
     border-color: var(--primary-500);
   }
-
-  .setting-range:not([data-theme="light"]) {
+  .setting-range {
     background: var(--gray-800);
   }
-
-  .theme-option:not([data-theme="light"]) {
+  .plan-card {
     background: var(--gray-800);
     border-color: var(--gray-600);
   }
-
-  .theme-option:not([data-theme="light"]):hover {
-    border-color: var(--primary-500);
-  }
-
-  .theme-option.active:not([data-theme="light"]) {
-    border-color: var(--primary-500);
-    background: var(--primary-900);
-  }
-
-  .plan-card:not([data-theme="light"]) {
-    background: var(--gray-800);
-    border-color: var(--gray-600);
-  }
-
-  .plan-card:not([data-theme="light"]):hover {
+  .plan-card:hover {
     border-color: var(--primary-600);
   }
-
-  .setting-footer:not([data-theme="light"]) {
+  .setting-footer {
     background: rgba(31, 41, 55, 0.9);
     border-color: rgba(75, 85, 99, 0.3);
   }
+  .subscription-section {
+    border-color: var(--yellow-800);
+    background: linear-gradient(135deg, var(--yellow-900), var(--orange-900));
+  }
+  .theme-option {
+    background: var(--gray-800);
+    border-color: var(--gray-600);
+  }
+  .theme-option:hover {
+    border-color: var(--primary-500);
+  }
+  .theme-option.active {
+    border-color: var(--primary-500);
+    background: var(--primary-900);
+  }
 }
+

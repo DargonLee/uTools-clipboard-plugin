@@ -68,3 +68,9 @@
 .switch.disabled .premium-icon {
   animation: premiumPulse 2s infinite;
 } 
+
+@media (prefers-color-scheme: dark) {
+  .switch.active:not(.light) {
+    background: var(--gray-800);
+  }
+}

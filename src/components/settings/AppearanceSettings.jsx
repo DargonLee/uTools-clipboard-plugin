@@ -18,13 +18,6 @@ class AppearanceSettings extends React.Component {
       <SettingSection icon={<FaPalette />} title="外观">
         <div className="setting-item">
           <div className="setting-item-info">
-            <h3 className="setting-item-title">主题模式</h3>
-            <p className="setting-item-description">应用将自动跟随系统主题（浅色/深色）</p>
-          </div>
-        </div>
-
-        <div className="setting-item">
-          <div className="setting-item-info">
             <h3 className="setting-item-title">紧凑模式</h3>
             <p className="setting-item-description">减少界面元素间距，显示更多内容</p>
           </div>

@@ -55,3 +55,11 @@
   font-size: var(--text-sm);
   color: var(--text-secondary);
 } 
+
+/* === 7. 暗黑模式适配 === */
+@media (prefers-color-scheme: dark) {
+  .filter-option:not(.light) {
+    background-color: var(--gray-800);
+    color: var(--gray-300);
+  }
+} 

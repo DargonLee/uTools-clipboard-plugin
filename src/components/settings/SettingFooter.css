@@ -19,25 +19,12 @@
   color: var(--text-secondary);
 }
 
-/* === 3. 底部链接 === */
-.footer-links {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-3);
-}
-
-.footer-link {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  text-decoration: none;
-  padding: var(--spacing-1) var(--spacing-2);
-  border-radius: var(--border-radius);
-  transition: var(--transition-normal);
-}
-
-.footer-link:hover {
-  color: var(--primary-color);
-  background-color: var(--primary-50);
+/* === 3. 开源信息 === */
+.open-source-info {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  text-align: center;
+  margin-top: var(--spacing-1);
 }
 
 @media (prefers-color-scheme: dark) {

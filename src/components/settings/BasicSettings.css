@@ -1,4 +1,6 @@
-/* 设置分组卡片 */
+/* =================== BasicSettings 组件样式 =================== */
+
+/* === 1. 分组卡片容器 === */
 .setting-section {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
@@ -7,6 +9,7 @@
   padding: var(--spacing-6);
 }
 
+/* === 2. 分组头部 === */
 .setting-section-header {
   display: flex;
   align-items: center;
@@ -27,14 +30,14 @@
   margin: 0;
 }
 
-/* 设置项列表 */
+/* === 3. 设置项列表 === */
 .setting-items {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
 }
 
-/* 单个设置项 */
+/* === 4. 单个设置项 === */
 .setting-item {
   display: flex;
   align-items: center;
@@ -65,7 +68,7 @@
   margin: 0;
 }
 
-/* 选择框样式 */
+/* === 5. 选择框样式 === */
 .setting-select {
   background-color: var(--bg-primary);
   border: 1px solid var(--border-color);

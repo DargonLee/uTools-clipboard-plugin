@@ -1,4 +1,6 @@
-/* 底部信息 */
+/* =================== SettingFooter 组件样式 =================== */
+
+/* === 1. 底部信息主容器 === */
 .setting-footer {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
@@ -11,11 +13,13 @@
   margin-top: var(--spacing-6);
 }
 
+/* === 2. 版本信息 === */
 .version-info {
   font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 
+/* === 3. 底部链接 === */
 .footer-links {
   display: flex;
   align-items: center;

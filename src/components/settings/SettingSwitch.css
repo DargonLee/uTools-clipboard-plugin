@@ -1,4 +1,6 @@
-/* 开关容器 */
+/* =================== SettingSwitch 组件样式 =================== */
+
+/* === 1. 开关容器 === */
 .setting-switch-container {
   position: relative;
   display: flex;
@@ -11,7 +13,7 @@
   font-size: var(--text-sm);
 }
 
-/* 开关样式 */
+/* === 2. 开关样式 === */
 .switch {
   position: relative;
   width: 44px;
@@ -53,7 +55,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-/* 高级功能提示动画 */
+/* === 3. 高级功能提示动画 === */
 @keyframes premiumPulse {
   0%, 100% {
     opacity: 1;

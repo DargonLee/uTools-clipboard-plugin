@@ -1,4 +1,6 @@
-/* 范围滑块样式 */
+/* =================== ContentFilter 组件样式 =================== */
+
+/* === 1. 范围滑块 === */
 .setting-range {
   width: 100%;
   height: 8px;
@@ -34,6 +36,7 @@
   transition: var(--transition-normal);
 }
 
+/* === 2. 范围标签 === */
 .range-labels {
   display: flex;
   justify-content: space-between;

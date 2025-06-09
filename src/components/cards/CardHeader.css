@@ -1,5 +1,4 @@
-/* CardHeader 组件样式 */
-
+/* === 主容器 === */
 .card-header {
   display: flex;
   align-items: center;
@@ -7,14 +6,13 @@
   margin-bottom: var(--spacing-3);
 }
 
-/* 左侧信息区域 */
+/* === 信息区（左侧信息/类型图标） === */
 .header-info {
   display: flex;
   align-items: center;
   gap: var(--spacing-3);
 }
 
-/* 类型图标容器 - 优化圆角 */
 .type-icon {
   flex-shrink: 0;
   display: flex;
@@ -22,131 +20,114 @@
   justify-content: center;
   width: var(--spacing-8);
   height: var(--spacing-8);
-  border-radius:var(--border-radius-md);
+  border-radius: var(--border-radius-md);
   transition: var(--transition-normal);
-  overflow: hidden; /* 确保内容不会溢出圆角 */
+  overflow: hidden;
 }
-
-/* 图标主题样式 */
 .type-icon.light {
   background-color: var(--blue-100);
   color: var(--blue-600);
-  border: 1px solid var(--blue-200); /* 添加边框增强视觉效果 */
+  border: 1px solid var(--blue-200);
 }
-
 .type-icon.dark {
   background-color: var(--blue-800);
   color: var(--blue-200);
   border: 1px solid var(--blue-700);
 }
 
-/* 类型标签基础样式 - 优化圆角 */
+/* === 类型标签 === */
 .type-tag {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.75rem; /* 增加内边距 */
-  border-radius: var(--border-radius-full); /* 使用完全圆角 */
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-full);
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1rem;
-  border: 1px solid transparent; /* 添加透明边框为后续样式做准备 */
-  transition: var(--transition-normal); /* 添加过渡效果 */
+  border: 1px solid transparent;
+  transition: var(--transition-normal);
 }
-
-/* 类型标签颜色变体 - 统一使用 CSS 变量 */
 .type-tag.blue {
   background-color: var(--blue-100);
   color: var(--blue-800);
   border-color: var(--blue-200);
 }
-
 .type-tag.blue.dark {
   background-color: var(--blue-900);
   color: var(--blue-200);
   border-color: var(--blue-800);
 }
-
 .type-tag.green {
   background-color: var(--green-100);
   color: var(--green-800);
   border-color: var(--green-200);
 }
-
 .type-tag.green.dark {
   background-color: var(--green-dark-bg);
   color: var(--green-dark-text);
   border-color: var(--green-dark-border);
 }
-
 .type-tag.purple {
   background-color: var(--purple-100);
   color: var(--purple-800);
   border-color: var(--purple-200);
 }
-
 .type-tag.purple.dark {
   background-color: var(--purple-dark-bg);
   color: var(--purple-dark-text);
   border-color: var(--purple-dark-border);
 }
-
 .type-tag.orange {
   background-color: var(--orange-100);
   color: var(--orange-800);
   border-color: var(--orange-200);
 }
-
 .type-tag.orange.dark {
   background-color: var(--orange-dark-bg);
   color: var(--orange-dark-text);
   border-color: var(--orange-dark-border);
 }
-
 .type-tag.red {
   background-color: var(--red-100);
   color: var(--red-800);
   border-color: var(--red-200);
 }
-
 .type-tag.red.dark {
   background-color: var(--red-dark-bg);
   color: var(--red-dark-text);
   border-color: var(--red-dark-border);
 }
-
-/* 类型标签悬停效果 */
 .type-tag:hover {
   transform: scale(1.05);
   box-shadow: var(--shadow-sm);
 }
 
-/* 时间信息 */
+/* === 时间信息 === */
 .time-info {
   font-size: 0.75rem;
   line-height: 1rem;
   color: var(--gray-500);
-  padding: 0.125rem 0.5rem; /* 添加内边距 */
-  border-radius: var(--border-radius); /* 添加圆角 */
-  background-color: var(--gray-50); /* 添加背景色 */
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--border-radius);
+  background-color: var(--gray-50);
   transition: var(--transition-normal);
 }
-
 .time-info.dark {
   color: var(--gray-400);
   background-color: var(--gray-700);
 }
 
-/* 收藏星标 - 添加圆角容器 */
+/* === 收藏星标 === */
 .favorite-star {
   color: var(--warning-color);
   width: 16px;
   height: 16px;
   padding: 0.25rem;
   border-radius: var(--border-radius);
-  background-color: rgba(245, 158, 11, 0.1); /* 添加半透明背景 */
+  background-color: rgba(245, 158, 11, 0.1);
 }
 
-/* 操作按钮区域 */
+/* === 操作区（按钮及交互） === */
 .actions-container {
   display: flex;
   align-items: center;
@@ -154,12 +135,11 @@
   opacity: 0.6;
   transition: var(--transition-normal);
 }
-
 .card-header:hover .actions-container {
   opacity: 1;
 }
 
-/* 操作按钮基础样式 - 优化圆角 */
+/* 操作按钮通用样式 */
 .action-btn {
   display: flex;
   align-items: center;
@@ -167,108 +147,91 @@
   width: var(--spacing-8);
   height: var(--spacing-8);
   padding: var(--spacing-2);
-  border-radius: var(--border-radius-lg); /* 使用较大圆角 */
+  border-radius: var(--border-radius-lg);
   border: none;
   cursor: pointer;
   outline: none;
   transition: var(--transition-normal);
   transform-origin: center;
   background-color: transparent;
-  overflow: hidden; /* 确保内容不会溢出圆角 */
+  overflow: hidden;
 }
-
 .action-btn:hover {
   background-color: var(--gray-100);
-  transform: scale(1.2); /* 增加悬停缩放效果 */
-  border-radius: var(--border-radius-md); /* 悬停时使用更大圆角 */
+  transform: scale(1.2);
+  border-radius: var(--border-radius-md);
 }
-
 .action-btn:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: var(--shadow-focus);
   border-radius: var(--border-radius-md);
 }
-
 .action-btn svg {
   width: 1.5rem;
   height: 1.5rem;
   color: var(--gray-500);
   transition: var(--transition-normal);
 }
-
-/* 深色模式下的图标默认颜色 */
 .action-btn.dark svg {
   color: var(--gray-400);
 }
 
-/* 复制按钮 - 统一 hover 效果样式 */
+/* 复制按钮 */
 .copy-btn {
   background-color: transparent;
 }
-
 .copy-btn:hover {
   background-color: var(--blue-100);
   border-radius: var(--border-radius-md);
 }
-
 .copy-btn:hover .copy-icon {
   color: var(--blue-600);
 }
-
 .copy-btn.dark:hover {
   background-color: var(--blue-900);
 }
-
 .copy-btn.dark:hover .copy-icon {
   color: var(--blue-400);
 }
 
-/* 收藏按钮 - 与复制按钮保持一致的 hover 效果 */
+/* 收藏按钮 */
 .favorite-btn {
   background-color: transparent;
 }
-
 .favorite-btn:hover {
   background-color: var(--yellow-100);
   border-radius: var(--border-radius-md);
 }
-
 .favorite-btn:hover .favorite-icon {
   color: var(--warning-color);
 }
-
 .favorite-btn.dark:hover {
   background-color: #78350f;
 }
-
 .favorite-btn.dark:hover .favorite-icon {
   color: var(--yellow-400);
 }
 
-/* 删除按钮 - 与复制按钮保持一致的 hover 效果 */
+/* 删除按钮 */
 .delete-btn {
   background-color: transparent;
 }
-
 .delete-btn:hover {
   background-color: var(--red-100);
   border-radius: var(--border-radius-md);
 }
-
 .delete-btn:hover .delete-icon {
   color: var(--danger-color);
 }
-
 .delete-btn.dark:hover {
   background-color: var(--red-dark-bg);
 }
-
 .delete-btn.dark:hover .delete-icon {
   color: var(--red-400);
 }
 
-/* 暗色模式媒体查询适配 */
+/* === 响应式与暗黑模式 === */
 @media (prefers-color-scheme: dark) {
   .time-info:not(.dark) {
     color: var(--gray-400);

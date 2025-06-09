@@ -1,24 +1,22 @@
-/* SearchBar 组件样式 */
+/* =================== SearchBar 组件样式 =================== */
 
-/* 搜索栏主容器 */
+/* === 1. 主体布局 === */
 .search-bar {
   margin-bottom: var(--spacing-6);
 }
 
-/* 搜索栏布局容器 */
 .search-bar-container {
   display: flex;
   align-items: center;
   gap: var(--spacing-4);
 }
 
-/* 搜索输入容器 */
 .search-input-container {
   position: relative;
   flex: 1;
 }
 
-/* 搜索图标 */
+/* === 2. 搜索输入与图标 === */
 .search-icon {
   position: absolute;
   left: var(--spacing-4);
@@ -71,7 +69,7 @@
   box-shadow: 0 0 0 4px rgba(54, 140, 255, 0.15), var(--shadow-md);
 }
 
-/* 清除按钮 */
+/* === 3. 清除按钮 === */
 .clear-button {
   position: absolute;
   right: var(--spacing-4);
@@ -96,7 +94,7 @@
   background-color: var(--gray-300);
 }
 
-/* 搜索提示信息 */
+/* === 4. 搜索提示信息 === */
 .search-hint {
   margin-top: var(--spacing-3);
   font-size: var(--text-xs);
@@ -106,7 +104,7 @@
   opacity: 0.8;
 }
 
-/* 设置按钮样式 */
+/* === 5. 设置按钮 === */
 .setting-button {
   display: flex;
   align-items: center;
@@ -125,78 +123,13 @@
   color: var(--primary-color);
 }
 
-/* 输入焦点状态增强 */
+/* === 6. 输入焦点增强 === */
 .search-input-container:focus-within .search-icon {
   color: var(--primary-color);
   transform: translateY(-50%) scale(1.1);
 }
 
-/* 响应式设计 */
-@media (max-width: 640px) {
-  .search-bar {
-    margin-bottom: var(--spacing-4);
-  }
-  
-  .search-bar-container {
-    gap: var(--spacing-3);
-  }
-  
-  .search-input {
-    padding: var(--spacing-3) var(--spacing-10) var(--spacing-3) var(--spacing-10);
-    font-size: var(--text-xs);
-    border-radius: var(--border-radius-xl);
-  }
-  
-  .search-icon {
-    left: var(--spacing-3);
-  }
-  
-  .clear-button {
-    right: var(--spacing-3);
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-  
-  .setting-button {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: var(--border-radius-xl);
-  }
-  
-  .setting-button svg {
-    width: 1rem;
-    height: 1rem;
-  }
-}
-
-/* 小屏幕优化 */
-@media (max-width: 480px) {
-  .search-input {
-    padding: var(--spacing-2) var(--spacing-8) var(--spacing-2) var(--spacing-8);
-  }
-  
-  .search-icon {
-    left: var(--spacing-2);
-  }
-  
-  .clear-button {
-    right: var(--spacing-2);
-  }
-}
-
-/* 键盘焦点增强 */
-.search-input:focus-visible {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
-.clear-button:focus-visible {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 3px rgba(54, 140, 255, 0.3);
-}
-
-/* 动画效果 */
+/* === 8. 动画效果 === */
 @keyframes searchPulse {
   0%, 100% {
     opacity: 1;
@@ -210,39 +143,32 @@
   animation: searchPulse 2s ease-in-out infinite;
 }
 
-/* 暗色模式媒体查询适配 */
+/* === 9. 暗黑模式适配 === */
 @media (prefers-color-scheme: dark) {
   .search-icon {
     color: var(--text-muted);
   }
-  
   .search-input {
     border-color: var(--border-color);
     background-color: var(--bg-primary);
     color: var(--text-primary);
   }
-  
   .search-input:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 4px rgba(54, 140, 255, 0.15), var(--shadow-md);
   }
-  
   .search-input::placeholder {
     color: var(--gray-400);
   }
-  
   .clear-button {
     background-color: var(--gray-700);
   }
-  
   .clear-button:hover {
     background-color: var(--gray-600);
   }
-  
   .search-hint {
     color: var(--text-secondary);
   }
-
   .setting-button:hover {
     background-color: var(--primary-800);
     color: var(--primary-300);

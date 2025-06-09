@@ -1,4 +1,6 @@
-/* 清空数据部分样式 */
+/* =================== DataManagement 组件样式 =================== */
+
+/* === 1. 清空数据区块 === */
 .clear-data-section {
   padding-top: 20px;
   margin-top: 20px;
@@ -42,13 +44,14 @@
   opacity: 0.9;
 }
 
-/* 保留原有的通用按钮样式（以防其他地方使用） */
+/* === 2. 按钮组 === */
 .button-group {
   display: flex;
   gap: 12px;
   margin-left: auto; 
 }
 
+/* === 3. 通用按钮样式 === */
 .btn-base {
   padding: 8px 16px;
   border: none;

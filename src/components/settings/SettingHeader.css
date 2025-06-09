@@ -1,4 +1,6 @@
-/* 设置页标题栏 */
+/* =================== SettingHeader 组件样式 =================== */
+
+/* === 1. 标题栏主容器 === */
 .setting-header {
   display: flex;
   align-items: center;
@@ -19,6 +21,7 @@
   gap: var(--spacing-3);
 }
 
+/* === 2. 返回按钮 === */
 .back-btn {
   display: flex;
   align-items: center;
@@ -35,6 +38,7 @@
   background-color: var(--gray-100);
 }
 
+/* === 3. 标题文本 === */
 .setting-title {
   font-size: var(--text-2xl);
   font-weight: 700;
@@ -42,6 +46,7 @@
   margin: 0;
 }
 
+/* === 4. 试用按钮 === */
 .trial-btn {
   display: flex;
   align-items: center;
@@ -63,6 +68,7 @@
   box-shadow: var(--shadow-lg);
 }
 
+/* === 5. 重置按钮 === */
 .reset-btn {
   font-size: var(--text-sm);
   color: var(--text-secondary);

@@ -1,6 +1,6 @@
-/* TextCard 组件样式 */
+/* =================== TextCard 组件样式 =================== */
 
-/* 文本卡片主容器 */
+/* === 1. 文本卡片主容器 === */
 .text-card {
   border-radius: var(--border-radius-xl);
   padding: var(--spacing-6);
@@ -45,12 +45,12 @@
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-/* 选中状态样式 */
+/* === 2. 选中状态样式 === */
 .text-card.selected {
   border-left: 4px solid var(--primary-color);
   background: linear-gradient(135deg, rgba(54, 140, 255, 0.03), rgba(54, 140, 255, 0.08));
   box-shadow: 0 2px 8px rgba(54, 140, 255, 0.15), inset 4px 0 0 var(--primary-color);
-  transform: none; /* 不使用transform，避免与hover冲突 */
+  transform: none;
 }
 
 .text-card.selected::before {
@@ -63,7 +63,6 @@
   box-shadow: 0 2px 8px rgba(54, 140, 255, 0.25), inset 4px 0 0 var(--primary-color);
 }
 
-/* 选中状态下的内容区域样式调整 */
 .text-card.selected .text-content-body {
   border-color: rgba(54, 140, 255, 0.2);
   background: rgba(255, 255, 255, 0.7);
@@ -74,7 +73,7 @@
   background: rgba(0, 0, 0, 0.1);
 }
 
-/* 文本内容区域 */
+/* === 3. 文本内容区域 === */
 .text-content {
   margin-bottom: var(--spacing-4);
   position: relative;
@@ -98,7 +97,7 @@
   border-color: var(--border-light);
 }
 
-/* 文本统计信息 */
+/* === 4. 文本统计信息 === */
 .text-stats {
   font-size: var(--text-xs);
   color: var(--text-secondary);
@@ -109,6 +108,7 @@
   color: var(--gray-400);
 }
 
+/* === 5. 预览提示区 === */
 .preview-tip {
   display: flex;
   align-items: center;
@@ -126,34 +126,30 @@
   color: var(--gray-300);
 }
 
-/* CardHeader图标调整 */
+/* === 6. CardHeader 图标调整 === */
 .text-card .card-header .type-icon svg {
   width: 1.125rem;
   height: 1.125rem;
 }
 
-/* 暗色模式媒体查询适配 */
+/* === 7. 暗黑模式适配 === */
 @media (prefers-color-scheme: dark) {
   .text-card:not(.dark) {
     background-color: var(--bg-primary);
     border-color: var(--border-color);
   }
-  
   .text-card:not(.dark):hover {
     border-color: var(--blue-400);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
-  
   .text-content-body:not(.dark) {
     color: var(--text-primary);
     background-color: var(--bg-secondary);
     border-color: var(--border-light);
   }
-  
   .text-stats:not(.dark) {
     color: var(--text-secondary);
   }
-  
   .text-stats:not(.dark) .preview-tip {
     color: var(--blue-400) !important;
     background-color: var(--blue-900);

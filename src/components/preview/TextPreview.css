@@ -1,4 +1,6 @@
-/* 文本预览组件样式 */
+/* =================== TextPreview 组件样式 =================== */
+
+/* === 1. 遮罩与主容器 === */
 .text-preview-overlay {
   position: fixed;
   top: 0;
@@ -39,7 +41,7 @@
   overflow: hidden;
 }
 
-/* 工具栏 */
+/* === 2. 工具栏 === */
 .preview-toolbar {
   position: fixed;
   top: 20px;
@@ -126,7 +128,7 @@
   background: rgba(239, 68, 68, 0.5);
 }
 
-/* 搜索栏 - 重命名避免冲突 */
+/* === 3. 搜索栏 === */
 .text-preview-search-bar {
   position: fixed;
   top: 80px;
@@ -202,7 +204,7 @@
   background: rgba(239, 68, 68, 0.5);
 }
 
-/* 文本容器 */
+/* === 4. 文本内容区 === */
 .preview-text-container {
   flex: 1;
   padding: 100px 20px 60px;
@@ -244,7 +246,7 @@
   overflow-x: hidden;
 }
 
-/* 搜索高亮 */
+/* === 5. 搜索高亮 === */
 .search-highlight {
   background-color: rgba(255, 255, 0, 0.3);
   color: inherit;
@@ -258,7 +260,7 @@
   box-shadow: 0 0 8px rgba(255, 165, 0, 0.4);
 }
 
-/* 快捷键提示 */
+/* === 6. 快捷键提示区 === */
 .preview-shortcuts {
   position: fixed;
   bottom: 20px;
@@ -288,7 +290,7 @@
   flex-shrink: 0;
 }
 
-/* 暗色模式适配 */
+/* === 7. 暗黑模式适配 === */
 @media (prefers-color-scheme: dark) {
   .text-preview-overlay {
     background: rgba(0, 0, 0, 0.4);
@@ -299,7 +301,7 @@
   background: rgba(0, 0, 0, 0.4);
 }
 
-/* 不支持 backdrop-filter 的浏览器兼容性 */
+/* === 8. 浏览器兼容性适配 === */
 @supports not (backdrop-filter: blur(1px)) {
   .text-preview-overlay {
     background: rgba(0, 0, 0, 0.7);
@@ -325,7 +327,7 @@
   }
 }
 
-/* 滚动条样式 */
+/* === 9. 滚动条样式 === */
 .preview-text-container::-webkit-scrollbar {
   width: 8px;
 }

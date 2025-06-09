@@ -1,6 +1,6 @@
-/* ImageCard 组件样式 */
+/* =================== ImageCard 组件样式 =================== */
 
-/* 图片卡片主容器 */
+/* === 1. 图片卡片主容器 === */
 .image-card {
   /* 继承 base-card 的所有样式 */
   border-radius: var(--border-radius-lg);
@@ -11,7 +11,7 @@
   background-color: white;
 }
 
-/* 选中状态样式 */
+/* === 2. 选中状态样式 === */
 .image-card.selected {
   border-left: 4px solid var(--primary-color);
   background: linear-gradient(135deg, rgba(54, 140, 255, 0.03), rgba(54, 140, 255, 0.08));
@@ -49,7 +49,7 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-/* 图片内容区域 */
+/* === 3. 图片内容区域 === */
 .image-content {
   margin-bottom: var(--spacing-3);
 }
@@ -85,6 +85,7 @@
   opacity: 1;
 }
 
+/* === 4. 提示内容 === */
 .hint-content {
   display: flex;
   flex-direction: column;
@@ -116,7 +117,7 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* 图片统计信息 */
+/* === 5. 图片统计信息 === */
 .image-stats {
   font-size: var(--text-xs);
   color: var(--text-secondary);
@@ -137,13 +138,13 @@
   font-size: var(--text-xs);
 }
 
-/* CardHeader图标调整 */
+/* === 6. CardHeader 图标调整 === */
 .image-card .card-header .type-icon svg {
   width: 1rem;
   height: 1rem;
 }
 
-/* 图片加载状态 */
+/* === 7. 图片加载状态 === */
 .preview-image[src=""] {
   background: var(--gray-200);
   display: flex;
@@ -158,7 +159,7 @@
   color: var(--gray-400);
 }
 
-/* 暗色模式媒体查询适配 */
+/* === 8. 暗黑模式适配 === */
 @media (prefers-color-scheme: dark) {
   .image-card:not(.dark) {
     background-color: var(--gray-800);

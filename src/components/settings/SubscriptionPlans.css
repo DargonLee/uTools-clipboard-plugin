@@ -1,4 +1,6 @@
-/* 订阅计划卡片 */
+/* =================== 订阅计划卡片组件样式 =================== */
+
+/* === 1. 订阅计划区块 === */
 .subscription-section {
   border: 2px solid var(--yellow-200);
   background: linear-gradient(135deg, var(--yellow-50), var(--orange-50));
@@ -14,6 +16,7 @@
   gap: var(--spacing-6);
 }
 
+/* === 2. 订阅卡片 === */
 .plan-card {
   padding: var(--spacing-6);
   border: 2px solid var(--border-color);
@@ -55,6 +58,7 @@
   margin-bottom: var(--spacing-2);
 }
 
+/* === 3. 价格区块 === */
 .price {
   font-size: var(--text-2xl);
   font-weight: 700;
@@ -62,6 +66,7 @@
   margin-bottom: var(--spacing-4);
 }
 
+/* === 4. 特性列表 === */
 .features {
   list-style: none;
   padding: 0;
@@ -84,6 +89,7 @@
   font-weight: bold;
 }
 
+/* === 5. 卡片按钮 === */
 .plan-card .btn-base {
   width: 100%;
   justify-content: center;

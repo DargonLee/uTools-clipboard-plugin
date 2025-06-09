@@ -1,4 +1,6 @@
-/* 订阅状态 */
+/* =================== 订阅状态组件样式 =================== */
+
+/* === 1. 订阅状态主容器 === */
 .subscription-status {
   display: flex;
   align-items: center;
@@ -10,6 +12,7 @@
   margin-bottom: var(--spacing-6);
 }
 
+/* === 2. 订阅信息区 === */
 .subscription-info {
   display: flex;
   align-items: center;
@@ -22,6 +25,7 @@
   color: var(--yellow-500);
 }
 
+/* === 3. 到期时间文本 === */
 .subscription-expiry {
   font-size: var(--text-sm);
   color: var(--text-secondary);

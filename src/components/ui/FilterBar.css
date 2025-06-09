@@ -1,6 +1,6 @@
-/* ========== FilterBar 组件样式 ========== */
+/* =================== FilterBar 组件样式 =================== */
 
-/* --- 布局与容器 --- */
+/* === 1. 布局与容器 === */
 .filter-buttons-container {
   margin-bottom: var(--spacing-6);
   display: flex;
@@ -25,7 +25,7 @@
   gap: var(--spacing-2);
 }
 
-/* --- 过滤按钮基础样式 --- */
+/* === 2. 过滤按钮基础样式 === */
 .filter-btn {
   padding: var(--spacing-2) var(--spacing-4);
   border-radius: var(--border-radius-md);
@@ -51,7 +51,7 @@
   color: var(--primary-color);
 }
 
-/* --- 过滤按钮状态 --- */
+/* === 3. 过滤按钮状态 === */
 /* 未选中 */
 .filter-btn.inactive {
   background-color: var(--gray-100);
@@ -70,42 +70,18 @@
   box-shadow: var(--shadow-sm);
 }
 
-.filter-btn.active.all {
-  background-color: var(--blue-500);
-}
-
-.filter-btn.active.all:hover {
-  background-color: var(--blue-600);
-}
-
-.filter-btn.active.text {
-  background-color: var(--blue-500);
-}
-
-.filter-btn.active.text:hover {
-  background-color: var(--blue-600);
-}
-
-.filter-btn.active.image {
-  background-color: var(--blue-500);
-}
-
-.filter-btn.active.image:hover {
-  background-color: var(--blue-600);
-}
-
-.filter-btn.active.files {
-  background-color: var(--blue-500);
-}
-
-.filter-btn.active.files:hover {
-  background-color: var(--blue-600);
-}
-
+.filter-btn.active.all,
+.filter-btn.active.text,
+.filter-btn.active.image,
+.filter-btn.active.files,
 .filter-btn.active.link {
   background-color: var(--blue-500);
 }
 
+.filter-btn.active.all:hover,
+.filter-btn.active.text:hover,
+.filter-btn.active.image:hover,
+.filter-btn.active.files:hover,
 .filter-btn.active.link:hover {
   background-color: var(--blue-600);
 }
@@ -126,7 +102,7 @@
   background-color: var(--success-hover);
 }
 
-/* --- 操作按钮 --- */
+/* === 4. 操作按钮 === */
 .action-btn {
   padding: var(--spacing-1) var(--spacing-3);
   border-radius: var(--border-radius-sm);
@@ -152,14 +128,13 @@
   background-color: var(--gray-600);
 }
 
-/* --- 图标 --- */
+/* === 5. 图标 === */
 .filter-btn-icon {
   display: inline;
   margin-right: var(--spacing-1);
 }
 
-/* --- 暗黑模式适配 --- */
-/* 媒体查询方式 */
+/* === 6. 暗黑模式适配 === */
 @media (prefers-color-scheme: dark) {
   .filter-btn {
     background-color: var(--gray-700);
@@ -177,15 +152,12 @@
     background-color: var(--gray-700);
     color: var(--gray-300);
   }
-  
   .filter-btn.inactive:hover {
     background-color: var(--gray-600);
   }
-  
   .reset-btn {
     background-color: var(--gray-600);
   }
-  
   .reset-btn:hover {
     background-color: var(--gray-500);
   }

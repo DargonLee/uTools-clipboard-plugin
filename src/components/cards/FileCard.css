@@ -1,6 +1,6 @@
-/* FileCard 组件样式 */
+/* =================== FileCard 组件样式 =================== */
 
-/* 文件卡片主容器 */
+/* === 1. 文件卡片主容器 === */
 .file-card {
   /* 继承 base-card 的所有样式 */
   border-radius: var(--border-radius-lg);
@@ -11,7 +11,7 @@
   background-color: white;
 }
 
-/* 选中状态样式 */
+/* === 2. 选中状态样式 === */
 .file-card.selected {
   border-left: 4px solid var(--primary-color);
   background: linear-gradient(135deg, rgba(54, 140, 255, 0.03), rgba(54, 140, 255, 0.08));
@@ -49,7 +49,7 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-/* 文件内容区域 */
+/* === 3. 文件内容区域 === */
 .file-content {
   margin-bottom: var(--spacing-3);
 }
@@ -67,7 +67,7 @@
   border-color: var(--gray-600);
 }
 
-/* 文件图标和信息容器 */
+/* === 4. 文件图标和信息容器 === */
 .file-icon-container {
   display: flex;
   align-items: flex-start;
@@ -98,7 +98,7 @@
   height: 1.5rem;
 }
 
-/* 文件信息 */
+/* === 5. 文件信息 === */
 .file-info {
   flex: 1;
   min-width: 0;
@@ -139,7 +139,7 @@
   border-top-color: var(--gray-600);
 }
 
-/* 文件统计信息 */
+/* === 6. 文件统计信息 === */
 .file-stats {
   font-size: var(--text-xs);
   color: var(--text-secondary);
@@ -156,13 +156,13 @@
   display: inline-block;
 }
 
-/* CardHeader图标调整 */
+/* === 7. CardHeader 图标调整 === */
 .file-card .card-header .type-icon svg {
   width: 1rem;
   height: 1rem;
 }
 
-/* 文件类型特定样式 */
+/* === 8. 文件类型特定样式 === */
 .file-icon .text-green-500 {
   color: rgb(34, 197, 94);
 }
@@ -203,7 +203,7 @@
   color: rgb(107, 114, 128);
 }
 
-/* 暗色模式媒体查询适配 */
+/* === 9. 暗黑模式适配 === */
 @media (prefers-color-scheme: dark) {
   .file-card:not(.dark) {
     background-color: var(--gray-800);

@@ -1,6 +1,6 @@
-/* ========== 内容过滤选项 ========== */
+/* =================== ContentFilterOptions 组件样式 =================== */
 
-/* 过滤选项容器 */
+/* === 1. 过滤选项容器 === */
 .filter-options {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -8,9 +8,7 @@
   margin-top: var(--spacing-3);
 }
 
-/* ========== 选项卡片 ========== */
-
-/* 基础样式 */
+/* === 2. 选项卡片 === */
 .filter-option {
   display: flex;
   align-items: flex-start;
@@ -40,9 +38,7 @@
   accent-color: var(--primary-color);
 }
 
-/* ========== 选项内容 ========== */
-
-/* 内容容器 */
+/* === 3. 选项内容 === */
 .option-content {
   flex: 1;
 }

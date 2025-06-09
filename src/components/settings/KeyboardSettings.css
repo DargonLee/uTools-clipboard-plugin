@@ -1,9 +1,13 @@
+/* =================== KeyboardSettings 组件样式 =================== */
+
+/* === 1. 快捷键区容器 === */
 .shortcut-keys {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
+/* === 2. 快捷键徽章 === */
 .key-badge {
   display: inline-flex;
   align-items: center;
@@ -20,6 +24,7 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+/* === 3. 修改按钮 === */
 .modify-shortcut-btn {
   padding: 6px 12px;
   background: var(--primary-color);

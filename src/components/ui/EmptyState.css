@@ -1,6 +1,6 @@
-/* ========== 空状态欢迎页 ========== */
+/* =================== 空状态欢迎页组件样式 =================== */
 
-/* 基础容器样式 */
+/* === 1. 基础容器样式 === */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -13,7 +13,7 @@
   border: 2px dashed var(--border-light);
 }
 
-/* 欢迎页内容样式 */
+/* === 2. 欢迎页内容区 === */
 .empty-state-icon {
   font-size: 3rem;
   color: var(--primary-color);
@@ -35,9 +35,7 @@
   line-height: 1.6;
 }
 
-/* ========== 快捷键提示区域 ========== */
-
-/* 快捷键提示容器 */
+/* === 3. 快捷键提示区域 === */
 .hotkey-tips {
   margin-top: var(--spacing-xl);
   display: flex;
@@ -46,7 +44,6 @@
   gap: var(--spacing-md);
 }
 
-/* 单个快捷键提示 */
 .hotkey-tip {
   display: flex;
   align-items: center;
@@ -58,7 +55,6 @@
   border: 1px solid var(--border-color);
 }
 
-/* 快捷键按键样式 */
 .hotkey-key {
   font-family: monospace;
   background-color: var(--gray-200);
@@ -69,29 +65,25 @@
   transition: all 0.2s ease-in-out;
 }
 
-/* 快捷键描述文本 */
 .hotkey-desc {
   font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 
-/* ========== 系统暗黑模式适配 ========== */
+/* === 4. 暗黑模式适配 === */
 @media (prefers-color-scheme: dark) {
   .empty-state {
     background-color: var(--gray-800);
     border-color: var(--gray-700);
   }
-
   .hotkey-tip {
     background-color: var(--gray-700);
     border-color: var(--gray-600);
   }
-
   .hotkey-key {
     background-color: var(--gray-500);
     color: var(--primary-300);
   }
-
   .hotkey-desc {
     color: var(--gray-300);
   }

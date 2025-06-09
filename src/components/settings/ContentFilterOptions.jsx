@@ -15,19 +15,20 @@ class ContentFilterOptions extends React.Component {
     return (
       <div className="filter-options">
         {options.map(option => (
-          <label key={option.value} className={`filter-option ${contentFilter === option.value ? 'active' : ''}`}>
+          <div key={option.value} className={`filter-option ${contentFilter === option.value ? 'active' : ''}`}>
             <input
               type="radio"
               name="contentFilter"
+              id={`filter-${option.value}`}
               value={option.value}
               checked={contentFilter === option.value}
               onChange={(e) => onSelectChange('contentFilter', e.target.value)}
             />
-            <div className="option-content">
+            <label htmlFor={`filter-${option.value}`} className="option-content">
               <div className="option-label">{option.label}</div>
               <div className="option-desc">{option.desc}</div>
-            </div>
-          </label>
+            </label>
+          </div>
         ))}
       </div>
     );

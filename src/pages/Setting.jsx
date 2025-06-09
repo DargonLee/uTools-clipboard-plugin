@@ -116,11 +116,28 @@ class Setting extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.themeMode !== this.state.themeMode) {
+      this.applyTheme(this.state.themeMode);
+    }
+  }
+
+  applyTheme = (theme) => {
+    if (theme === 'auto') {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  }
+
   loadSettings = () => {
     try {
       const savedSettings = window.AppClipboard?.settingsService?.loadSettings();
       if (savedSettings) {
-        this.setState(savedSettings);
+        this.setState(savedSettings, () => {
+          this.applyTheme(this.state.themeMode); // 加载设置后立即应用主题
+        });
         console.log('Setting.jsx 已加载保存的设置:', savedSettings);
       }
     } catch (error) {

@@ -192,6 +192,8 @@
   
   /* 主题色调整 */
   --primary-light: #e0f2fe;
+  --primary-500: #60a5fa;
+  --primary-800: #1e40af;
   
   /* 深色模式下的特殊颜色变量 */
   --green-dark-bg: #14532d;

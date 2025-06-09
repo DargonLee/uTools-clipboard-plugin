@@ -23,7 +23,7 @@
 
 [data-theme="dark"] .filter-option:hover {
   border-color: var(--primary-500);
-  background-color: var(--primary-800);
+  background-color: var(--gray-700);
 }
 
 .filter-option.active {
@@ -33,7 +33,7 @@
 
 [data-theme="dark"] .filter-option.active {
   border-color: var(--primary-500);
-  background-color: var(--gray-300);
+  background-color: var(--primary-800);
 }
 
 .filter-option input[type="radio"] {

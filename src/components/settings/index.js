@@ -15,6 +15,5 @@ export { default as ContentFilter } from "./ContentFilter";
 export { default as ContentFilterOptions } from "./ContentFilterOptions";
 export { default as SecuritySettings } from "./SecuritySettings";
 export { default as AppearanceSettings } from "./AppearanceSettings";
-export { default as ThemeSelector } from "./ThemeSelector";
 export { default as AdvancedSettings } from "./AdvancedSettings";
 export { default as DataManagement } from "./DataManagement";

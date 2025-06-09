@@ -1,6 +1,6 @@
-/* FilterBar 组件样式 */
+/* ========== FilterBar 组件样式 ========== */
 
-/* 过滤器按钮容器 */
+/* --- 布局与容器 --- */
 .filter-buttons-container {
   margin-bottom: var(--spacing-6);
   display: flex;
@@ -8,7 +8,6 @@
   gap: var(--spacing-2);
 }
 
-/* 操作按钮容器 */
 .action-buttons-container {
   margin-bottom: var(--spacing-4);
   display: flex;
@@ -16,19 +15,17 @@
   align-items: center;
 }
 
-/* 左侧操作按钮组 */
 .left-actions {
   display: flex;
   gap: var(--spacing-2);
 }
 
-/* 右侧操作按钮组 */
 .right-actions {
   display: flex;
   gap: var(--spacing-2);
 }
 
-/* 过滤按钮基础样式 */
+/* --- 过滤按钮基础样式 --- */
 .filter-btn {
   padding: var(--spacing-2) var(--spacing-4);
   border-radius: var(--border-radius-md);
@@ -54,7 +51,8 @@
   color: var(--primary-color);
 }
 
-/* 过滤按钮 - 未选中状态 */
+/* --- 过滤按钮状态 --- */
+/* 未选中 */
 .filter-btn.inactive {
   background-color: var(--gray-100);
   color: var(--gray-700);
@@ -64,16 +62,7 @@
   background-color: var(--gray-200);
 }
 
-.filter-btn.inactive.dark {
-  background-color: var(--gray-700);
-  color: var(--gray-300);
-}
-
-.filter-btn.inactive.dark:hover {
-  background-color: var(--gray-600);
-}
-
-/* 过滤按钮 - 选中状态 */
+/* 选中 */
 .filter-btn.active {
   background-color: var(--primary-color);
   color: white;
@@ -81,7 +70,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* 全部按钮选中状态 */
 .filter-btn.active.all {
   background-color: var(--blue-500);
 }
@@ -90,7 +78,6 @@
   background-color: var(--blue-600);
 }
 
-/* 文本按钮选中状态 */
 .filter-btn.active.text {
   background-color: var(--blue-500);
 }
@@ -99,7 +86,6 @@
   background-color: var(--blue-600);
 }
 
-/* 图片按钮选中状态 */
 .filter-btn.active.image {
   background-color: var(--blue-500);
 }
@@ -108,7 +94,6 @@
   background-color: var(--blue-600);
 }
 
-/* 文件按钮选中状态 */
 .filter-btn.active.files {
   background-color: var(--blue-500);
 }
@@ -117,7 +102,6 @@
   background-color: var(--blue-600);
 }
 
-/* 链接按钮选中状态 */
 .filter-btn.active.link {
   background-color: var(--blue-500);
 }
@@ -126,7 +110,6 @@
   background-color: var(--blue-600);
 }
 
-/* 收藏按钮选中状态 */
 .filter-btn.active.favorite {
   background-color: var(--warning-color);
 }
@@ -135,7 +118,6 @@
   background-color: var(--warning-hover);
 }
 
-/* 今日按钮选中状态 */
 .filter-btn.active.today {
   background-color: var(--success-color);
 }
@@ -144,13 +126,7 @@
   background-color: var(--success-hover);
 }
 
-/* 图标样式 */
-.filter-btn-icon {
-  display: inline;
-  margin-right: var(--spacing-1);
-}
-
-/* 操作按钮基础样式 */
+/* --- 操作按钮 --- */
 .action-btn {
   padding: var(--spacing-1) var(--spacing-3);
   border-radius: var(--border-radius-sm);
@@ -168,7 +144,6 @@
   box-shadow: var(--shadow-focus);
 }
 
-/* 重置按钮 */
 .reset-btn {
   background-color: var(--gray-500);
 }
@@ -177,45 +152,41 @@
   background-color: var(--gray-600);
 }
 
-.reset-btn.dark {
-  background-color: var(--gray-600);
+/* --- 图标 --- */
+.filter-btn-icon {
+  display: inline;
+  margin-right: var(--spacing-1);
 }
 
-.reset-btn.dark:hover {
-  background-color: var(--gray-500);
-}
-
-/* 暗色模式媒体查询适配 */
+/* --- 暗黑模式适配 --- */
+/* 媒体查询方式 */
 @media (prefers-color-scheme: dark) {
-  .filter-btn.inactive:not(.dark) {
+  .filter-btn {
+    background-color: var(--gray-700);
+    color: var(--gray-200);
+  }
+  .filter-btn:hover {
+    background-color: var(--primary-800);
+    color: var(--primary-300);
+  }
+  .filter-btn.active {
+    background-color: var(--primary-600);
+    color: white;
+  }
+  .filter-btn.inactive {
     background-color: var(--gray-700);
     color: var(--gray-300);
   }
   
-  .filter-btn.inactive:not(.dark):hover {
+  .filter-btn.inactive:hover {
     background-color: var(--gray-600);
   }
   
-  .reset-btn:not(.dark) {
+  .reset-btn {
     background-color: var(--gray-600);
   }
   
-  .reset-btn:not(.dark):hover {
+  .reset-btn:hover {
     background-color: var(--gray-500);
   }
-}
-
-[data-theme="dark"] .filter-btn {
-  background-color: var(--gray-700);
-  color: var(--gray-200);
-}
-
-[data-theme="dark"] .filter-btn:hover {
-  background-color: var(--primary-800);
-  color: var(--primary-300);
-}
-
-[data-theme="dark"] .filter-btn.active {
-  background-color: var(--primary-600);
-  color: white;
 } 

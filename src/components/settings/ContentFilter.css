@@ -10,10 +10,6 @@
   margin-top: var(--spacing-2);
 }
 
-[data-theme="dark"] .setting-range {
-  background: var(--gray-700);
-}
-
 .setting-range::-webkit-slider-thumb {
   appearance: none;
   width: 20px;
@@ -53,12 +49,3 @@
   font-weight: 500;
   color: var(--text-primary);
 }
-
-/* 响应式设计 */
-@media (max-width: 480px) {
-  .range-labels {
-    flex-direction: column;
-    gap: var(--spacing-1);
-    text-align: center;
-  }
-} 

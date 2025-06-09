@@ -156,41 +156,6 @@
     white-space: nowrap;
   }
   
-  /* 响应式设计 */
-  @media (max-width: 768px) {
-    .preview-toolbar {
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      padding: 8px 16px;
-    }
-    
-    .preview-title {
-      font-size: 14px;
-    }
-    
-    .preview-info {
-      font-size: 12px;
-    }
-    
-    .toolbar-btn {
-      width: 36px;
-      height: 36px;
-      font-size: 14px;
-    }
-    
-    .preview-image-container {
-      padding: 60px 10px 50px;
-    }
-    
-    .preview-shortcuts {
-      bottom: 10px;
-      font-size: 10px;
-      gap: 12px;
-      padding: 6px 12px;
-    }
-  }
-  
   /* 暗色模式适配 */
   @media (prefers-color-scheme: dark) {
     .image-preview-overlay {

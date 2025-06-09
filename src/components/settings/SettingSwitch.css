@@ -25,19 +25,9 @@
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-[data-theme="dark"] .switch {
-  background: var(--gray-500);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
 .switch.active {
   background: var(--primary-color);
   box-shadow: 0 2px 4px rgba(54, 140, 255, 0.3);
-}
-
-[data-theme="dark"] .switch.active {
-  background: var(--primary-700);
-  box-shadow: 0 2px 4px rgba(29, 78, 216, 0.4);
 }
 
 .switch.disabled {

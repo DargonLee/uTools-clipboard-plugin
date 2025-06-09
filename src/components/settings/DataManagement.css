@@ -42,19 +42,6 @@
   opacity: 0.9;
 }
 
-/* 深色模式适配 */
-[data-theme="dark"] .clear-data-section {
-  border-top-color: var(--border-color-dark);
-}
-
-[data-theme="dark"] .clear-data-button {
-  box-shadow: 0 2px 4px rgba(255, 71, 87, 0.3);
-}
-
-[data-theme="dark"] .clear-data-button:hover {
-  box-shadow: 0 4px 8px rgba(255, 71, 87, 0.4);
-}
-
 /* 保留原有的通用按钮样式（以防其他地方使用） */
 .button-group {
   display: flex;
@@ -107,13 +94,3 @@
 .btn-base:active {
   transform: translateY(0);
 }
-
-/* 深色模式 */
-[data-theme="dark"] .btn-secondary {
-  background: var(--bg-tertiary);
-  border-color: var(--border-color-dark);
-}
-
-[data-theme="dark"] .btn-secondary:hover {
-  background: var(--bg-quaternary);
-} 

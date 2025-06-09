@@ -132,29 +132,6 @@
   height: 1.125rem;
 }
 
-/* 响应式设计 */
-@media (max-width: 640px) {
-  .text-card {
-    padding: var(--spacing-4);
-    border-radius: var(--border-radius-lg);
-  }
-  
-  .text-stats {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-2);
-  }
-  
-  .text-stats span {
-    font-size: 0.7rem;
-  }
-  
-  .preview-tip {
-    margin-top: var(--spacing-2);
-    align-self: flex-end;
-  }
-}
-
 /* 暗色模式媒体查询适配 */
 @media (prefers-color-scheme: dark) {
   .text-card:not(.dark) {

@@ -4,11 +4,6 @@
   background: linear-gradient(135deg, var(--yellow-50), var(--orange-50));
 }
 
-[data-theme="dark"] .subscription-section {
-  border-color: var(--yellow-800);
-  background: linear-gradient(135deg, var(--yellow-900), var(--orange-900));
-}
-
 .setting-section-icon.crown {
   color: var(--yellow-500);
 }
@@ -53,15 +48,6 @@
   border-color: var(--primary-300);
 }
 
-[data-theme="dark"] .plan-card {
-  background: var(--gray-800);
-  border-color: var(--gray-600);
-}
-
-[data-theme="dark"] .plan-card:hover {
-  border-color: var(--primary-600);
-}
-
 .plan-card h3 {
   font-size: var(--text-xl);
   font-weight: 600;
@@ -102,10 +88,3 @@
   width: 100%;
   justify-content: center;
 }
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .subscription-plans {
-    grid-template-columns: 1fr;
-  }
-} 

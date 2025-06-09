@@ -7,11 +7,6 @@
   padding: var(--spacing-6);
 }
 
-[data-theme="dark"] .setting-section {
-  background: rgba(31, 41, 55, 0.9);
-  border-color: rgba(75, 85, 99, 0.3);
-}
-
 .setting-section-header {
   display: flex;
   align-items: center;
@@ -82,32 +77,10 @@
   outline: none;
 }
 
-[data-theme="dark"] .setting-select {
-  background-color: var(--gray-800);
-  border-color: var(--gray-600);
-  color: var(--gray-100);
-}
-
 .setting-select:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: var(--shadow-focus);
   border-color: var(--primary-color);
 }
-
-[data-theme="dark"] .setting-select:focus {
-  border-color: var(--primary-500);
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .setting-section {
-    padding: var(--spacing-md);
-  }
-  
-  .setting-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-3);
-  }
-} 
+ 

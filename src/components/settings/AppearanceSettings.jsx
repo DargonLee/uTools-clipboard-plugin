@@ -2,16 +2,13 @@ import React from 'react';
 import { FaPalette } from 'react-icons/fa';
 import SettingSection from './SettingSection';
 import SettingSwitch from './SettingSwitch';
-import ThemeSelector from './ThemeSelector';
 
 class AppearanceSettings extends React.Component {
   render() {
     const { 
-      themeMode,
       compactMode,
       showPreview,
       enableStickyHeader,
-      onThemeChange,
       onToggleSwitch,
       isFeatureAvailable,
       onPremiumFeatureClick
@@ -22,10 +19,7 @@ class AppearanceSettings extends React.Component {
         <div className="setting-item">
           <div className="setting-item-info">
             <h3 className="setting-item-title">主题模式</h3>
-            <ThemeSelector 
-              themeMode={themeMode}
-              onThemeChange={onThemeChange}
-            />
+            <p className="setting-item-description">应用将自动跟随系统主题（浅色/深色）</p>
           </div>
         </div>
 

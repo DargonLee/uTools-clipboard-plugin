@@ -10,21 +10,12 @@
   margin-bottom: var(--spacing-6);
 }
 
-[data-theme="dark"] .subscription-status {
-  background: linear-gradient(135deg, var(--primary-900), var(--primary-800));
-  border-color: var(--primary-700);
-}
-
 .subscription-info {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
   font-weight: 500;
   color: var(--primary-700);
-}
-
-[data-theme="dark"] .subscription-info {
-  color: var(--primary-300);
 }
 
 .crown-icon {
@@ -35,12 +26,3 @@
   font-size: var(--text-sm);
   color: var(--text-secondary);
 }
-
-/* 响应式设计 */
-@media (max-width: 480px) {
-  .subscription-status {
-    flex-direction: column;
-    gap: var(--spacing-2);
-    text-align: center;
-  }
-} 

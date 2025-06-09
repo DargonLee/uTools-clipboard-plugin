@@ -65,24 +65,10 @@
   font-size: var(--text-sm);
 }
 
-[data-theme="dark"] .search-input::placeholder {
-  color: var(--gray-400);
-}
-
 /* 暗色模式输入框 */
-.search-input.dark {
-  border-color: var(--border-color);
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-}
-
-.search-input.dark:focus {
+.search-input:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 4px rgba(54, 140, 255, 0.15), var(--shadow-md);
-}
-
-.search-input.dark::placeholder {
-  color: var(--text-muted);
 }
 
 /* 清除按钮 */
@@ -110,14 +96,6 @@
   background-color: var(--gray-300);
 }
 
-[data-theme="dark"] .clear-button {
-  background-color: var(--gray-700);
-}
-
-[data-theme="dark"] .clear-button:hover {
-  background-color: var(--gray-600);
-}
-
 /* 搜索提示信息 */
 .search-hint {
   margin-top: var(--spacing-3);
@@ -126,10 +104,6 @@
   color: var(--text-secondary);
   text-align: center;
   opacity: 0.8;
-}
-
-.search-hint.dark {
-  color: var(--text-secondary);
 }
 
 /* 设置按钮样式 */
@@ -149,11 +123,6 @@
 .setting-button:hover {
   background-color: var(--primary-100);
   color: var(--primary-color);
-}
-
-[data-theme="dark"] .setting-button:hover {
-  background-color: var(--primary-800);
-  color: var(--primary-300);
 }
 
 /* 输入焦点状态增强 */
@@ -243,34 +212,39 @@
 
 /* 暗色模式媒体查询适配 */
 @media (prefers-color-scheme: dark) {
-  .search-icon:not(.dark) {
+  .search-icon {
     color: var(--text-muted);
   }
   
-  .search-input:not(.dark) {
+  .search-input {
     border-color: var(--border-color);
     background-color: var(--bg-primary);
     color: var(--text-primary);
   }
   
-  .search-input:not(.dark):focus {
+  .search-input:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 4px rgba(54, 140, 255, 0.15), var(--shadow-md);
   }
   
-  .search-input:not(.dark)::placeholder {
-    color: var(--text-muted);
+  .search-input::placeholder {
+    color: var(--gray-400);
   }
   
-  .clear-button:not(.dark) {
+  .clear-button {
+    background-color: var(--gray-700);
+  }
+  
+  .clear-button:hover {
     background-color: var(--gray-600);
   }
   
-  .clear-button:not(.dark):hover {
-    background-color: var(--gray-500);
-  }
-  
-  .search-hint:not(.dark) {
+  .search-hint {
     color: var(--text-secondary);
+  }
+
+  .setting-button:hover {
+    background-color: var(--primary-800);
+    color: var(--primary-300);
   }
 } 

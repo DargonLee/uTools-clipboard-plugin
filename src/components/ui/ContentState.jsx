@@ -1,4 +1,5 @@
 import React from 'react';
+import EmptyState from './EmptyState';
 
 /**
  * 内容状态组件
@@ -22,38 +23,35 @@ class ContentState extends React.Component {
       enterAction 
     } = this.props;
 
+    // 是否是搜索或过滤导致的结果为空
+    const isSearchResultEmpty = !isLoading && history.length === 0 && (searchKeyword || selectedType !== 'all');
+
     return (
       <>
         {/* 加载状态 */}
         {isLoading && (
-          <div className="text-center py-8">
-            <div className="flex items-center justify-center space-x-2">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
-              <div className="text-gray-500 dark:text-gray-400">加载中...</div>
-            </div>
+          <div className="flex items-center justify-center py-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-color"></div>
+            <span className="ml-4 text-lg text-secondary">加载中...</span>
           </div>
         )}
 
-        {/* 空状态 */}
-        {!isLoading && history.length === 0 && (
+        {/* 搜索结果为空的状态 */}
+        {isSearchResultEmpty && (
           <div className="text-center py-12">
-            <div className="text-6xl mb-4 opacity-50">
-              {searchKeyword || selectedType !== 'all' ? '🔍' : '📋'}
-            </div>
+            <div className="text-6xl mb-4 opacity-50">🔍</div>
             <div className="text-gray-400 dark:text-gray-500 text-lg mb-2">
-              {searchKeyword || selectedType !== 'all' ? '没有找到匹配的记录' : '暂无剪贴板历史'}
+              没有找到匹配的记录
             </div>
             <div className="text-gray-500 dark:text-gray-600 text-sm">
-              {searchKeyword || selectedType !== 'all' ? '尝试调整搜索条件' : '复制一些内容开始使用吧'}
+              尝试调整或清空搜索/过滤条件
             </div>
-            {(searchKeyword || selectedType !== 'all') && (
-              <div className="mt-4">
-                <div className="text-xs text-gray-400 dark:text-gray-500">
-                  提示：可以尝试清空搜索条件或选择"全部"类型
-                </div>
-              </div>
-            )}
           </div>
+        )}
+        
+        {/* 真正无历史记录的空状态 */}
+        {!isLoading && history.length === 0 && !isSearchResultEmpty && (
+          <EmptyState />
         )}
 
         {/* 历史记录列表 */}

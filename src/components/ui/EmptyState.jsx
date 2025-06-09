@@ -1,4 +1,6 @@
 import React from 'react';
+import { FaClipboardList } from 'react-icons/fa';
+import './EmptyState.css';
 
 /**
  * 空状态组件
@@ -7,10 +9,28 @@ import React from 'react';
 class EmptyState extends React.Component {
   render() {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-gray-400 dark:text-gray-500">
-        <div className="text-6xl mb-4">📋</div>
-        <div className="text-lg font-medium">暂无剪贴板内容</div>
-        <div className="text-sm mt-2">复制内容后会自动出现在这里</div>
+      <div className="empty-state">
+        <div className="empty-state-icon">
+          <FaClipboardList />
+        </div>
+        <h2 className="empty-state-title">剪贴板历史为空</h2>
+        <p className="empty-state-subtitle">
+          开始复制文本、图片或文件，它们将自动显示在这里。
+        </p>
+        <div className="hotkey-tips">
+          <div className="hotkey-tip">
+            <span className="hotkey-key">悬停</span> + <span className="hotkey-key">空格</span>
+            <span className="hotkey-desc">快速预览内容</span>
+          </div>
+          <div className="hotkey-tip">
+            <span className="hotkey-key">↑</span> / <span className="hotkey-key">↓</span>
+            <span className="hotkey-desc">选择项目</span>
+          </div>
+          <div className="hotkey-tip">
+            <span className="hotkey-key">Enter</span>
+            <span className="hotkey-desc">复制到剪贴板</span>
+          </div>
+        </div>
       </div>
     );
   }

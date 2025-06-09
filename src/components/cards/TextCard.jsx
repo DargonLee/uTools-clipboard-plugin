@@ -72,12 +72,14 @@ class TextCard extends React.Component {
         
         {/* 文本统计信息 */}
         <div className={`text-stats ${isDark ? 'dark' : ''}`}>
-          <span>{countCharacters(item.content)} 字符</span>
-          {item.content && countLines(item.content) > 1 && (
-            <span>{countLines(item.content)} 行</span>
-          )}
+          <div className="stats-info">
+            <span>{countCharacters(item.content)} 字符</span>
+            {item.content && countLines(item.content) > 1 && (
+              <span className="line-count">{countLines(item.content)} 行</span>
+            )}
+          </div>
           {isTruncated && (
-            <span className="preview-tip">悬停后按空格预览</span>
+            <span className="preview-tip">按空格预览</span>
           )}
         </div>
       </div>

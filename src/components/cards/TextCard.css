@@ -155,22 +155,6 @@
   }
 }
 
-/* 小屏幕优化 */
-@media (max-width: 480px) {
-  .text-content-body {
-    padding: var(--spacing-2);
-    font-size: 0.8rem;
-  }
-  
-  .empty-state-icon {
-    font-size: 3rem;
-  }
-  
-  .empty-state-title {
-    font-size: var(--text-lg);
-  }
-}
-
 /* 暗色模式媒体查询适配 */
 @media (prefers-color-scheme: dark) {
   .text-card:not(.dark) {
@@ -181,11 +165,6 @@
   .text-card:not(.dark):hover {
     border-color: var(--blue-400);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  }
-  
-  .empty-state:not(.dark) {
-    color: var(--text-muted);
-    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
   }
   
   .text-content-body:not(.dark) {

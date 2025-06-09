@@ -317,16 +317,16 @@ class Setting extends React.Component {
             />
 
             {/* 智能分类与标签 */}
-            <SmartCategorization
+            {/* <SmartCategorization
               smartCategorization={smartCategorization}
               autoTagging={autoTagging}
               onToggleSwitch={this.handleToggleSwitch}
               isFeatureAvailable={this.isFeatureAvailable}
               onPremiumFeatureClick={this.handlePremiumFeatureClick}
-            />
+            /> */}
 
             {/* 内容过滤 */}
-            <ContentFilter
+            {/* <ContentFilter
               contentFilter={contentFilter}
               filterSensitive={filterSensitive}
               minTextLength={minTextLength}
@@ -335,10 +335,10 @@ class Setting extends React.Component {
               onRangeChange={this.handleRangeChange}
               isFeatureAvailable={this.isFeatureAvailable}
               onPremiumFeatureClick={this.handlePremiumFeatureClick}
-            />
+            /> */}
 
             {/* 安全与隐私 */}
-            <SecuritySettings
+            {/* <SecuritySettings
               encryptSensitiveData={encryptSensitiveData}
               biometricLock={biometricLock}
               autoLock={autoLock}
@@ -346,7 +346,7 @@ class Setting extends React.Component {
               onSelectChange={this.handleSelectChange}
               isFeatureAvailable={this.isFeatureAvailable}
               onPremiumFeatureClick={this.handlePremiumFeatureClick}
-            />
+            /> */}
 
             {/* 外观设置 */}
             <AppearanceSettings
@@ -361,7 +361,7 @@ class Setting extends React.Component {
             />
 
             {/* 高级功能 */}
-            <AdvancedSettings
+            {/* <AdvancedSettings
               cloudSync={cloudSync}
               deviceSync={deviceSync}
               teamSharing={teamSharing}
@@ -370,7 +370,7 @@ class Setting extends React.Component {
               onToggleSwitch={this.handleToggleSwitch}
               isFeatureAvailable={this.isFeatureAvailable}
               onPremiumFeatureClick={this.handlePremiumFeatureClick}
-            />
+            /> */}
 
             {/* 数据管理 */}
             <DataManagement
@@ -381,11 +381,11 @@ class Setting extends React.Component {
             />
 
             {/* 订阅管理 */}
-            {subscriptionPlan === 'free' && (
+            {/* {subscriptionPlan === 'free' && (
               <SubscriptionPlans
                 onUpgrade={this.handleUpgrade}
               />
-            )}
+            )} */}
 
           </div>
 

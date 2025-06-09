@@ -14,7 +14,7 @@ class SettingHeader extends React.Component {
           </button>
           <h1 className="setting-title">设置</h1>
         </div>
-        <div className="setting-header-right">
+        {/* <div className="setting-header-right">
           {subscriptionPlan === 'free' && (
             <button className="trial-btn" onClick={onStartTrial}>
               <FaCrown /> 免费试用专业版
@@ -23,7 +23,7 @@ class SettingHeader extends React.Component {
           <button className="reset-btn" onClick={onReset}>
             重置默认
           </button>
-        </div>
+        </div> */}
       </div>
     );
   }

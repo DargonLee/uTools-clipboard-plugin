@@ -506,46 +506,6 @@
   width: 100%;
   justify-content: center;
 }
-
-/* ========== 7. 底部区域 ========== */
-
-.setting-footer {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--border-radius-xl);
-  padding: var(--spacing-md);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: var(--spacing-6);
-}
-
-.version-info {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-}
-
-.footer-links {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-3);
-}
-
-.footer-link {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  text-decoration: none;
-  padding: var(--spacing-1) var(--spacing-2);
-  border-radius: var(--border-radius);
-  transition: var(--transition-normal);
-}
-
-.footer-link:hover {
-  color: var(--primary-color);
-  background-color: var(--primary-50);
-}
-
 /* ========== 8. 动画效果 ========== */
 
 @keyframes premiumPulse {
@@ -594,10 +554,6 @@
   }
   .plan-card:hover {
     border-color: var(--primary-600);
-  }
-  .setting-footer {
-    background: rgba(31, 41, 55, 0.9);
-    border-color: rgba(75, 85, 99, 0.3);
   }
 }
 

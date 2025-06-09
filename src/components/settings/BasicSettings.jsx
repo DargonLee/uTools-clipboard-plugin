@@ -24,7 +24,8 @@ class BasicSettings extends React.Component {
         </div>
         
         <div className="setting-items">
-          <div className="setting-item">
+
+          {/* <div className="setting-item">
             <div className="setting-item-info">
               <h3 className="setting-item-title">自动监听剪贴板</h3>
               <p className="setting-item-description">实时监听系统剪贴板变化并记录</p>
@@ -36,9 +37,9 @@ class BasicSettings extends React.Component {
               isFeatureAvailable={isFeatureAvailable}
               onPremiumClick={onPremiumFeatureClick}
             />
-          </div>
+          </div> */}
 
-          <div className="setting-item">
+          {/* <div className="setting-item">
             <div className="setting-item-info">
               <h3 className="setting-item-title">启动时显示</h3>
               <p className="setting-item-description">程序启动时自动显示主界面</p>
@@ -50,7 +51,7 @@ class BasicSettings extends React.Component {
               isFeatureAvailable={isFeatureAvailable}
               onPremiumClick={onPremiumFeatureClick}
             />
-          </div>
+          </div> */}
 
           <div className="setting-item">
             <div className="setting-item-info">

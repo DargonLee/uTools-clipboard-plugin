@@ -14,7 +14,7 @@ class DataManagement extends React.Component {
 
     return (
       <SettingSection icon={<FaDatabase />} title="数据管理">
-        <div className="setting-item">
+        {/* <div className="setting-item">
           <div className="setting-item-info">
             <h3 className="setting-item-title">最长保存时间</h3>
             <p className="setting-item-description">超过指定时间的历史记录将自动清理</p>
@@ -31,7 +31,7 @@ class DataManagement extends React.Component {
             <option value={365}>1 年</option>
             <option value={-1}>永久保存 {subscriptionPlan === 'free' && '(专业版)'}</option>
           </select>
-        </div>
+        </div> */}
 
         <div className="setting-item clear-data-section">
           <div className="clear-data-info">

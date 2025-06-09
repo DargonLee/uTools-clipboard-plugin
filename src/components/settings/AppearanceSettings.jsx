@@ -16,7 +16,7 @@ class AppearanceSettings extends React.Component {
 
     return (
       <SettingSection icon={<FaPalette />} title="外观">
-        <div className="setting-item">
+        {/* <div className="setting-item">
           <div className="setting-item-info">
             <h3 className="setting-item-title">紧凑模式</h3>
             <p className="setting-item-description">减少界面元素间距，显示更多内容</p>
@@ -28,9 +28,9 @@ class AppearanceSettings extends React.Component {
             isFeatureAvailable={isFeatureAvailable}
             onPremiumClick={onPremiumFeatureClick}
           />
-        </div>
+        </div> */}
 
-        <div className="setting-item">
+        {/* <div className="setting-item">
           <div className="setting-item-info">
             <h3 className="setting-item-title">显示预览</h3>
             <p className="setting-item-description">在列表中显示内容预览</p>
@@ -42,7 +42,7 @@ class AppearanceSettings extends React.Component {
             isFeatureAvailable={isFeatureAvailable}
             onPremiumClick={onPremiumFeatureClick}
           />
-        </div>
+        </div> */}
 
         <div className="setting-item">
           <div className="setting-item-info">

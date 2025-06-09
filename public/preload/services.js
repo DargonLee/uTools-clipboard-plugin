@@ -218,6 +218,14 @@ const clipboardService = {
       });
       
       console.log('新剪贴板内容已保存:', { type, contentLength: content.length });
+      // 新增：保存后自动检查并限制历史数量
+      try {
+        const settings = window.AppClipboard?.settingsService?.loadSettings?.();
+        const limit = settings?.historyLimit || 100;
+        await window.AppClipboard.clipboardService.enforceHistoryLimit(parseInt(limit, 10));
+      } catch (e) {
+        console.warn('自动清理历史数量失败', e);
+      }
       return result;
       
     } catch (error) {

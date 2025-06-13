@@ -266,6 +266,14 @@ class ClipboardHome extends React.Component {
       this.setState({ ignoreTimer: timer });
       
       console.log('复制成功，暂时忽略剪贴板变化 1 秒');
+
+      // 复制成功后隐藏窗口
+      try {
+        await window.AppClipboard.windowService.hideMainWindow();
+        console.log('窗口已隐藏');
+      } catch (error) {
+        console.error('隐藏窗口失败:', error);
+      }
       
     } catch (error) {
       console.error('复制失败:', error);
@@ -431,6 +439,7 @@ class ClipboardHome extends React.Component {
       e.preventDefault();
       const selectedItem = history[selectedCardIndex];
       this.handleCopy(selectedItem);
+      window.AppClipboard.windowService.hideMainWindow();
     }
     
     // Escape键 - 取消选中

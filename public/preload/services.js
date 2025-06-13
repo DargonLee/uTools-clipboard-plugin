@@ -34,6 +34,15 @@ const POLL_INTERVAL_MS = 500;
 
 const nowTs = () => Date.now();
 
+const windowService = {
+  hideMainWindow() {
+    window.utools.hideMainWindow();
+  },
+  showMainWindow() {
+    window.utools.showMainWindow();
+  }
+}
+
 const fileService = {
   /**
    * 读取文件内容
@@ -748,6 +757,7 @@ window.AppClipboard = {
   fileService,
   clipboardService,
   settingsService,
+  windowService,
 };
 
 window.AppClipboard.clipboardService._startPolling();

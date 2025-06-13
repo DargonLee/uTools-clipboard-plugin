@@ -70,6 +70,42 @@
   color: var(--text-secondary);
 }
 
+/* === 4. 启动提示区域 === */
+.startup-tip {
+  margin-top: var(--spacing-xl);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  max-width: 400px;
+  width: 100%;
+}
+
+.startup-tip-title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-sm);
+}
+
+.startup-tip-content {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.tip-icon {
+  font-family: monospace;
+  background-color: var(--gray-200);
+  color: var(--text-primary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  font-weight: 600;
+  display: inline-block;
+  margin: 0 var(--spacing-xs);
+}
+
 /* === 4. 暗黑模式适配 === */
 @media (prefers-color-scheme: dark) {
   .empty-state {
@@ -86,5 +122,19 @@
   }
   .hotkey-desc {
     color: var(--gray-300);
+  }
+  .startup-tip {
+    background-color: var(--gray-700);
+    border-color: var(--gray-600);
+  }
+  .startup-tip-title {
+    color: var(--primary-300);
+  }
+  .startup-tip-content {
+    color: var(--gray-300);
+  }
+  .tip-icon {
+    background-color: var(--gray-500);
+    color: var(--primary-300);
   }
 } 

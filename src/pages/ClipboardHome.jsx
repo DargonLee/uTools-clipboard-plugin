@@ -270,7 +270,8 @@ class ClipboardHome extends React.Component {
       // 复制成功后隐藏窗口
       try {
         await window.AppClipboard.windowService.hideMainWindow();
-        console.log('窗口已隐藏');
+        window.AppClipboard.windowService.shellBeep();
+        console.log('窗口已隐藏，并发出提示音');
       } catch (error) {
         console.error('隐藏窗口失败:', error);
       }

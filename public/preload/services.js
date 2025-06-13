@@ -40,6 +40,9 @@ const windowService = {
   },
   showMainWindow() {
     window.utools.showMainWindow();
+  },
+  shellBeep() {
+    window.utools.shellBeep();
   }
 }
 

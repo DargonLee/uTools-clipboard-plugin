@@ -64,9 +64,9 @@ class BasicSettings extends React.Component {
               onChange={(e) => onSelectChange('historyLimit', parseInt(e.target.value))}
             >
               <option value={10}>10 条</option>
-              <option value={500}>20 条</option>
-              <option disabled value={500}>500 条 {subscriptionPlan === 'free' && '(专业版)'}</option>
-              <option disabled value={-1}>无限制 {subscriptionPlan === 'free' && '(专业版)'}</option>
+              <option value={15}>15 条</option>
+              {/* <option disabled value={500}>500 条 {subscriptionPlan === 'free' && '(专业版)'}</option>
+              <option disabled value={-1}>无限制 {subscriptionPlan === 'free' && '(专业版)'}</option> */}
             </select>
           </div>
         </div>

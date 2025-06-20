@@ -55,8 +55,8 @@ class BasicSettings extends React.Component {
 
           <div className="setting-item">
             <div className="setting-item-info">
-              <h3 className="setting-item-title">历史记录数量限制</h3>
-              <p className="setting-item-description">最多保存的剪贴板记录数量</p>
+              <h3 className="setting-item-title">历史记录数量</h3>
+              <p className="setting-item-description">保存的剪贴板记录数量</p>
             </div>
             <select 
               className="setting-select"
@@ -64,7 +64,7 @@ class BasicSettings extends React.Component {
               onChange={(e) => onSelectChange('historyLimit', parseInt(e.target.value))}
             >
               <option value={10}>10 条</option>
-              <option value={15}>15 条</option>
+              {/* <option value={15}>15 条</option> */}
               {/* <option disabled value={500}>500 条 {subscriptionPlan === 'free' && '(专业版)'}</option>
               <option disabled value={-1}>无限制 {subscriptionPlan === 'free' && '(专业版)'}</option> */}
             </select>
